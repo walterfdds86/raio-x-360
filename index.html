@@ -82,6 +82,15 @@
     @media (max-width: 400px) {
       .container { padding: 20px 16px; }
     }
+
+    /* TRANSIÇÕES DE TELA */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .screen.active {
+      animation: fadeSlideIn 0.35s ease forwards;
+    }
   </style>
 </head>
 <body>
@@ -124,6 +133,7 @@
       <h2 id="dim-title" style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;"></h2>
       <p id="dim-description" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 32px;"></p>
 
+      <div id="question-dots" style="display: flex; gap: 6px; margin-bottom: 20px;"></div>
       <div id="questions-container"></div>
 
       <div style="margin-top: 40px; display: flex; gap: 12px; align-items: center;">
@@ -321,6 +331,7 @@
       }).join('');
 
       updateNextButton();
+      updateDots();
 
       // Atualizar texto do botão conforme dimensão atual
       const btnNext = document.getElementById('btn-next');
@@ -344,6 +355,31 @@
       });
 
       updateNextButton();
+      updateDots();
+
+      // Auto-scroll para próxima pergunta sem resposta
+      const dimAuto = DIMENSIONS[currentDimIndex];
+      const nextUnanswered = dimAuto.questions.findIndex((_, qi) =>
+        answers[`${dimAuto.id}-${qi}`] === undefined
+      );
+      if (nextUnanswered !== -1) {
+        const blocks = document.querySelectorAll('.question-block');
+        if (blocks[nextUnanswered]) {
+          setTimeout(() => {
+            blocks[nextUnanswered].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 150);
+        }
+      }
+    }
+
+    function updateDots() {
+      const dim = DIMENSIONS[currentDimIndex];
+      const dotsEl = document.getElementById('question-dots');
+      if (!dotsEl) return;
+      dotsEl.innerHTML = dim.questions.map((_, qi) => {
+        const answered = answers[`${dim.id}-${qi}`] !== undefined;
+        return `<div style="width: 8px; height: 8px; border-radius: 50%; background: ${answered ? 'var(--accent)' : 'var(--border)'}; transition: background 0.25s;"></div>`;
+      }).join('');
     }
 
     function updateNextButton() {
@@ -448,6 +484,20 @@
       document.getElementById('result-content').innerHTML = '';
       showScreen('screen-intro');
     }
+
+    // ── ATALHOS DE TECLADO ────────────────────────────────────────────────────
+    document.addEventListener('keydown', (e) => {
+      const v = parseInt(e.key);
+      if (v >= 1 && v <= 5 && document.getElementById('screen-dimension').classList.contains('active')) {
+        const dim = DIMENSIONS[currentDimIndex];
+        const firstUnanswered = dim.questions.findIndex((_, qi) =>
+          answers[`${dim.id}-${qi}`] === undefined
+        );
+        if (firstUnanswered !== -1) {
+          selectRating(`${dim.id}-${firstUnanswered}`, v);
+        }
+      }
+    });
   </script>
 </body>
 </html>

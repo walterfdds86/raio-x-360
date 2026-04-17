@@ -603,13 +603,15 @@
       updateNextButton();
 
       // Auto-avançar para próxima pergunta
+      // Notas baixas: aguarda mais para o usuário ler o micro-feedback
       const dim = DIMENSIONS[currentDimIndex];
       const nextQi = currentQuestionIndex + 1;
       if (nextQi < dim.questions.length) {
+        const delay = value <= 2 ? 2200 : 360;
         setTimeout(() => {
           currentQuestionIndex = nextQi;
           renderQuestion('right');
-        }, 360);
+        }, delay);
       }
     }
 

@@ -386,6 +386,21 @@
       return (list.find(i => score <= i.max) || list[list.length - 1])?.text || '';
     }
 
+    // ── MICRO-FEEDBACK (notas 1 ou 2) ────────────────────────────────────────
+    const MICRO_FEEDBACKS = [
+      '💡 Esse é exatamente o tipo de gap que o desafio de 5 dias resolve.',
+      '🎯 Esse ponto é uma das principais alavancas que vamos trabalhar no desafio.',
+      '🔑 Identificar isso é o primeiro passo. No desafio você vai saber exatamente como corrigir.',
+      '⚡ Boa honestidade. Esse gap tem solução — e o desafio mostra o caminho.',
+      '🧩 Esse é um dos padrões mais comuns em empresas em estruturação. Vamos resolver isso juntos.'
+    ];
+    let _feedbackIdx = 0;
+    function nextFeedback() {
+      const msg = MICRO_FEEDBACKS[_feedbackIdx % MICRO_FEEDBACKS.length];
+      _feedbackIdx++;
+      return msg;
+    }
+
     // ── MENSAGENS DE TRANSIÇÃO ENTRE DIMENSÕES ────────────────────────────────
     const TRANSITIONS = [
       'Primeira dimensão concluída! Agora: <span class="accent">Estrutura de Crescimento</span>.',
@@ -466,7 +481,7 @@
               <span style="color: var(--muted); font-size: 0.72rem;">Concordo totalmente</span>
             </div>
             <div id="feedback-${key}" class="micro-feedback" style="display:${showFeedback ? 'block' : 'none'};">
-              💡 Esse é exatamente o tipo de gap que o desafio de 5 dias resolve.
+              ${showFeedback ? MICRO_FEEDBACKS[(answers[key] || 0) % MICRO_FEEDBACKS.length] : ''}
             </div>
           </div>
         `;
@@ -499,7 +514,14 @@
       // Micro-feedback para notas baixas (1 ou 2)
       const feedback = document.getElementById(`feedback-${key}`);
       if (feedback) {
-        feedback.style.display = value <= 2 ? 'block' : 'none';
+        if (value <= 2) {
+          if (feedback.style.display === 'none' || feedback.style.display === '') {
+            feedback.textContent = nextFeedback();
+          }
+          feedback.style.display = 'block';
+        } else {
+          feedback.style.display = 'none';
+        }
       }
 
       updateNextButton();

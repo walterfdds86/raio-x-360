@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raio-X Empresarial 360 — Diagnóstico Estratégico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* DESIGN SYSTEM */
+    :root {
+      --bg-dark:    #0d1117;
+      --bg-card:    #161b22;
+      --bg-light:   #f8f9fa;
+      --text-white: #ffffff;
+      --text-dark:  #1a1a2e;
+      --accent:     #f5c518;
+      --accent-dim: #e6b800;
+      --muted:      #8b949e;
+      --border:     #30363d;
+      --green:      #2ea043;
+      --red:        #f85149;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-white);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .accent { color: var(--accent); }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--text-dark);
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-align: center;
+    }
+    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-primary:disabled {
+      background: var(--border);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text-white); border-color: var(--muted); }
+
+    @media (max-width: 400px) {
+      .container { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TELA 1: INTRO -->
+  <div id="screen-intro" class="screen active">
+    <div class="container" style="text-align:center; padding-top: 80px;">
+      <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">DIAGNÓSTICO ESTRATÉGICO</p>
+      <h1 style="font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px;">
+        Raio-X Empresarial <span class="accent">360</span>
+      </h1>
+      <p style="color: var(--muted); font-size: 1.05rem; max-width: 480px; margin: 0 auto 16px;">
+        Revele com clareza onde o crescimento da sua empresa está travando e quais áreas precisam ser estruturadas para escalar.
+      </p>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 40px;">
+        ⏱ 20–30 minutos &nbsp;·&nbsp; 25 perguntas &nbsp;·&nbsp; 5 dimensões
+      </p>
+      <button class="btn-primary" onclick="startDiagnostic()" style="font-size: 1.1rem; padding: 16px 48px;">
+        Iniciar Diagnóstico
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 2: DIMENSÃO -->
+  <div id="screen-dimension" class="screen">
+    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 16px 20px; position: sticky; top: 0; z-index: 10;">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span id="dim-counter" style="color: var(--muted); font-size: 0.85rem; font-weight: 600;"></span>
+          <span id="dim-score-preview" style="color: var(--accent); font-size: 0.85rem; font-weight: 600;"></span>
+        </div>
+        <div style="background: var(--border); border-radius: 4px; height: 4px;">
+          <div id="progress-bar" style="background: var(--accent); height: 4px; border-radius: 4px; width: 0%; transition: width 0.4s ease;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <p id="dim-measures" style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;"></p>
+      <h2 id="dim-title" style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;"></h2>
+      <p id="dim-description" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 32px;"></p>
+
+      <div id="questions-container"></div>
+
+      <div style="margin-top: 40px; display: flex; gap: 12px; align-items: center;">
+        <button id="btn-next" class="btn-primary" onclick="nextDimension()" disabled>
+          Próxima dimensão →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA 3: RESULTADO -->
+  <div id="screen-result" class="screen">
+    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 16px 20px;">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <div style="background: var(--border); border-radius: 4px; height: 4px;">
+          <div style="background: var(--accent); height: 4px; border-radius: 4px; width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div id="result-content"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── DADOS ──────────────────────────────────────────────────────────────────
+    const DIMENSIONS = [
+      {
+        id: 'modelo',
+        title: '1. Modelo de Negócio',
+        measures: 'Clareza de oferta · Escalabilidade · Sustentabilidade',
+        description: 'Avalie a clareza, posicionamento e sustentabilidade do seu modelo de negócio.',
+        questions: [
+          'Seu modelo de negócio é claramente definido e compreendido por toda a liderança?',
+          'Sua empresa possui uma oferta principal clara e bem posicionada?',
+          'Seu modelo permite crescimento sem aumento proporcional de esforço operacional?',
+          'Sua margem de lucro permite investimento em crescimento?',
+          'Existe previsibilidade de receita?'
+        ]
+      },
+      {
+        id: 'crescimento',
+        title: '2. Estrutura de Crescimento',
+        measures: 'Organização estrutural · Direção estratégica · Capacidade de escalar',
+        description: 'Avalie se a empresa tem estrutura, processos e direção para crescer de forma consistente.',
+        questions: [
+          'Sua empresa possui processos estruturados para crescimento?',
+          'Existem metas claras e acompanhadas regularmente?',
+          'O crescimento da empresa é planejado (e não acontece de forma reativa)?',
+          'Existe uma estrutura organizacional clara?',
+          'Você tem clareza sobre quais são as principais alavancas de crescimento do negócio?'
+        ]
+      },
+      {
+        id: 'comercial',
+        title: '3. Comercial e Receita',
+        measures: 'Previsibilidade comercial · Maturidade de vendas · Estabilidade de receita',
+        description: 'Avalie a maturidade do processo comercial e a estabilidade das suas fontes de receita.',
+        questions: [
+          'Existe um processo de vendas definido?',
+          'O fluxo de leads é previsível?',
+          'Sua equipe comercial possui metas e indicadores claros?',
+          'O processo de conversão é mensurado?',
+          'Seu faturamento não depende excessivamente de poucos clientes?'
+        ]
+      },
+      {
+        id: 'lideranca',
+        title: '4. Liderança e Time',
+        measures: 'Dependência do fundador · Maturidade da liderança · Delegação',
+        description: 'Avalie a autonomia da liderança e a independência operacional do negócio.',
+        questions: [
+          'As decisões estratégicas estão distribuídas (não concentradas apenas no fundador)?',
+          'Sua liderança possui autonomia real?',
+          'Os papéis dentro da empresa estão claramente definidos?',
+          'Existe um processo estruturado de reunião de liderança?',
+          'Sua empresa conseguiria funcionar bem por uma semana sem você?'
+        ]
+      },
+      {
+        id: 'cultura',
+        title: '5. Cultura e Execução',
+        measures: 'Cultura organizacional · Execução estratégica · Alinhamento interno',
+        description: 'Avalie o alinhamento cultural, a consistência de execução e a capacidade de aprendizado.',
+        questions: [
+          'Os valores da empresa são claros e vividos no dia a dia?',
+          'Existe alinhamento sobre prioridades estratégicas?',
+          'As decisões são executadas com consistência?',
+          'Existe cultura de responsabilidade e entrega?',
+          'A empresa aprende com erros e ajusta rapidamente?'
+        ]
+      }
+    ];
+
+    const FAIXAS = [
+      {
+        min: 0, max: 40,
+        emoji: '🔴',
+        title: 'Negócio Dependente do Fundador',
+        description: 'A empresa ainda depende muito da ação direta do fundador e possui baixa estrutura de crescimento.',
+        priority: 'Prioridade: organização básica e definição de modelo.',
+        color: '#f85149'
+      },
+      {
+        min: 41, max: 80,
+        emoji: '🟡',
+        title: 'Negócio em Estruturação',
+        description: 'Existem elementos de crescimento, mas a estrutura ainda não sustenta escala.',
+        priority: 'Prioridade: organizar processos e liderança.',
+        color: '#f5c518'
+      },
+      {
+        min: 81, max: 110,
+        emoji: '🟢',
+        title: 'Negócio em Expansão',
+        description: 'A empresa possui bases sólidas, mas ainda precisa aprimorar estrutura para crescer de forma consistente.',
+        priority: 'Prioridade: refinar modelo e comercial.',
+        color: '#2ea043'
+      },
+      {
+        min: 111, max: 125,
+        emoji: '🔵',
+        title: 'Negócio Estruturado para Escala',
+        description: 'A empresa possui estrutura forte e pode focar em expansão estratégica.',
+        priority: 'Prioridade: alavancas de crescimento.',
+        color: '#58a6ff'
+      }
+    ];
+
+    // ── ESTADO ─────────────────────────────────────────────────────────────────
+    let currentDimIndex = 0;
+    let answers = {}; // { 'modelo-0': 3, 'modelo-1': 5, ... }
+
+    // ── NAVEGAÇÃO ──────────────────────────────────────────────────────────────
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function startDiagnostic() {
+      currentDimIndex = 0;
+      answers = {};
+      renderDimension();
+      showScreen('screen-dimension');
+    }
+
+    // ── RENDERIZAR DIMENSÃO ────────────────────────────────────────────────────
+    function renderDimension() {
+      const dim = DIMENSIONS[currentDimIndex];
+      const total = DIMENSIONS.length;
+
+      document.getElementById('dim-counter').textContent = `Dimensão ${currentDimIndex + 1} de ${total}`;
+      document.getElementById('dim-score-preview').textContent = '';
+      document.getElementById('progress-bar').style.width = `${(currentDimIndex / total) * 100}%`;
+
+      document.getElementById('dim-measures').textContent = dim.measures;
+      document.getElementById('dim-title').textContent = dim.title;
+      document.getElementById('dim-description').textContent = dim.description;
+
+      const container = document.getElementById('questions-container');
+      container.innerHTML = dim.questions.map((q, qi) => {
+        const key = `${dim.id}-${qi}`;
+        const saved = answers[key];
+        return `
+          <div class="question-block" style="margin-bottom: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;">
+            <p style="font-size: 0.95rem; font-weight: 600; margin-bottom: 16px; line-height: 1.5;">${qi + 1}. ${q}</p>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; flex-wrap: nowrap;">
+              ${[1,2,3,4,5].map(v => `
+                <button
+                  class="rating-btn"
+                  data-key="${key}"
+                  data-value="${v}"
+                  onclick="selectRating('${key}', ${v})"
+                  style="
+                    width: 44px; height: 44px; border-radius: 50%; border: 2px solid ${saved === v ? 'var(--accent)' : 'var(--border)'};
+                    background: ${saved === v ? 'var(--accent)' : 'transparent'};
+                    color: ${saved === v ? 'var(--text-dark)' : 'var(--muted)'};
+                    font-weight: 700; font-size: 0.95rem; cursor: pointer;
+                    transition: all 0.15s; font-family: 'Inter', sans-serif;
+                    flex-shrink: 0;
+                  "
+                >${v}</button>
+              `).join('')}
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0 2px;">
+              <span style="color: var(--muted); font-size: 0.72rem;">Discordo totalmente</span>
+              <span style="color: var(--muted); font-size: 0.72rem;">Concordo totalmente</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateNextButton();
+    }
+
+    function selectRating(key, value) {
+      answers[key] = value;
+
+      document.querySelectorAll(`[data-key="${key}"]`).forEach(btn => {
+        const v = parseInt(btn.dataset.value);
+        if (v === value) {
+          btn.style.background = 'var(--accent)';
+          btn.style.color = 'var(--text-dark)';
+          btn.style.borderColor = 'var(--accent)';
+        } else {
+          btn.style.background = 'transparent';
+          btn.style.color = 'var(--muted)';
+          btn.style.borderColor = 'var(--border)';
+        }
+      });
+
+      updateNextButton();
+    }
+
+    function updateNextButton() {
+      const dim = DIMENSIONS[currentDimIndex];
+      const allAnswered = dim.questions.every((_, qi) => answers[`${dim.id}-${qi}`] !== undefined);
+      document.getElementById('btn-next').disabled = !allAnswered;
+
+      if (allAnswered) {
+        const dimScore = getDimensionScore(dim.id, dim.questions.length);
+        document.getElementById('dim-score-preview').textContent = `${dimScore}/${dim.questions.length * 5} pts`;
+      }
+    }
+
+    function getDimensionScore(dimId, numQuestions) {
+      let total = 0;
+      for (let i = 0; i < numQuestions; i++) {
+        total += answers[`${dimId}-${i}`] || 0;
+      }
+      return total;
+    }
+
+    function nextDimension() {
+      currentDimIndex++;
+      if (currentDimIndex < DIMENSIONS.length) {
+        renderDimension();
+        window.scrollTo(0, 0);
+      } else {
+        showResult();
+      }
+    }
+
+    // ── RESULTADO ──────────────────────────────────────────────────────────────
+    function showResult() {
+      const dimScores = DIMENSIONS.map(d => ({
+        title: d.title,
+        measures: d.measures,
+        score: getDimensionScore(d.id, d.questions.length),
+        max: d.questions.length * 5
+      }));
+      const total = dimScores.reduce((sum, d) => sum + d.score, 0);
+      const faixa = FAIXAS.find(f => total >= f.min && total <= f.max);
+
+      const resultHTML = `
+        <div style="text-align: center; padding: 60px 0 40px;">
+          <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">SEU RESULTADO</p>
+          <div style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 8px;">${total}</div>
+          <div style="color: var(--muted); font-size: 1rem; margin-bottom: 4px;">de 125 pontos possíveis</div>
+        </div>
+
+        <div style="background: var(--bg-card); border: 2px solid ${faixa.color}; border-radius: 12px; padding: 28px; margin-bottom: 32px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 8px;">${faixa.emoji}</div>
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: ${faixa.color}; margin-bottom: 12px;">${faixa.title}</h2>
+          <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px;">${faixa.description}</p>
+          <p style="color: var(--text-white); font-size: 0.9rem; font-weight: 600;">${faixa.priority}</p>
+        </div>
+
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Resultado por Dimensão</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px;">
+          ${dimScores.map(d => {
+            const pct = Math.round((d.score / d.max) * 100);
+            const barColor = pct >= 80 ? '#2ea043' : pct >= 52 ? '#f5c518' : '#f85149';
+            return `
+              <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-weight: 600; font-size: 0.9rem;">${d.title}</span>
+                  <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem;">${d.score}/${d.max}</span>
+                </div>
+                <div style="background: var(--border); border-radius: 4px; height: 6px;">
+                  <div data-animate-bar="${pct}%" style="background: ${barColor}; height: 6px; border-radius: 4px; width: 0%; transition: width 0.6s ease;"></div>
+                </div>
+                <p style="color: var(--muted); font-size: 0.75rem; margin-top: 6px;">${d.measures}</p>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div style="background: var(--bg-card); border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; padding: 20px 24px; margin-bottom: 40px;">
+          <p style="color: var(--muted); font-style: italic; line-height: 1.7; font-size: 0.95rem;">
+            "A maioria dos empresários trabalha muito… mas nunca parou para analisar o negócio dessa forma. Esse é o primeiro passo para sair do crescimento por tentativa e erro e entrar no crescimento por estrutura."
+          </p>
+        </div>
+
+        <div style="text-align: center; padding-bottom: 60px;">
+          <button class="btn-secondary" onclick="restartDiagnostic()">↺ Refazer diagnóstico</button>
+        </div>
+      `;
+
+      document.getElementById('result-content').innerHTML = resultHTML;
+      showScreen('screen-result');
+
+      // Animar barras após render
+      setTimeout(() => {
+        document.querySelectorAll('[data-animate-bar]').forEach(bar => {
+          bar.style.width = bar.dataset.animateBar;
+        });
+      }, 100);
+    }
+
+    function restartDiagnostic() {
+      currentDimIndex = 0;
+      answers = {};
+      document.getElementById('result-content').innerHTML = '';
+      showScreen('screen-intro');
+    }
+  </script>
+</body>
+</html>

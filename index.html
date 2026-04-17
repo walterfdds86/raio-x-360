@@ -14,11 +14,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* DESIGN SYSTEM */
     :root {
       --bg-dark:    #0d1117;
       --bg-card:    #161b22;
-      --bg-light:   #f8f9fa;
       --text-white: #ffffff;
       --text-dark:  #1a1a2e;
       --accent:     #f5c518;
@@ -27,7 +25,7 @@
       --border:     #30363d;
       --green:      #2ea043;
       --red:        #f85149;
-      --blue: #58a6ff;
+      --blue:       #58a6ff;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,16 +38,16 @@
     }
 
     .container {
-      max-width: 680px;
+      max-width: 640px;
       margin: 0 auto;
       padding: 40px 20px;
     }
 
     .screen { display: none; }
     .screen.active { display: block; }
-
     .accent { color: var(--accent); }
 
+    /* BOTÕES */
     .btn-primary {
       display: inline-block;
       background: var(--accent);
@@ -61,16 +59,17 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
       text-align: center;
     }
-    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-primary:hover  { background: var(--accent-dim); }
+    .btn-primary:active { transform: scale(0.97); }
     .btn-primary:disabled {
       background: var(--border);
       color: var(--muted);
       cursor: not-allowed;
+      transform: none;
     }
-
     .btn-secondary {
       display: inline-block;
       background: transparent;
@@ -86,24 +85,46 @@
     }
     .btn-secondary:hover { color: var(--text-white); border-color: var(--muted); }
 
-    @media (max-width: 400px) {
-      .container { padding: 20px 16px; }
-    }
-
     /* TRANSIÇÕES DE TELA */
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .screen.active {
-      animation: fadeSlideIn 0.35s ease forwards;
+    .screen.active { animation: fadeSlideIn 0.3s ease forwards; }
+
+    /* SLIDE DE PERGUNTA */
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(28px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .slide-right { animation: slideInRight 0.22s ease forwards; }
+    .slide-left  { animation: slideInLeft  0.22s ease forwards; }
+
+    /* BOUNCE DO RATING */
+    @keyframes ratingPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.28); }
+      100% { transform: scale(1); }
+    }
+    .rating-pop { animation: ratingPop 0.22s ease forwards; }
 
     /* INPUT DE NOME */
+    .name-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
     .name-input {
       width: 100%;
       max-width: 300px;
-      padding: 12px 16px;
+      padding: 13px 16px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -115,20 +136,62 @@
       transition: border-color 0.2s;
     }
     .name-input:focus { border-color: var(--accent); }
-    .name-input::placeholder { color: var(--muted); }
+    .name-input::placeholder { color: var(--border); }
+
+    /* RATING BUTTONS */
+    .rating-btn {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      font-family: 'Inter', sans-serif;
+      flex-shrink: 0;
+    }
+    .rating-btn:hover:not(.selected) {
+      border-color: var(--muted);
+      color: var(--text-white);
+    }
+    .rating-btn.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--text-dark);
+    }
+    @media (max-width: 400px) {
+      .rating-btn { width: 50px; height: 50px; font-size: 1.05rem; }
+      .container { padding: 20px 16px; }
+    }
+
+    /* DOTS DE PROGRESSO */
+    .q-dot {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+      background: var(--border);
+    }
+    .q-dot.answered { background: var(--accent); }
+    .q-dot.current  { background: var(--text-white); transform: scale(1.3); }
+    .q-dot:hover    { transform: scale(1.2); }
 
     /* MICRO-FEEDBACK */
     .micro-feedback {
       display: none;
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: rgba(245, 197, 24, 0.08);
+      margin-top: 14px;
+      padding: 9px 13px;
+      background: rgba(245, 197, 24, 0.07);
       border-left: 3px solid var(--accent);
-      border-radius: 0 4px 4px 0;
-      font-size: 0.82rem;
+      border-radius: 0 5px 5px 0;
+      font-size: 0.83rem;
       color: var(--accent);
       font-weight: 600;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     /* TELA DE TRANSIÇÃO */
@@ -141,23 +204,51 @@
       text-align: center;
     }
     .transition-checkmark {
-      width: 64px;
-      height: 64px;
-      background: rgba(245,197,24,0.12);
+      width: 68px; height: 68px;
+      background: rgba(245,197,24,0.1);
       border: 2px solid var(--accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       margin-bottom: 24px;
     }
     @keyframes popIn {
-      0%   { transform: scale(0.5); opacity: 0; }
-      70%  { transform: scale(1.15); }
-      100% { transform: scale(1); opacity: 1; }
+      0%  { transform: scale(0.4); opacity: 0; }
+      65% { transform: scale(1.18); }
+      100%{ transform: scale(1); opacity: 1; }
     }
-    .transition-checkmark { animation: popIn 0.4s ease forwards; }
+    .transition-checkmark { animation: popIn 0.38s ease forwards; }
+
+    /* RESULTADO — SEÇÃO */
+    .result-section-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 44px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* CARDS DO RESULTADO — hover */
+    .result-dim-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .result-dim-card:hover {
+      border-color: var(--muted);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -169,13 +260,14 @@
       <h1 style="font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px;">
         Raio-X Empresarial <span class="accent">360</span>
       </h1>
-      <p style="color: var(--muted); font-size: 1.05rem; max-width: 480px; margin: 0 auto 16px;">
+      <p style="color: var(--muted); font-size: 1.05rem; max-width: 460px; margin: 0 auto 16px; line-height: 1.65;">
         Revele com clareza onde o crescimento da sua empresa está travando e quais áreas precisam ser estruturadas para escalar.
       </p>
-      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 36px;">
+      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 44px;">
         ⏱ 3 minutos &nbsp;·&nbsp; 25 perguntas &nbsp;·&nbsp; 5 dimensões
       </p>
       <div style="margin-bottom: 20px;">
+        <label for="input-name" class="name-label">Como posso te chamar?</label>
         <input
           id="input-name"
           type="text"
@@ -185,7 +277,7 @@
           onkeydown="if(event.key==='Enter') startDiagnostic()"
         >
       </div>
-      <button class="btn-primary" onclick="startDiagnostic()" style="font-size: 1.1rem; padding: 16px 48px;">
+      <button class="btn-primary" onclick="startDiagnostic()" style="font-size: 1.1rem; padding: 16px 48px; margin-top: 4px;">
         Iniciar Diagnóstico
       </button>
       <div id="saved-result-banner"></div>
@@ -194,11 +286,12 @@
 
   <!-- TELA 2: DIMENSÃO -->
   <div id="screen-dimension" class="screen">
-    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 16px 20px; position: sticky; top: 0; z-index: 10;">
-      <div style="max-width: 680px; margin: 0 auto;">
+    <!-- Header sticky -->
+    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 14px 20px; position: sticky; top: 0; z-index: 10;">
+      <div style="max-width: 640px; margin: 0 auto;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span id="dim-counter" style="color: var(--muted); font-size: 0.85rem; font-weight: 600;"></span>
-          <span id="dim-score-preview" style="color: var(--accent); font-size: 0.85rem; font-weight: 600;"></span>
+          <span id="dim-counter" style="color: var(--muted); font-size: 0.82rem; font-weight: 600;"></span>
+          <span id="dim-score-preview" style="color: var(--accent); font-size: 0.82rem; font-weight: 600;"></span>
         </div>
         <div style="background: var(--border); border-radius: 4px; height: 4px;">
           <div id="progress-bar" style="background: var(--accent); height: 4px; border-radius: 4px; width: 0%; transition: width 0.4s ease;"></div>
@@ -207,17 +300,19 @@
     </div>
 
     <div class="container">
-      <p id="dim-measures" style="color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;"></p>
-      <h2 id="dim-title" style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;"></h2>
-      <p id="dim-description" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 32px;"></p>
+      <p id="dim-measures" style="color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px;"></p>
+      <h2 id="dim-title" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 6px;"></h2>
+      <p id="dim-description" style="color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.55;"></p>
 
-      <div id="question-dots" style="display: flex; gap: 6px; margin-bottom: 20px;"></div>
+      <!-- Dots de progresso (clicáveis) -->
+      <div id="question-dots" style="display: flex; gap: 8px; margin-bottom: 28px; align-items: center;"></div>
+
+      <!-- Pergunta única (animada) -->
       <div id="questions-container"></div>
 
-      <div style="margin-top: 40px; display: flex; gap: 12px; align-items: center;">
-        <button id="btn-next" class="btn-primary" type="button" onclick="nextDimension()" disabled>
-          Próxima dimensão →
-        </button>
+      <!-- Botão avançar -->
+      <div style="margin-top: 32px;">
+        <button id="btn-next" class="btn-primary" type="button" onclick="nextDimension()" disabled></button>
       </div>
     </div>
   </div>
@@ -226,15 +321,15 @@
   <div id="screen-transition" class="screen">
     <div class="container">
       <div class="transition-checkmark">✓</div>
-      <div id="transition-msg" style="font-size: 1.4rem; font-weight: 800; line-height: 1.5; max-width: 380px;"></div>
-      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px;">Carregando próxima dimensão…</p>
+      <div id="transition-msg" style="font-size: 1.4rem; font-weight: 800; line-height: 1.5; max-width: 360px;"></div>
+      <p style="color: var(--muted); font-size: 0.88rem; margin-top: 10px;">Carregando próxima dimensão…</p>
     </div>
   </div>
 
   <!-- TELA 3: RESULTADO -->
   <div id="screen-result" class="screen">
-    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 16px 20px;">
-      <div style="max-width: 680px; margin: 0 auto;">
+    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 14px 20px;">
+      <div style="max-width: 640px; margin: 0 auto;">
         <div style="background: var(--border); border-radius: 4px; height: 4px;">
           <div style="background: var(--accent); height: 4px; border-radius: 4px; width: 100%;"></div>
         </div>
@@ -316,43 +411,14 @@
     ];
 
     const FAIXAS = [
-      {
-        min: 0, max: 40,
-        emoji: '🔴',
-        title: 'Negócio Dependente do Fundador',
-        description: 'A empresa ainda depende muito da ação direta do fundador e possui baixa estrutura de crescimento.',
-        priority: 'Prioridade: organização básica e definição de modelo.',
-        color: 'var(--red)'
-      },
-      {
-        min: 41, max: 80,
-        emoji: '🟡',
-        title: 'Negócio em Estruturação',
-        description: 'Existem elementos de crescimento, mas a estrutura ainda não sustenta escala.',
-        priority: 'Prioridade: organizar processos e liderança.',
-        color: 'var(--accent)'
-      },
-      {
-        min: 81, max: 110,
-        emoji: '🟢',
-        title: 'Negócio em Expansão',
-        description: 'A empresa possui bases sólidas, mas ainda precisa aprimorar estrutura para crescer de forma consistente.',
-        priority: 'Prioridade: refinar modelo e comercial.',
-        color: 'var(--green)'
-      },
-      {
-        min: 111, max: 125,
-        emoji: '🔵',
-        title: 'Negócio Estruturado para Escala',
-        description: 'A empresa possui estrutura forte e pode focar em expansão estratégica.',
-        priority: 'Prioridade: alavancas de crescimento.',
-        color: 'var(--blue)'
-      }
+      { min: 0,   max: 40,  emoji: '🔴', title: 'Negócio Dependente do Fundador', description: 'A empresa ainda depende muito da ação direta do fundador e possui baixa estrutura de crescimento.', priority: 'Prioridade: organização básica e definição de modelo.', color: 'var(--red)' },
+      { min: 41,  max: 80,  emoji: '🟡', title: 'Negócio em Estruturação',         description: 'Existem elementos de crescimento, mas a estrutura ainda não sustenta escala.',                        priority: 'Prioridade: organizar processos e liderança.',        color: 'var(--accent)' },
+      { min: 81,  max: 110, emoji: '🟢', title: 'Negócio em Expansão',             description: 'A empresa possui bases sólidas, mas ainda precisa aprimorar estrutura para crescer de forma consistente.', priority: 'Prioridade: refinar modelo e comercial.',             color: 'var(--green)' },
+      { min: 111, max: 125, emoji: '🔵', title: 'Negócio Estruturado para Escala', description: 'A empresa possui estrutura forte e pode focar em expansão estratégica.',                                priority: 'Prioridade: alavancas de crescimento.',              color: 'var(--blue)' }
     ];
 
     const MAX_SCORE = DIMENSIONS.reduce((sum, d) => sum + d.questions.length * 5, 0);
 
-    // ── INSIGHTS POR DIMENSÃO ─────────────────────────────────────────────────
     const INSIGHTS = {
       modelo: [
         { max: 12, text: 'Seu modelo ainda não está claramente definido. O primeiro passo é documentar sua oferta principal e entender sua margem real de lucro.' },
@@ -386,7 +452,7 @@
       return (list.find(i => score <= i.max) || list[list.length - 1])?.text || '';
     }
 
-    // ── MICRO-FEEDBACK (notas 1 ou 2) ────────────────────────────────────────
+    // ── MICRO-FEEDBACK ────────────────────────────────────────────────────────
     const MICRO_FEEDBACKS = [
       '💡 Esse é exatamente o tipo de gap que o desafio de 5 dias resolve.',
       '🎯 Esse ponto é uma das principais alavancas que vamos trabalhar no desafio.',
@@ -396,12 +462,10 @@
     ];
     let _feedbackIdx = 0;
     function nextFeedback() {
-      const msg = MICRO_FEEDBACKS[_feedbackIdx % MICRO_FEEDBACKS.length];
-      _feedbackIdx++;
-      return msg;
+      return MICRO_FEEDBACKS[_feedbackIdx++ % MICRO_FEEDBACKS.length];
     }
 
-    // ── MENSAGENS DE TRANSIÇÃO ENTRE DIMENSÕES ────────────────────────────────
+    // ── TRANSIÇÕES ────────────────────────────────────────────────────────────
     const TRANSITIONS = [
       'Primeira dimensão concluída! Agora: <span class="accent">Estrutura de Crescimento</span>.',
       'Ótimo ritmo! Agora: <span class="accent">Comercial e Receita</span>.',
@@ -409,12 +473,13 @@
       'Quase lá! Última dimensão: <span class="accent">Cultura e Execução</span>.'
     ];
 
-    // ── ESTADO ─────────────────────────────────────────────────────────────────
+    // ── ESTADO ────────────────────────────────────────────────────────────────
     let currentDimIndex = 0;
-    let answers = {}; // { 'modelo-0': 3, 'modelo-1': 5, ... }
+    let currentQuestionIndex = 0;
+    let answers = {};
     let userName = '';
 
-    // ── NAVEGAÇÃO ──────────────────────────────────────────────────────────────
+    // ── NAVEGAÇÃO ─────────────────────────────────────────────────────────────
     function showScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -431,161 +496,159 @@
         return;
       }
       currentDimIndex = 0;
+      currentQuestionIndex = 0;
       answers = {};
       renderDimension();
       showScreen('screen-dimension');
     }
 
-    // ── RENDERIZAR DIMENSÃO ────────────────────────────────────────────────────
+    // ── RENDERIZAR DIMENSÃO ───────────────────────────────────────────────────
     function renderDimension() {
       const dim = DIMENSIONS[currentDimIndex];
-      const total = DIMENSIONS.length;
+      currentQuestionIndex = 0;
 
-      document.getElementById('dim-counter').textContent = `Dimensão ${currentDimIndex + 1} de ${total}`;
+      document.getElementById('dim-counter').textContent = `Dimensão ${currentDimIndex + 1} de ${DIMENSIONS.length}`;
       document.getElementById('dim-score-preview').textContent = '';
-      document.getElementById('progress-bar').style.width = `${((currentDimIndex + 1) / total) * 100}%`;
-
+      document.getElementById('progress-bar').style.width = `${((currentDimIndex + 1) / DIMENSIONS.length) * 100}%`;
       document.getElementById('dim-measures').textContent = dim.measures;
       document.getElementById('dim-title').textContent = dim.title;
       document.getElementById('dim-description').textContent = dim.description;
 
+      const btnNext = document.getElementById('btn-next');
+      btnNext.textContent = currentDimIndex === DIMENSIONS.length - 1 ? 'Ver resultado →' : 'Próxima dimensão →';
+      btnNext.disabled = true;
+
+      renderQuestion('right');
+    }
+
+    // ── RENDERIZAR PERGUNTA ÚNICA ─────────────────────────────────────────────
+    function renderQuestion(direction) {
+      const dim = DIMENSIONS[currentDimIndex];
+      const qi = currentQuestionIndex;
+      const key = `${dim.id}-${qi}`;
+      const saved = answers[key];
+      const showFeedback = saved !== undefined && saved <= 2;
+
       const container = document.getElementById('questions-container');
-      container.innerHTML = dim.questions.map((q, qi) => {
-        const key = `${dim.id}-${qi}`;
-        const saved = answers[key];
-        const showFeedback = saved !== undefined && saved <= 2;
-        return `
-          <div class="question-block" style="margin-bottom: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;">
-            <p style="font-size: 0.95rem; font-weight: 600; margin-bottom: 16px; line-height: 1.5;">${qi + 1}. ${q}</p>
-            <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; flex-wrap: nowrap;">
+      container.innerHTML = `
+        <div class="${direction === 'right' ? 'slide-right' : 'slide-left'}">
+          <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 18px;">
+            <span style="font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1;">${qi + 1}</span>
+            <span style="color: var(--muted); font-size: 0.9rem; font-weight: 600;">/ ${dim.questions.length}</span>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 22px;">
+            <p style="font-size: 1.05rem; font-weight: 600; margin-bottom: 26px; line-height: 1.65;">${dim.questions[qi]}</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 10px;">
               ${[1,2,3,4,5].map(v => `
                 <button
                   type="button"
-                  class="rating-btn"
+                  class="rating-btn${saved === v ? ' selected' : ''}"
                   data-key="${key}"
                   data-value="${v}"
                   onclick="selectRating('${key}', ${v})"
-                  style="
-                    width: 44px; height: 44px; border-radius: 50%; border: 2px solid ${saved === v ? 'var(--accent)' : 'var(--border)'};
-                    background: ${saved === v ? 'var(--accent)' : 'transparent'};
-                    color: ${saved === v ? 'var(--text-dark)' : 'var(--muted)'};
-                    font-weight: 700; font-size: 0.95rem; cursor: pointer;
-                    transition: all 0.15s; font-family: 'Inter', sans-serif;
-                    flex-shrink: 0;
-                  "
                 >${v}</button>
               `).join('')}
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 0 2px;">
-              <span style="color: var(--muted); font-size: 0.72rem;">Discordo totalmente</span>
-              <span style="color: var(--muted); font-size: 0.72rem;">Concordo totalmente</span>
+            <div style="display: flex; justify-content: space-between; padding: 0 4px; margin-bottom: 2px;">
+              <span style="color: var(--muted); font-size: 0.7rem;">Discordo totalmente</span>
+              <span style="color: var(--muted); font-size: 0.7rem;">Concordo totalmente</span>
             </div>
-            <div id="feedback-${key}" class="micro-feedback" style="display:${showFeedback ? 'block' : 'none'};">
-              ${showFeedback ? MICRO_FEEDBACKS[(answers[key] || 0) % MICRO_FEEDBACKS.length] : ''}
+            <div id="feedback-${key}" class="micro-feedback" style="display: ${showFeedback ? 'block' : 'none'};">
+              ${showFeedback ? MICRO_FEEDBACKS[_feedbackIdx % MICRO_FEEDBACKS.length] : ''}
             </div>
           </div>
-        `;
-      }).join('');
+        </div>
+      `;
 
-      updateNextButton();
       updateDots();
-
-      // Atualizar texto do botão conforme dimensão atual
-      const btnNext = document.getElementById('btn-next');
-      btnNext.textContent = currentDimIndex === DIMENSIONS.length - 1 ? 'Ver resultado →' : 'Próxima dimensão →';
+      updateNextButton();
     }
 
+    // ── NAVEGAR ENTRE PERGUNTAS ───────────────────────────────────────────────
+    function goToQuestion(qi) {
+      if (qi < 0 || qi >= DIMENSIONS[currentDimIndex].questions.length) return;
+      const direction = qi >= currentQuestionIndex ? 'right' : 'left';
+      currentQuestionIndex = qi;
+      renderQuestion(direction);
+    }
+
+    // ── SELECIONAR NOTA ───────────────────────────────────────────────────────
     function selectRating(key, value) {
       answers[key] = value;
 
+      // Atualizar visual dos botões + bounce
       document.querySelectorAll(`[data-key="${key}"]`).forEach(btn => {
         const v = parseInt(btn.dataset.value);
+        btn.classList.toggle('selected', v === value);
         if (v === value) {
-          btn.style.background = 'var(--accent)';
-          btn.style.color = 'var(--text-dark)';
-          btn.style.borderColor = 'var(--accent)';
-        } else {
-          btn.style.background = 'transparent';
-          btn.style.color = 'var(--muted)';
-          btn.style.borderColor = 'var(--border)';
+          btn.classList.remove('rating-pop');
+          void btn.offsetWidth; // reflow para reiniciar animação
+          btn.classList.add('rating-pop');
+          btn.addEventListener('animationend', () => btn.classList.remove('rating-pop'), { once: true });
         }
       });
 
-      // Micro-feedback para notas baixas (1 ou 2)
+      // Micro-feedback para notas baixas
       const feedback = document.getElementById(`feedback-${key}`);
       if (feedback) {
         if (value <= 2) {
-          if (feedback.style.display === 'none' || feedback.style.display === '') {
-            feedback.textContent = nextFeedback();
-          }
+          if (!feedback.textContent.trim()) feedback.textContent = nextFeedback();
           feedback.style.display = 'block';
         } else {
           feedback.style.display = 'none';
         }
       }
 
-      updateNextButton();
       updateDots();
+      updateNextButton();
 
-      // Auto-scroll para próxima pergunta sem resposta
-      const dimAuto = DIMENSIONS[currentDimIndex];
-      const nextUnanswered = dimAuto.questions.findIndex((_, qi) =>
-        answers[`${dimAuto.id}-${qi}`] === undefined
-      );
-      if (nextUnanswered !== -1) {
-        const blocks = document.querySelectorAll('.question-block');
-        if (blocks[nextUnanswered]) {
-          setTimeout(() => {
-            blocks[nextUnanswered].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 150);
-        }
+      // Auto-avançar para próxima pergunta
+      const dim = DIMENSIONS[currentDimIndex];
+      const nextQi = currentQuestionIndex + 1;
+      if (nextQi < dim.questions.length) {
+        setTimeout(() => {
+          currentQuestionIndex = nextQi;
+          renderQuestion('right');
+        }, 360);
       }
     }
 
+    // ── DOTS ──────────────────────────────────────────────────────────────────
     function updateDots() {
       const dim = DIMENSIONS[currentDimIndex];
       const dotsEl = document.getElementById('question-dots');
       if (!dotsEl) return;
-      // Create dots on first render or when count changes
-      if (dotsEl.children.length !== dim.questions.length) {
-        dotsEl.innerHTML = dim.questions.map(() =>
-          `<div style="width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.25s;"></div>`
-        ).join('');
-      }
-      // Update only background (allows CSS transition to fire)
-      Array.from(dotsEl.children).forEach((dot, qi) => {
-        dot.style.background = answers[`${dim.id}-${qi}`] !== undefined
-          ? 'var(--accent)'
-          : 'var(--border)';
-      });
+      dotsEl.innerHTML = dim.questions.map((_, qi) => {
+        const answered = answers[`${dim.id}-${qi}`] !== undefined;
+        const isCurrent = qi === currentQuestionIndex;
+        const cls = isCurrent ? 'q-dot current' : answered ? 'q-dot answered' : 'q-dot';
+        return `<button type="button" class="${cls}" onclick="goToQuestion(${qi})" title="Pergunta ${qi + 1}"></button>`;
+      }).join('');
     }
 
+    // ── BOTÃO PRÓXIMO ─────────────────────────────────────────────────────────
     function updateNextButton() {
       const dim = DIMENSIONS[currentDimIndex];
       const allAnswered = dim.questions.every((_, qi) => answers[`${dim.id}-${qi}`] !== undefined);
       document.getElementById('btn-next').disabled = !allAnswered;
-
       if (allAnswered) {
-        const dimScore = getDimensionScore(dim.id, dim.questions.length);
-        document.getElementById('dim-score-preview').textContent = `${dimScore}/${dim.questions.length * 5} pts`;
+        const s = getDimensionScore(dim.id, dim.questions.length);
+        document.getElementById('dim-score-preview').textContent = `${s}/${dim.questions.length * 5} pts`;
       }
     }
 
-    function getDimensionScore(dimId, numQuestions) {
-      let total = 0;
-      for (let i = 0; i < numQuestions; i++) {
-        total += answers[`${dimId}-${i}`] || 0;
-      }
-      return total;
+    function getDimensionScore(dimId, n) {
+      let t = 0;
+      for (let i = 0; i < n; i++) t += answers[`${dimId}-${i}`] || 0;
+      return t;
     }
 
+    // ── PRÓXIMA DIMENSÃO ──────────────────────────────────────────────────────
     function nextDimension() {
       const nextIndex = currentDimIndex + 1;
       if (nextIndex < DIMENSIONS.length) {
-        // Mostrar tela de transição por 1 segundo
-        const msg = TRANSITIONS[currentDimIndex] || '';
         const transMsg = document.getElementById('transition-msg');
-        if (transMsg) transMsg.innerHTML = msg;
+        if (transMsg) transMsg.innerHTML = TRANSITIONS[currentDimIndex] || '';
         showScreen('screen-transition');
         setTimeout(() => {
           currentDimIndex = nextIndex;
@@ -602,11 +665,9 @@
     function animateCount(el, from, to, duration) {
       const start = performance.now();
       function tick(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-        el.textContent = Math.round(from + (to - from) * eased);
-        if (progress < 1) requestAnimationFrame(tick);
+        const p = Math.min((now - start) / duration, 1);
+        el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
     }
@@ -615,195 +676,168 @@
       const canvas = document.getElementById(canvasId);
       if (!canvas || !canvas.getContext) return;
       const ctx = canvas.getContext('2d');
-      const size = canvas.width;
-      const cx = size / 2;
-      const cy = size / 2;
-      const R = size * 0.33;
-      const labelR = size * 0.44;
-      const n = dimScores.length;
-      const step = (Math.PI * 2) / n;
-      const startAngle = -Math.PI / 2;
-
+      const size = canvas.width, cx = size / 2, cy = size / 2;
+      const R = size * 0.33, labelR = size * 0.44;
+      const n = dimScores.length, step = (Math.PI * 2) / n, startAngle = -Math.PI / 2;
       ctx.clearRect(0, 0, size, size);
 
-      // Grid rings (pentagon shape matching data polygon)
       [0.25, 0.5, 0.75, 1].forEach(scale => {
         ctx.beginPath();
         for (let i = 0; i < n; i++) {
           const a = startAngle + i * step;
-          const x = cx + Math.cos(a) * R * scale;
-          const y = cy + Math.sin(a) * R * scale;
-          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          i === 0 ? ctx.moveTo(cx + Math.cos(a) * R * scale, cy + Math.sin(a) * R * scale)
+                  : ctx.lineTo(cx + Math.cos(a) * R * scale, cy + Math.sin(a) * R * scale);
         }
         ctx.closePath();
-        ctx.strokeStyle = 'rgba(48,54,61,0.9)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        ctx.strokeStyle = 'rgba(48,54,61,0.9)'; ctx.lineWidth = 1; ctx.stroke();
       });
 
-      // Axes
       for (let i = 0; i < n; i++) {
         const a = startAngle + i * step;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
-        ctx.strokeStyle = 'rgba(48,54,61,0.9)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        ctx.strokeStyle = 'rgba(48,54,61,0.9)'; ctx.lineWidth = 1; ctx.stroke();
       }
 
-      // Data polygon
       ctx.beginPath();
       dimScores.forEach((d, i) => {
-        const pct = Math.min(d.score / d.max, 1);
-        const a = startAngle + i * step;
-        const x = cx + Math.cos(a) * R * pct;
-        const y = cy + Math.sin(a) * R * pct;
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        const pct = Math.min(d.score / d.max, 1), a = startAngle + i * step;
+        i === 0 ? ctx.moveTo(cx + Math.cos(a) * R * pct, cy + Math.sin(a) * R * pct)
+                : ctx.lineTo(cx + Math.cos(a) * R * pct, cy + Math.sin(a) * R * pct);
       });
       ctx.closePath();
-      ctx.fillStyle = 'rgba(245,197,24,0.12)';
-      ctx.fill();
-      ctx.strokeStyle = '#f5c518';
-      ctx.lineWidth = 2.5;
-      ctx.stroke();
+      ctx.fillStyle = 'rgba(245,197,24,0.12)'; ctx.fill();
+      ctx.strokeStyle = '#f5c518'; ctx.lineWidth = 2.5; ctx.stroke();
 
-      // Vertex dots
       dimScores.forEach((d, i) => {
-        const pct = Math.min(d.score / d.max, 1);
-        const a = startAngle + i * step;
-        const x = cx + Math.cos(a) * R * pct;
-        const y = cy + Math.sin(a) * R * pct;
+        const pct = Math.min(d.score / d.max, 1), a = startAngle + i * step;
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#f5c518';
-        ctx.fill();
+        ctx.arc(cx + Math.cos(a) * R * pct, cy + Math.sin(a) * R * pct, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#f5c518'; ctx.fill();
       });
 
-      // Labels
       const labels = dimScores.map(d => d.title.replace(/^\d+\.\s*/, '').split(' ')[0]);
       ctx.font = 'bold 11px Inter, sans-serif';
-      ctx.fillStyle = '#8b949e';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#8b949e'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       dimScores.forEach((_, i) => {
         const a = startAngle + i * step;
-        const x = cx + Math.cos(a) * labelR;
-        const y = cy + Math.sin(a) * labelR;
-        ctx.fillText(labels[i], x, y);
+        ctx.fillText(labels[i], cx + Math.cos(a) * labelR, cy + Math.sin(a) * labelR);
       });
     }
 
-    // ── RESULTADO ──────────────────────────────────────────────────────────────
+    // ── RESULTADO ─────────────────────────────────────────────────────────────
     function showResult() {
       const dimScores = DIMENSIONS.map(d => ({
-        id: d.id,
-        title: d.title,
-        measures: d.measures,
+        id: d.id, title: d.title, measures: d.measures,
         score: getDimensionScore(d.id, d.questions.length),
         max: d.questions.length * 5
       }));
-      const total = dimScores.reduce((sum, d) => sum + d.score, 0);
+      const total = dimScores.reduce((s, d) => s + d.score, 0);
       const faixa = FAIXAS.find(f => total >= f.min && total <= f.max) ?? FAIXAS[FAIXAS.length - 1];
+      const lowest  = dimScores.reduce((a, d) => d.score < a.score ? d : a, dimScores[0]);
+      const highest = dimScores.reduce((a, d) => d.score > a.score ? d : a, dimScores[0]);
+      const lowestLabel = userName ? `⚡ ${userName}, sua maior oportunidade` : '⚡ Sua Maior Oportunidade';
 
-      const lowest  = dimScores.reduce((min, d) => d.score < min.score ? d : min, dimScores[0]);
-      const highest = dimScores.reduce((max, d) => d.score > max.score ? d : max, dimScores[0]);
+      document.getElementById('result-content').innerHTML = `
 
-      const nameGreeting = userName
-        ? `<p style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Aqui está o seu diagnóstico, <span style="color: var(--accent);">${userName}</span></p>`
-        : '';
-
-      const lowestLabel = userName
-        ? `⚡ ${userName}, sua maior oportunidade`
-        : '⚡ Sua Maior Oportunidade';
-
-      const resultHTML = `
-        <div style="text-align: center; padding: 60px 0 40px;">
-          <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;">SEU RESULTADO</p>
-          ${nameGreeting}
-          <div id="score-total" style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 8px;">0</div>
-          <div style="color: var(--muted); font-size: 1rem; margin-bottom: 4px;">de ${MAX_SCORE} pontos possíveis</div>
+        <!-- PONTUAÇÃO -->
+        <div style="text-align: center; padding: 56px 0 36px;">
+          <p style="color: var(--accent); font-weight: 700; font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;">SEU RESULTADO</p>
+          ${userName ? `<p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">Aqui está o seu diagnóstico, <span style="color: var(--accent);">${userName}</span></p>` : ''}
+          <div id="score-total" style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 6px; letter-spacing: -2px;">0</div>
+          <div style="color: var(--muted); font-size: 0.95rem;">de ${MAX_SCORE} pontos possíveis</div>
         </div>
 
-        <div style="background: var(--bg-card); border: 2px solid ${faixa.color}; border-radius: 12px; padding: 28px; margin-bottom: 32px; text-align: center;">
-          <div style="font-size: 2rem; margin-bottom: 8px;">${faixa.emoji}</div>
-          <h2 style="font-size: 1.5rem; font-weight: 800; color: ${faixa.color}; margin-bottom: 12px;">${faixa.title}</h2>
-          <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px;">${faixa.description}</p>
-          <p style="color: var(--text-white); font-size: 0.9rem; font-weight: 600;">${faixa.priority}</p>
+        <!-- PERFIL -->
+        <div class="result-section-divider">📊 Diagnóstico Geral</div>
+        <div style="background: var(--bg-card); border: 2px solid ${faixa.color}; border-radius: 12px; padding: 28px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 10px;">${faixa.emoji}</div>
+          <h2 style="font-size: 1.45rem; font-weight: 800; color: ${faixa.color}; margin-bottom: 12px;">${faixa.title}</h2>
+          <p style="color: var(--muted); font-size: 0.93rem; line-height: 1.65; margin-bottom: 12px;">${faixa.description}</p>
+          <p style="color: var(--text-white); font-size: 0.88rem; font-weight: 600;">${faixa.priority}</p>
         </div>
 
-        <div style="display: flex; justify-content: center; margin-bottom: 32px;">
+        <!-- RADAR -->
+        <div class="result-section-divider">🕸 Visão por Dimensão</div>
+        <div style="display: flex; justify-content: center; margin-bottom: 4px;">
           <canvas id="radar-chart" width="300" height="300" style="max-width: 100%;"></canvas>
         </div>
 
-        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Resultado por Dimensão</h3>
-        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px;">
+        <!-- DIMENSÕES DETALHADAS -->
+        <div class="result-section-divider">📋 Resultado Detalhado</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px;">
           ${dimScores.map(d => {
             const pct = Math.round((d.score / d.max) * 100);
             const barColor = pct >= 80 ? 'var(--green)' : pct >= 52 ? 'var(--accent)' : 'var(--red)';
             return `
-              <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px;">
+              <div class="result-dim-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                  <span style="font-weight: 600; font-size: 0.9rem;">${d.title}</span>
-                  <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem;">${d.score}/${d.max}</span>
+                  <span style="font-weight: 600; font-size: 0.88rem;">${d.title}</span>
+                  <span style="color: var(--accent); font-weight: 700; font-size: 0.88rem;">${d.score}/${d.max}</span>
                 </div>
-                <div style="background: var(--border); border-radius: 4px; height: 6px;">
-                  <div data-animate-bar="${pct}%" style="background: ${barColor}; height: 6px; border-radius: 4px; width: 0%; transition: width 0.6s ease;"></div>
+                <div style="background: var(--border); border-radius: 4px; height: 5px; margin-bottom: 10px;">
+                  <div data-animate-bar="${pct}%" style="background: ${barColor}; height: 5px; border-radius: 4px; width: 0%; transition: width 0.65s ease;"></div>
                 </div>
-                <p style="color: var(--muted); font-size: 0.75rem; margin-bottom: 8px;">${d.measures}</p>
-                <p style="color: var(--text-white); font-size: 0.82rem; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px;">${getInsight(d.id, d.score)}</p>
+                <p style="color: var(--muted); font-size: 0.72rem; margin-bottom: 9px;">${d.measures}</p>
+                <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6; border-top: 1px solid var(--border); padding-top: 10px;">${getInsight(d.id, d.score)}</p>
               </div>
             `;
           }).join('')}
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
-          <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 24px;">
-            <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">${lowestLabel}</p>
-            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;">${lowest.title}</h3>
-            <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.6;">${getInsight(lowest.id, lowest.score)}</p>
+        <!-- DESTAQUES -->
+        <div class="result-section-divider">🎯 Destaques</div>
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px;">
+          <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 22px;">
+            <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">${lowestLabel}</p>
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 8px;">${lowest.title}</h3>
+            <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6;">${getInsight(lowest.id, lowest.score)}</p>
           </div>
-          <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--green); border-radius: 12px; padding: 24px;">
-            <p style="color: var(--green); font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">💪 Seu Maior Ponto Forte</p>
-            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;">${highest.title}</h3>
-            <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.6;">${getInsight(highest.id, highest.score)}</p>
+          <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--green); border-radius: 12px; padding: 22px;">
+            <p style="color: var(--green); font-weight: 700; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">💪 Seu Maior Ponto Forte</p>
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 8px;">${highest.title}</h3>
+            <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6;">${getInsight(highest.id, highest.score)}</p>
           </div>
         </div>
 
-        <div style="margin-bottom: 32px; background: linear-gradient(135deg, #0d1117, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 28px; text-align: center;">
-          <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">🚀 PRÓXIMO PASSO</p>
-          <h3 style="font-size: 1.25rem; font-weight: 800; line-height: 1.45; margin-bottom: 16px;">
+        <!-- PRÓXIMO PASSO -->
+        <div class="result-section-divider">🚀 Próximo Passo</div>
+        <div style="background: linear-gradient(135deg, #0d1117, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 8px;">
+          <h3 style="font-size: 1.2rem; font-weight: 800; line-height: 1.5; margin-bottom: 14px;">
             Agora que você já identificou onde estão os maiores gaps da sua empresa, vamos ativar as <span style="color: var(--accent);">5 alavancas</span> que vão corrigir e que podem dobrar o faturamento da sua empresa
           </h3>
-          <p style="color: var(--muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 20px;">
+          <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 22px;">
             No desafio, você vai iniciar o processo de resolução de <strong style="color: var(--text-white);">todos os problemas e gaps</strong> identificados neste diagnóstico — com um plano de ação estruturado para cada dimensão do seu negócio.
           </p>
-          <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 16px;">O desafio começa em:</p>
-          <div id="countdown" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;"></div>
-          <p style="color: var(--muted); font-size: 0.78rem; letter-spacing: 1px;">4 a 8 de maio</p>
+          <p style="color: var(--muted); font-size: 0.83rem; margin-bottom: 16px;">O desafio começa em:</p>
+          <div id="countdown" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; min-height: 70px;"></div>
+          <p style="color: var(--muted); font-size: 0.76rem; letter-spacing: 1px;">4 a 8 de maio</p>
         </div>
 
-        <div style="text-align: center; padding-bottom: 60px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+        <!-- AÇÕES -->
+        <div style="text-align: center; padding: 32px 0 60px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
           <a id="btn-whatsapp"
              href="#"
              target="_blank"
              rel="noopener noreferrer"
-             style="display:inline-flex;align-items:center;gap:10px;background:#25d366;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;padding:14px 28px;border-radius:8px;text-decoration:none;transition:background 0.2s;"
+             style="display:inline-flex;align-items:center;gap:10px;background:#25d366;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;padding:14px 28px;border-radius:8px;text-decoration:none;transition:background 0.2s,transform 0.1s;"
              onmouseover="this.style.background='#1ebe5d'"
-             onmouseout="this.style.background='#25d366'">
+             onmouseout="this.style.background='#25d366'"
+             onmousedown="this.style.transform='scale(0.97)'"
+             onmouseup="this.style.transform='scale(1)'">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
             Convidar um amigo empresário
           </a>
-          <button type="button" class="btn-secondary" onclick="restartDiagnostic()">↺ Refazer diagnóstico</button>
+          <button type="button" class="btn-secondary" onclick="restartDiagnostic()" style="margin-top: 4px;">← Fazer de novo</button>
         </div>
       `;
 
-      document.getElementById('result-content').innerHTML = resultHTML;
       showScreen('screen-result');
 
-      // Montar link de convite para o WhatsApp
+      // WhatsApp
       const waMsg = encodeURIComponent(
         'Oi, tudo bem?\n' +
         'Preciso te contar uma coisa. Fiz um diagnóstico empresarial esses dias e finalmente consegui ver onde meu negócio tá travando.\n\n' +
@@ -816,34 +850,30 @@
       const btnWa = document.getElementById('btn-whatsapp');
       if (btnWa) btnWa.href = `https://api.whatsapp.com/send?text=${waMsg}`;
 
-      // Iniciar contador regressivo para o desafio
-      startCountdown();
-
-      // Animar score count-up
+      // Score count-up
       const scoreEl = document.getElementById('score-total');
       if (scoreEl) animateCount(scoreEl, 0, total, 1200);
 
-      // Animar barras e radar após render
+      // Barras + radar
       setTimeout(() => {
         document.querySelectorAll('[data-animate-bar]').forEach(bar => {
           bar.style.width = bar.dataset.animateBar;
         });
         drawRadarChart('radar-chart', dimScores);
-      }, 100);
+      }, 120);
 
-      // Salvar resultado no localStorage (persiste 7 dias)
+      // Countdown só quando o bloco ficar visível (não distrai leitura)
+      initCountdown();
+
+      // Salvar no localStorage
       try {
-        localStorage.setItem('raio-x-360', JSON.stringify({
-          answers,
-          total,
-          userName,
-          timestamp: Date.now()
-        }));
+        localStorage.setItem('raio-x-360', JSON.stringify({ answers, total, userName, timestamp: Date.now() }));
       } catch(_) {}
     }
 
     function restartDiagnostic() {
       currentDimIndex = 0;
+      currentQuestionIndex = 0;
       answers = {};
       userName = '';
       document.getElementById('result-content').innerHTML = '';
@@ -851,99 +881,55 @@
       showScreen('screen-intro');
     }
 
-    // ── CONTADOR REGRESSIVO ───────────────────────────────────────────────────
+    // ── COUNTDOWN (IntersectionObserver — só ativa quando visível) ────────────
     function startCountdown() {
       const el = document.getElementById('countdown');
       if (!el) return;
-
       const target = new Date('2026-05-04T00:00:00');
-      let timer = null;
-
       function render() {
-        const now = new Date();
-        const diff = target - now;
-
+        const diff = target - new Date();
         if (diff <= 0) {
           el.innerHTML = '<p style="color:var(--accent);font-weight:800;font-size:1.1rem;">🎯 O desafio começa hoje!</p>';
           return;
         }
-
-        const days    = Math.floor(diff / 86400000);
-        const hours   = Math.floor((diff % 86400000) / 3600000);
-        const minutes = Math.floor((diff % 3600000)  / 60000);
-        const seconds = Math.floor((diff % 60000)    / 1000);
-
-        el.innerHTML = [
-          { v: days,    l: 'dias'  },
-          { v: hours,   l: 'horas' },
-          { v: minutes, l: 'min'   },
-          { v: seconds, l: 'seg'   }
-        ].map(({ v, l }) => `
-          <div style="text-align:center;">
-            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:58px;">
-              <span style="font-size:1.7rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;">${String(v).padStart(2,'0')}</span>
-            </div>
-            <span style="color:var(--muted);font-size:0.7rem;margin-top:5px;display:block;">${l}</span>
-          </div>
-        `).join('');
-
-        timer = setTimeout(render, 1000);
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins  = Math.floor((diff % 3600000) / 60000);
+        const secs  = Math.floor((diff % 60000) / 1000);
+        el.innerHTML = [{ v: days, l: 'dias' }, { v: hours, l: 'horas' }, { v: mins, l: 'min' }, { v: secs, l: 'seg' }]
+          .map(({ v, l }) => `
+            <div style="text-align:center;">
+              <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:56px;">
+                <span style="font-size:1.65rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;">${String(v).padStart(2,'0')}</span>
+              </div>
+              <span style="color:var(--muted);font-size:0.68rem;margin-top:4px;display:block;">${l}</span>
+            </div>`).join('');
+        if (window._countdownTimer) clearTimeout(window._countdownTimer);
+        window._countdownTimer = setTimeout(render, 1000);
       }
-
-      // Limpar timer anterior se resultado for recarregado
-      if (window._countdownTimer) clearTimeout(window._countdownTimer);
       render();
-      window._countdownTimer = timer;
     }
 
-    // ── COMPARTILHAR ──────────────────────────────────────────────────────────
-    function shareResult(total, faixaTitle) {
-      const text = `🎯 Fiz o Raio-X Empresarial 360 e obtive ${total}/${MAX_SCORE} pontos!\n\n📊 Resultado: ${faixaTitle}\n\nFaça o seu diagnóstico grátis 👉 https://raio-x-360.vercel.app`;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          const btn = document.getElementById('btn-share');
-          if (!btn) return;
-          const orig = btn.innerHTML;
-          btn.innerHTML = '✓ Copiado para a área de transferência!';
-          btn.disabled = true;
-          setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2500);
-        }).catch(() => {
-          alert('Não foi possível copiar automaticamente. Copie manualmente:\n\n' + text);
-        });
+    function initCountdown() {
+      const el = document.getElementById('countdown');
+      if (!el) return;
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) { startCountdown(); obs.disconnect(); }
+        }, { threshold: 0.4 });
+        obs.observe(el);
       } else {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        try {
-          document.execCommand('copy');
-          const btn = document.getElementById('btn-share');
-          if (btn) {
-            const orig = btn.innerHTML;
-            btn.innerHTML = '✓ Copiado!';
-            btn.disabled = true;
-            setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2500);
-          }
-        } catch (_) {
-          alert('Copie o texto:\n\n' + text);
-        }
-        document.body.removeChild(ta);
+        setTimeout(startCountdown, 2500);
       }
     }
 
     // ── ATALHOS DE TECLADO ────────────────────────────────────────────────────
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       const v = parseInt(e.key);
       if (v >= 1 && v <= 5 && document.getElementById('screen-dimension').classList.contains('active')) {
         const dim = DIMENSIONS[currentDimIndex];
-        const firstUnanswered = dim.questions.findIndex((_, qi) =>
-          answers[`${dim.id}-${qi}`] === undefined
-        );
-        if (firstUnanswered !== -1) {
-          selectRating(`${dim.id}-${firstUnanswered}`, v);
-        }
+        const key = `${dim.id}-${currentQuestionIndex}`;
+        if (answers[key] === undefined) selectRating(key, v);
       }
     });
 
@@ -951,7 +937,7 @@
     function restoreSavedResult() {
       try {
         const saved = JSON.parse(localStorage.getItem('raio-x-360'));
-        if (!saved || !saved.answers) return;
+        if (!saved?.answers) return;
         answers = saved.answers;
         userName = saved.userName || '';
         currentDimIndex = DIMENSIONS.length;
@@ -959,25 +945,19 @@
       } catch(_) {}
     }
 
-    // Verificar resultado salvo ao carregar a página
     (function checkSavedResult() {
       try {
         const saved = JSON.parse(localStorage.getItem('raio-x-360'));
-        if (!saved || !saved.answers || !saved.timestamp) return;
-        const age = Date.now() - saved.timestamp;
-        if (age > 7 * 24 * 3600 * 1000) { // expirar após 7 dias
-          localStorage.removeItem('raio-x-360');
-          return;
-        }
+        if (!saved?.answers || !saved.timestamp) return;
+        if (Date.now() - saved.timestamp > 7 * 24 * 3600 * 1000) { localStorage.removeItem('raio-x-360'); return; }
         const banner = document.getElementById('saved-result-banner');
         if (!banner) return;
         const name = saved.userName ? `, ${saved.userName}` : '';
         banner.innerHTML = `
-          <div style="margin-top: 24px; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; max-width: 380px; margin-left: auto; margin-right: auto;">
-            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 10px;">Você já realizou este diagnóstico${name}. Deseja ver seu resultado anterior?</p>
-            <button class="btn-secondary" onclick="restoreSavedResult()" style="font-size: 0.85rem;">Ver resultado anterior →</button>
-          </div>
-        `;
+          <div style="margin-top:24px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;max-width:360px;margin-left:auto;margin-right:auto;">
+            <p style="color:var(--muted);font-size:0.85rem;margin-bottom:10px;">Você já realizou este diagnóstico${name}. Deseja ver seu resultado anterior?</p>
+            <button class="btn-secondary" onclick="restoreSavedResult()" style="font-size:0.85rem;">Ver resultado anterior →</button>
+          </div>`;
       } catch(_) {}
     })();
   </script>

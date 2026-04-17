@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Raio-X Empresarial 360 — Diagnóstico Estratégico</title>
+  <meta name="description" content="Revele onde o crescimento da sua empresa está travando. 25 perguntas, 5 dimensões, resultado imediato.">
+  <meta property="og:title" content="Raio-X Empresarial 360 — Diagnóstico Estratégico">
+  <meta property="og:description" content="Revele onde o crescimento da sua empresa está travando. 25 perguntas, 5 dimensões, resultado imediato.">
+  <meta property="og:url" content="https://raio-x-360.vercel.app">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -265,6 +272,40 @@
 
     const MAX_SCORE = DIMENSIONS.reduce((sum, d) => sum + d.questions.length * 5, 0);
 
+    // ── INSIGHTS POR DIMENSÃO ─────────────────────────────────────────────────
+    const INSIGHTS = {
+      modelo: [
+        { max: 12, text: 'Seu modelo ainda não está claramente definido. O primeiro passo é documentar sua oferta principal e entender sua margem real de lucro.' },
+        { max: 19, text: 'Você tem a base do modelo, mas falta previsibilidade de receita e clareza sobre escalabilidade. Refine o posicionamento da oferta.' },
+        { max: 25, text: 'Modelo sólido e bem posicionado. Foque em aumentar a previsibilidade de receita e expandir canais de aquisição.' }
+      ],
+      crescimento: [
+        { max: 12, text: 'A empresa ainda cresce de forma reativa. Estruturar metas e processos é o primeiro passo para sair do modo "apagando incêndios".' },
+        { max: 19, text: 'Há estrutura, mas sem consistência. Defina um ritmo de reuniões de acompanhamento e métricas claras por área.' },
+        { max: 25, text: 'Boa estrutura de crescimento. O próximo nível é identificar e ativar sistematicamente suas principais alavancas de escala.' }
+      ],
+      comercial: [
+        { max: 12, text: 'Sem processo comercial definido, a receita depende do acaso. Documente o funil de vendas e defina KPIs básicos de conversão.' },
+        { max: 19, text: 'O processo existe mas não é previsível. Trabalhe na consistência do fluxo de leads e na mensuração da taxa de conversão.' },
+        { max: 25, text: 'Comercial bem estruturado. Invista em reduzir a dependência de poucos clientes e ampliar os canais de aquisição.' }
+      ],
+      lideranca: [
+        { max: 12, text: 'A empresa depende excessivamente de você. Comece delegando decisões operacionais para liberar seu tempo para o estratégico.' },
+        { max: 19, text: 'A liderança tem autonomia parcial. Defina papéis com mais clareza e implemente reuniões de liderança com pauta estruturada.' },
+        { max: 25, text: 'Time autônomo e bem estruturado. Invista no desenvolvimento da liderança de segundo nível para sustentar o crescimento.' }
+      ],
+      cultura: [
+        { max: 12, text: 'A cultura não está formalizada e a execução é inconsistente. Comece definindo valores reais e rituais simples de responsabilidade.' },
+        { max: 19, text: 'Há alinhamento parcial, mas a execução ainda falha. Crie rituais de acompanhamento e fortaleça a cultura de entrega.' },
+        { max: 25, text: 'Cultura sólida com boa execução. Mantenha os rituais e acelere o ciclo de aprendizado com revisões regulares.' }
+      ]
+    };
+
+    function getInsight(dimId, score) {
+      const list = INSIGHTS[dimId] || [];
+      return (list.find(i => score <= i.max) || list[list.length - 1])?.text || '';
+    }
+
     // ── ESTADO ─────────────────────────────────────────────────────────────────
     let currentDimIndex = 0;
     let answers = {}; // { 'modelo-0': 3, 'modelo-1': 5, ... }
@@ -519,6 +560,7 @@
     // ── RESULTADO ──────────────────────────────────────────────────────────────
     function showResult() {
       const dimScores = DIMENSIONS.map(d => ({
+        id: d.id,
         title: d.title,
         measures: d.measures,
         score: getDimensionScore(d.id, d.questions.length),
@@ -559,11 +601,23 @@
                 <div style="background: var(--border); border-radius: 4px; height: 6px;">
                   <div data-animate-bar="${pct}%" style="background: ${barColor}; height: 6px; border-radius: 4px; width: 0%; transition: width 0.6s ease;"></div>
                 </div>
-                <p style="color: var(--muted); font-size: 0.75rem; margin-top: 6px;">${d.measures}</p>
+                <p style="color: var(--muted); font-size: 0.75rem; margin-bottom: 8px;">${d.measures}</p>
+                <p style="color: var(--text-white); font-size: 0.82rem; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px;">${getInsight(d.id, d.score)}</p>
               </div>
             `;
           }).join('')}
         </div>
+
+        ${(() => {
+          const lowest = dimScores.reduce((min, d) => d.score < min.score ? d : min, dimScores[0]);
+          return `
+            <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+              <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">⚡ Sua Maior Oportunidade</p>
+              <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;">${lowest.title}</h3>
+              <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.6;">${getInsight(lowest.id, lowest.score)}</p>
+            </div>
+          `;
+        })()}
 
         <div style="background: var(--bg-card); border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; padding: 20px 24px; margin-bottom: 40px;">
           <p style="color: var(--muted); font-style: italic; line-height: 1.7; font-size: 0.95rem;">
@@ -571,7 +625,10 @@
           </p>
         </div>
 
-        <div style="text-align: center; padding-bottom: 60px;">
+        <div style="text-align: center; padding-bottom: 60px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+          <button type="button" id="btn-share" class="btn-primary" onclick="shareResult(${total}, '${faixa.title.replace(/'/g, "\\'")}')">
+            📲 Compartilhar resultado
+          </button>
           <button type="button" class="btn-secondary" onclick="restartDiagnostic()">↺ Refazer diagnóstico</button>
         </div>
       `;
@@ -597,6 +654,25 @@
       answers = {};
       document.getElementById('result-content').innerHTML = '';
       showScreen('screen-intro');
+    }
+
+    // ── COMPARTILHAR ──────────────────────────────────────────────────────────
+    function shareResult(total, faixaTitle) {
+      const text = `🎯 Fiz o Raio-X Empresarial 360 e obtive ${total}/${MAX_SCORE} pontos!\n\n📊 Resultado: ${faixaTitle}\n\nFaça o seu diagnóstico grátis 👉 https://raio-x-360.vercel.app`;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.getElementById('btn-share');
+          if (!btn) return;
+          const orig = btn.innerHTML;
+          btn.innerHTML = '✓ Copiado para a área de transferência!';
+          btn.disabled = true;
+          setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2500);
+        }).catch(() => {
+          alert('Não foi possível copiar automaticamente. Copie manualmente:\n\n' + text);
+        });
+      } else {
+        prompt('Copie o texto abaixo:', text);
+      }
     }
 
     // ── ATALHOS DE TECLADO ────────────────────────────────────────────────────

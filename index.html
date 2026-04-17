@@ -447,7 +447,7 @@
 
       ctx.clearRect(0, 0, size, size);
 
-      // Grid circles
+      // Grid rings (pentagon shape matching data polygon)
       [0.25, 0.5, 0.75, 1].forEach(scale => {
         ctx.beginPath();
         for (let i = 0; i < n; i++) {
@@ -476,7 +476,7 @@
       // Data polygon
       ctx.beginPath();
       dimScores.forEach((d, i) => {
-        const pct = d.score / d.max;
+        const pct = Math.min(d.score / d.max, 1);
         const a = startAngle + i * step;
         const x = cx + Math.cos(a) * R * pct;
         const y = cy + Math.sin(a) * R * pct;
@@ -491,7 +491,7 @@
 
       // Vertex dots
       dimScores.forEach((d, i) => {
-        const pct = d.score / d.max;
+        const pct = Math.min(d.score / d.max, 1);
         const a = startAngle + i * step;
         const x = cx + Math.cos(a) * R * pct;
         const y = cy + Math.sin(a) * R * pct;
@@ -502,7 +502,8 @@
       });
 
       // Labels
-      const labels = ['Modelo', 'Crescimento', 'Comercial', 'Liderança', 'Cultura'];
+      // Derive short labels from titles (strip numeric prefix, take first word)
+      const labels = dimScores.map(d => d.title.replace(/^\d+\.\s*/, '').split(' ')[0]);
       ctx.font = 'bold 11px Inter, sans-serif';
       ctx.fillStyle = '#8b949e';
       ctx.textAlign = 'center';

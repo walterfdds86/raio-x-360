@@ -626,7 +626,7 @@
         </div>
 
         <div style="text-align: center; padding-bottom: 60px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
-          <button type="button" id="btn-share" class="btn-primary" onclick="shareResult(${total}, '${faixa.title.replace(/'/g, "\\'")}')">
+          <button type="button" id="btn-share" class="btn-primary">
             📲 Compartilhar resultado
           </button>
           <button type="button" class="btn-secondary" onclick="restartDiagnostic()">↺ Refazer diagnóstico</button>
@@ -635,6 +635,10 @@
 
       document.getElementById('result-content').innerHTML = resultHTML;
       showScreen('screen-result');
+
+      // Attach share button handler (avoids inline onclick escaping issues)
+      const btnShare = document.getElementById('btn-share');
+      if (btnShare) btnShare.addEventListener('click', () => shareResult(total, faixa.title));
 
       // Animar score count-up
       const scoreEl = document.getElementById('score-total');
@@ -671,7 +675,26 @@
           alert('Não foi possível copiar automaticamente. Copie manualmente:\n\n' + text);
         });
       } else {
-        prompt('Copie o texto abaixo:', text);
+        // Fallback for browsers without navigator.clipboard (execCommand is deprecated but widely supported)
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand('copy');
+          const btn = document.getElementById('btn-share');
+          if (btn) {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✓ Copiado!';
+            btn.disabled = true;
+            setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2500);
+          }
+        } catch (_) {
+          alert('Copie o texto:\n\n' + text);
+        }
+        document.body.removeChild(ta);
       }
     }
 

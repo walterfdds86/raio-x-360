@@ -98,6 +98,66 @@
     .screen.active {
       animation: fadeSlideIn 0.35s ease forwards;
     }
+
+    /* INPUT DE NOME */
+    .name-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-white);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .name-input:focus { border-color: var(--accent); }
+    .name-input::placeholder { color: var(--muted); }
+
+    /* MICRO-FEEDBACK */
+    .micro-feedback {
+      display: none;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(245, 197, 24, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* TELA DE TRANSIÇÃO */
+    #screen-transition .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 55vh;
+      text-align: center;
+    }
+    .transition-checkmark {
+      width: 64px;
+      height: 64px;
+      background: rgba(245,197,24,0.12);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+    }
+    @keyframes popIn {
+      0%   { transform: scale(0.5); opacity: 0; }
+      70%  { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .transition-checkmark { animation: popIn 0.4s ease forwards; }
   </style>
 </head>
 <body>
@@ -112,12 +172,23 @@
       <p style="color: var(--muted); font-size: 1.05rem; max-width: 480px; margin: 0 auto 16px;">
         Revele com clareza onde o crescimento da sua empresa está travando e quais áreas precisam ser estruturadas para escalar.
       </p>
-      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 40px;">
+      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 36px;">
         ⏱ 3 minutos &nbsp;·&nbsp; 25 perguntas &nbsp;·&nbsp; 5 dimensões
       </p>
+      <div style="margin-bottom: 20px;">
+        <input
+          id="input-name"
+          type="text"
+          class="name-input"
+          placeholder="Seu primeiro nome (opcional)"
+          maxlength="40"
+          onkeydown="if(event.key==='Enter') startDiagnostic()"
+        >
+      </div>
       <button class="btn-primary" onclick="startDiagnostic()" style="font-size: 1.1rem; padding: 16px 48px;">
         Iniciar Diagnóstico
       </button>
+      <div id="saved-result-banner"></div>
     </div>
   </div>
 
@@ -148,6 +219,15 @@
           Próxima dimensão →
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- TELA TRANSIÇÃO -->
+  <div id="screen-transition" class="screen">
+    <div class="container">
+      <div class="transition-checkmark">✓</div>
+      <div id="transition-msg" style="font-size: 1.4rem; font-weight: 800; line-height: 1.5; max-width: 380px;"></div>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px;">Carregando próxima dimensão…</p>
     </div>
   </div>
 
@@ -306,9 +386,18 @@
       return (list.find(i => score <= i.max) || list[list.length - 1])?.text || '';
     }
 
+    // ── MENSAGENS DE TRANSIÇÃO ENTRE DIMENSÕES ────────────────────────────────
+    const TRANSITIONS = [
+      'Primeira dimensão concluída! Agora: <span class="accent">Estrutura de Crescimento</span>.',
+      'Ótimo ritmo! Agora: <span class="accent">Comercial e Receita</span>.',
+      'Você está na metade! Agora: <span class="accent">Liderança e Time</span>.',
+      'Quase lá! Última dimensão: <span class="accent">Cultura e Execução</span>.'
+    ];
+
     // ── ESTADO ─────────────────────────────────────────────────────────────────
     let currentDimIndex = 0;
     let answers = {}; // { 'modelo-0': 3, 'modelo-1': 5, ... }
+    let userName = '';
 
     // ── NAVEGAÇÃO ──────────────────────────────────────────────────────────────
     function showScreen(id) {
@@ -318,6 +407,7 @@
     }
 
     function startDiagnostic() {
+      userName = (document.getElementById('input-name')?.value || '').trim();
       currentDimIndex = 0;
       answers = {};
       renderDimension();
@@ -341,6 +431,7 @@
       container.innerHTML = dim.questions.map((q, qi) => {
         const key = `${dim.id}-${qi}`;
         const saved = answers[key];
+        const showFeedback = saved !== undefined && saved <= 2;
         return `
           <div class="question-block" style="margin-bottom: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;">
             <p style="font-size: 0.95rem; font-weight: 600; margin-bottom: 16px; line-height: 1.5;">${qi + 1}. ${q}</p>
@@ -366,6 +457,9 @@
             <div style="display: flex; justify-content: space-between; padding: 0 2px;">
               <span style="color: var(--muted); font-size: 0.72rem;">Discordo totalmente</span>
               <span style="color: var(--muted); font-size: 0.72rem;">Concordo totalmente</span>
+            </div>
+            <div id="feedback-${key}" class="micro-feedback" style="display:${showFeedback ? 'block' : 'none'};">
+              💡 Esse é exatamente o tipo de gap que o desafio de 5 dias resolve.
             </div>
           </div>
         `;
@@ -394,6 +488,12 @@
           btn.style.borderColor = 'var(--border)';
         }
       });
+
+      // Micro-feedback para notas baixas (1 ou 2)
+      const feedback = document.getElementById(`feedback-${key}`);
+      if (feedback) {
+        feedback.style.display = value <= 2 ? 'block' : 'none';
+      }
 
       updateNextButton();
       updateDots();
@@ -451,11 +551,20 @@
     }
 
     function nextDimension() {
-      currentDimIndex++;
-      if (currentDimIndex < DIMENSIONS.length) {
-        renderDimension();
-        window.scrollTo(0, 0);
+      const nextIndex = currentDimIndex + 1;
+      if (nextIndex < DIMENSIONS.length) {
+        // Mostrar tela de transição por 1 segundo
+        const msg = TRANSITIONS[currentDimIndex] || '';
+        const transMsg = document.getElementById('transition-msg');
+        if (transMsg) transMsg.innerHTML = msg;
+        showScreen('screen-transition');
+        setTimeout(() => {
+          currentDimIndex = nextIndex;
+          renderDimension();
+          showScreen('screen-dimension');
+        }, 1000);
       } else {
+        currentDimIndex = nextIndex;
         showResult();
       }
     }
@@ -543,7 +652,6 @@
       });
 
       // Labels
-      // Derive short labels from titles (strip numeric prefix, take first word)
       const labels = dimScores.map(d => d.title.replace(/^\d+\.\s*/, '').split(' ')[0]);
       ctx.font = 'bold 11px Inter, sans-serif';
       ctx.fillStyle = '#8b949e';
@@ -569,9 +677,21 @@
       const total = dimScores.reduce((sum, d) => sum + d.score, 0);
       const faixa = FAIXAS.find(f => total >= f.min && total <= f.max) ?? FAIXAS[FAIXAS.length - 1];
 
+      const lowest  = dimScores.reduce((min, d) => d.score < min.score ? d : min, dimScores[0]);
+      const highest = dimScores.reduce((max, d) => d.score > max.score ? d : max, dimScores[0]);
+
+      const nameGreeting = userName
+        ? `<p style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Aqui está o seu diagnóstico, <span style="color: var(--accent);">${userName}</span></p>`
+        : '';
+
+      const lowestLabel = userName
+        ? `⚡ ${userName}, sua maior oportunidade`
+        : '⚡ Sua Maior Oportunidade';
+
       const resultHTML = `
         <div style="text-align: center; padding: 60px 0 40px;">
-          <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">SEU RESULTADO</p>
+          <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;">SEU RESULTADO</p>
+          ${nameGreeting}
           <div id="score-total" style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 8px;">0</div>
           <div style="color: var(--muted); font-size: 1rem; margin-bottom: 4px;">de ${MAX_SCORE} pontos possíveis</div>
         </div>
@@ -608,16 +728,18 @@
           }).join('')}
         </div>
 
-        ${(() => {
-          const lowest = dimScores.reduce((min, d) => d.score < min.score ? d : min, dimScores[0]);
-          return `
-            <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
-              <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">⚡ Sua Maior Oportunidade</p>
-              <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;">${lowest.title}</h3>
-              <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.6;">${getInsight(lowest.id, lowest.score)}</p>
-            </div>
-          `;
-        })()}
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
+          <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 24px;">
+            <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">${lowestLabel}</p>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;">${lowest.title}</h3>
+            <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.6;">${getInsight(lowest.id, lowest.score)}</p>
+          </div>
+          <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 2px solid var(--green); border-radius: 12px; padding: 24px;">
+            <p style="color: var(--green); font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">💪 Seu Maior Ponto Forte</p>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;">${highest.title}</h3>
+            <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.6;">${getInsight(highest.id, highest.score)}</p>
+          </div>
+        </div>
 
         <div style="margin-bottom: 32px; background: linear-gradient(135deg, #0d1117, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 28px; text-align: center;">
           <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">🚀 PRÓXIMO PASSO</p>
@@ -679,12 +801,24 @@
         });
         drawRadarChart('radar-chart', dimScores);
       }, 100);
+
+      // Salvar resultado no localStorage (persiste 7 dias)
+      try {
+        localStorage.setItem('raio-x-360', JSON.stringify({
+          answers,
+          total,
+          userName,
+          timestamp: Date.now()
+        }));
+      } catch(_) {}
     }
 
     function restartDiagnostic() {
       currentDimIndex = 0;
       answers = {};
+      userName = '';
       document.getElementById('result-content').innerHTML = '';
+      try { localStorage.removeItem('raio-x-360'); } catch(_) {}
       showScreen('screen-intro');
     }
 
@@ -748,7 +882,6 @@
           alert('Não foi possível copiar automaticamente. Copie manualmente:\n\n' + text);
         });
       } else {
-        // Fallback for browsers without navigator.clipboard (execCommand is deprecated but widely supported)
         const ta = document.createElement('textarea');
         ta.value = text;
         ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
@@ -784,6 +917,40 @@
         }
       }
     });
+
+    // ── RESTAURAR RESULTADO SALVO ─────────────────────────────────────────────
+    function restoreSavedResult() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('raio-x-360'));
+        if (!saved || !saved.answers) return;
+        answers = saved.answers;
+        userName = saved.userName || '';
+        currentDimIndex = DIMENSIONS.length;
+        showResult();
+      } catch(_) {}
+    }
+
+    // Verificar resultado salvo ao carregar a página
+    (function checkSavedResult() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('raio-x-360'));
+        if (!saved || !saved.answers || !saved.timestamp) return;
+        const age = Date.now() - saved.timestamp;
+        if (age > 7 * 24 * 3600 * 1000) { // expirar após 7 dias
+          localStorage.removeItem('raio-x-360');
+          return;
+        }
+        const banner = document.getElementById('saved-result-banner');
+        if (!banner) return;
+        const name = saved.userName ? `, ${saved.userName}` : '';
+        banner.innerHTML = `
+          <div style="margin-top: 24px; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; max-width: 380px; margin-left: auto; margin-right: auto;">
+            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 10px;">Você já realizou este diagnóstico${name}. Deseja ver seu resultado anterior?</p>
+            <button class="btn-secondary" onclick="restoreSavedResult()" style="font-size: 0.85rem;">Ver resultado anterior →</button>
+          </div>
+        `;
+      } catch(_) {}
+    })();
   </script>
 </body>
 </html>

@@ -419,6 +419,102 @@
       }
     }
 
+    // ── ANIMAÇÕES ─────────────────────────────────────────────────────────────
+    function animateCount(el, from, to, duration) {
+      const start = performance.now();
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        el.textContent = Math.round(from + (to - from) * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function drawRadarChart(canvasId, dimScores) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas || !canvas.getContext) return;
+      const ctx = canvas.getContext('2d');
+      const size = canvas.width;
+      const cx = size / 2;
+      const cy = size / 2;
+      const R = size * 0.33;
+      const labelR = size * 0.44;
+      const n = dimScores.length;
+      const step = (Math.PI * 2) / n;
+      const startAngle = -Math.PI / 2;
+
+      ctx.clearRect(0, 0, size, size);
+
+      // Grid circles
+      [0.25, 0.5, 0.75, 1].forEach(scale => {
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+          const a = startAngle + i * step;
+          const x = cx + Math.cos(a) * R * scale;
+          const y = cy + Math.sin(a) * R * scale;
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(48,54,61,0.9)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      // Axes
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * step;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+        ctx.strokeStyle = 'rgba(48,54,61,0.9)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Data polygon
+      ctx.beginPath();
+      dimScores.forEach((d, i) => {
+        const pct = d.score / d.max;
+        const a = startAngle + i * step;
+        const x = cx + Math.cos(a) * R * pct;
+        const y = cy + Math.sin(a) * R * pct;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(245,197,24,0.12)';
+      ctx.fill();
+      ctx.strokeStyle = '#f5c518';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      // Vertex dots
+      dimScores.forEach((d, i) => {
+        const pct = d.score / d.max;
+        const a = startAngle + i * step;
+        const x = cx + Math.cos(a) * R * pct;
+        const y = cy + Math.sin(a) * R * pct;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#f5c518';
+        ctx.fill();
+      });
+
+      // Labels
+      const labels = ['Modelo', 'Crescimento', 'Comercial', 'Liderança', 'Cultura'];
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillStyle = '#8b949e';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      dimScores.forEach((_, i) => {
+        const a = startAngle + i * step;
+        const x = cx + Math.cos(a) * labelR;
+        const y = cy + Math.sin(a) * labelR;
+        ctx.fillText(labels[i], x, y);
+      });
+    }
+
     // ── RESULTADO ──────────────────────────────────────────────────────────────
     function showResult() {
       const dimScores = DIMENSIONS.map(d => ({
@@ -433,7 +529,7 @@
       const resultHTML = `
         <div style="text-align: center; padding: 60px 0 40px;">
           <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">SEU RESULTADO</p>
-          <div style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 8px;">${total}</div>
+          <div id="score-total" style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 8px;">0</div>
           <div style="color: var(--muted); font-size: 1rem; margin-bottom: 4px;">de ${MAX_SCORE} pontos possíveis</div>
         </div>
 
@@ -442,6 +538,10 @@
           <h2 style="font-size: 1.5rem; font-weight: 800; color: ${faixa.color}; margin-bottom: 12px;">${faixa.title}</h2>
           <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px;">${faixa.description}</p>
           <p style="color: var(--text-white); font-size: 0.9rem; font-weight: 600;">${faixa.priority}</p>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 32px;">
+          <canvas id="radar-chart" width="300" height="300" style="max-width: 100%;"></canvas>
         </div>
 
         <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Resultado por Dimensão</h3>
@@ -478,11 +578,16 @@
       document.getElementById('result-content').innerHTML = resultHTML;
       showScreen('screen-result');
 
-      // Animar barras após render
+      // Animar score count-up
+      const scoreEl = document.getElementById('score-total');
+      if (scoreEl) animateCount(scoreEl, 0, total, 1200);
+
+      // Animar barras e radar após render
       setTimeout(() => {
         document.querySelectorAll('[data-animate-bar]').forEach(bar => {
           bar.style.width = bar.dataset.animateBar;
         });
+        drawRadarChart('radar-chart', dimScores);
       }, 100);
     }
 

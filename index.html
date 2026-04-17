@@ -376,10 +376,18 @@
       const dim = DIMENSIONS[currentDimIndex];
       const dotsEl = document.getElementById('question-dots');
       if (!dotsEl) return;
-      dotsEl.innerHTML = dim.questions.map((_, qi) => {
-        const answered = answers[`${dim.id}-${qi}`] !== undefined;
-        return `<div style="width: 8px; height: 8px; border-radius: 50%; background: ${answered ? 'var(--accent)' : 'var(--border)'}; transition: background 0.25s;"></div>`;
-      }).join('');
+      // Create dots on first render or when count changes
+      if (dotsEl.children.length !== dim.questions.length) {
+        dotsEl.innerHTML = dim.questions.map(() =>
+          `<div style="width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.25s;"></div>`
+        ).join('');
+      }
+      // Update only background (allows CSS transition to fire)
+      Array.from(dotsEl.children).forEach((dot, qi) => {
+        dot.style.background = answers[`${dim.id}-${qi}`] !== undefined
+          ? 'var(--accent)'
+          : 'var(--border)';
+      });
     }
 
     function updateNextButton() {

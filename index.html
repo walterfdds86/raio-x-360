@@ -20,6 +20,7 @@
       --border:     #30363d;
       --green:      #2ea043;
       --red:        #f85149;
+      --blue: #58a6ff;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -126,7 +127,7 @@
       <div id="questions-container"></div>
 
       <div style="margin-top: 40px; display: flex; gap: 12px; align-items: center;">
-        <button id="btn-next" class="btn-primary" onclick="nextDimension()" disabled>
+        <button id="btn-next" class="btn-primary" type="button" onclick="nextDimension()" disabled>
           Próxima dimensão →
         </button>
       </div>
@@ -224,7 +225,7 @@
         title: 'Negócio Dependente do Fundador',
         description: 'A empresa ainda depende muito da ação direta do fundador e possui baixa estrutura de crescimento.',
         priority: 'Prioridade: organização básica e definição de modelo.',
-        color: '#f85149'
+        color: 'var(--red)'
       },
       {
         min: 41, max: 80,
@@ -232,7 +233,7 @@
         title: 'Negócio em Estruturação',
         description: 'Existem elementos de crescimento, mas a estrutura ainda não sustenta escala.',
         priority: 'Prioridade: organizar processos e liderança.',
-        color: '#f5c518'
+        color: 'var(--accent)'
       },
       {
         min: 81, max: 110,
@@ -240,7 +241,7 @@
         title: 'Negócio em Expansão',
         description: 'A empresa possui bases sólidas, mas ainda precisa aprimorar estrutura para crescer de forma consistente.',
         priority: 'Prioridade: refinar modelo e comercial.',
-        color: '#2ea043'
+        color: 'var(--green)'
       },
       {
         min: 111, max: 125,
@@ -248,9 +249,11 @@
         title: 'Negócio Estruturado para Escala',
         description: 'A empresa possui estrutura forte e pode focar em expansão estratégica.',
         priority: 'Prioridade: alavancas de crescimento.',
-        color: '#58a6ff'
+        color: 'var(--blue)'
       }
     ];
+
+    const MAX_SCORE = DIMENSIONS.reduce((sum, d) => sum + d.questions.length * 5, 0);
 
     // ── ESTADO ─────────────────────────────────────────────────────────────────
     let currentDimIndex = 0;
@@ -277,7 +280,7 @@
 
       document.getElementById('dim-counter').textContent = `Dimensão ${currentDimIndex + 1} de ${total}`;
       document.getElementById('dim-score-preview').textContent = '';
-      document.getElementById('progress-bar').style.width = `${(currentDimIndex / total) * 100}%`;
+      document.getElementById('progress-bar').style.width = `${((currentDimIndex + 1) / total) * 100}%`;
 
       document.getElementById('dim-measures').textContent = dim.measures;
       document.getElementById('dim-title').textContent = dim.title;
@@ -293,6 +296,7 @@
             <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; flex-wrap: nowrap;">
               ${[1,2,3,4,5].map(v => `
                 <button
+                  type="button"
                   class="rating-btn"
                   data-key="${key}"
                   data-value="${v}"
@@ -376,13 +380,13 @@
         max: d.questions.length * 5
       }));
       const total = dimScores.reduce((sum, d) => sum + d.score, 0);
-      const faixa = FAIXAS.find(f => total >= f.min && total <= f.max);
+      const faixa = FAIXAS.find(f => total >= f.min && total <= f.max) ?? FAIXAS[FAIXAS.length - 1];
 
       const resultHTML = `
         <div style="text-align: center; padding: 60px 0 40px;">
           <p style="color: var(--accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">SEU RESULTADO</p>
           <div style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 8px;">${total}</div>
-          <div style="color: var(--muted); font-size: 1rem; margin-bottom: 4px;">de 125 pontos possíveis</div>
+          <div style="color: var(--muted); font-size: 1rem; margin-bottom: 4px;">de ${MAX_SCORE} pontos possíveis</div>
         </div>
 
         <div style="background: var(--bg-card); border: 2px solid ${faixa.color}; border-radius: 12px; padding: 28px; margin-bottom: 32px; text-align: center;">
@@ -396,7 +400,7 @@
         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px;">
           ${dimScores.map(d => {
             const pct = Math.round((d.score / d.max) * 100);
-            const barColor = pct >= 80 ? '#2ea043' : pct >= 52 ? '#f5c518' : '#f85149';
+            const barColor = pct >= 80 ? 'var(--green)' : pct >= 52 ? 'var(--accent)' : 'var(--red)';
             return `
               <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -419,7 +423,7 @@
         </div>
 
         <div style="text-align: center; padding-bottom: 60px;">
-          <button class="btn-secondary" onclick="restartDiagnostic()">↺ Refazer diagnóstico</button>
+          <button type="button" class="btn-secondary" onclick="restartDiagnostic()">↺ Refazer diagnóstico</button>
         </div>
       `;
 

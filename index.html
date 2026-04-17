@@ -180,7 +180,7 @@
           id="input-name"
           type="text"
           class="name-input"
-          placeholder="Seu primeiro nome (opcional)"
+          placeholder="Seu primeiro nome"
           maxlength="40"
           onkeydown="if(event.key==='Enter') startDiagnostic()"
         >
@@ -407,7 +407,14 @@
     }
 
     function startDiagnostic() {
-      userName = (document.getElementById('input-name')?.value || '').trim();
+      const input = document.getElementById('input-name');
+      userName = (input?.value || '').trim();
+      if (!userName) {
+        input.focus();
+        input.style.borderColor = 'var(--red)';
+        setTimeout(() => { input.style.borderColor = 'var(--border)'; }, 1500);
+        return;
+      }
       currentDimIndex = 0;
       answers = {};
       renderDimension();

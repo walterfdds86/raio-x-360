@@ -625,6 +625,19 @@
           </p>
         </div>
 
+        <div style="margin-bottom: 32px; background: linear-gradient(135deg, #0d1117, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 28px; text-align: center;">
+          <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">🚀 PRÓXIMO PASSO</p>
+          <h3 style="font-size: 1.25rem; font-weight: 800; line-height: 1.45; margin-bottom: 16px;">
+            Como identificar e ativar as <span style="color: var(--accent);">5 alavancas</span> que podem dobrar o faturamento da sua empresa —<br>em apenas 5 dias
+          </h3>
+          <p style="color: var(--muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 20px;">
+            No desafio, você vai iniciar o processo de resolução de <strong style="color: var(--text-white);">todos os problemas e gaps</strong> identificados neste diagnóstico — com um plano de ação estruturado para cada dimensão do seu negócio.
+          </p>
+          <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 16px;">O desafio começa em:</p>
+          <div id="countdown" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;"></div>
+          <p style="color: var(--muted); font-size: 0.78rem; letter-spacing: 1px;">4 a 8 de maio</p>
+        </div>
+
         <div style="text-align: center; padding-bottom: 60px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
           <button type="button" id="btn-share" class="btn-primary">
             📲 Compartilhar resultado
@@ -639,6 +652,9 @@
       // Attach share button handler (avoids inline onclick escaping issues)
       const btnShare = document.getElementById('btn-share');
       if (btnShare) btnShare.addEventListener('click', () => shareResult(total, faixa.title));
+
+      // Iniciar contador regressivo para o desafio
+      startCountdown();
 
       // Animar score count-up
       const scoreEl = document.getElementById('score-total');
@@ -658,6 +674,51 @@
       answers = {};
       document.getElementById('result-content').innerHTML = '';
       showScreen('screen-intro');
+    }
+
+    // ── CONTADOR REGRESSIVO ───────────────────────────────────────────────────
+    function startCountdown() {
+      const el = document.getElementById('countdown');
+      if (!el) return;
+
+      const target = new Date('2026-05-04T00:00:00');
+      let timer = null;
+
+      function render() {
+        const now = new Date();
+        const diff = target - now;
+
+        if (diff <= 0) {
+          el.innerHTML = '<p style="color:var(--accent);font-weight:800;font-size:1.1rem;">🎯 O desafio começa hoje!</p>';
+          return;
+        }
+
+        const days    = Math.floor(diff / 86400000);
+        const hours   = Math.floor((diff % 86400000) / 3600000);
+        const minutes = Math.floor((diff % 3600000)  / 60000);
+        const seconds = Math.floor((diff % 60000)    / 1000);
+
+        el.innerHTML = [
+          { v: days,    l: 'dias'  },
+          { v: hours,   l: 'horas' },
+          { v: minutes, l: 'min'   },
+          { v: seconds, l: 'seg'   }
+        ].map(({ v, l }) => `
+          <div style="text-align:center;">
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:58px;">
+              <span style="font-size:1.7rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;">${String(v).padStart(2,'0')}</span>
+            </div>
+            <span style="color:var(--muted);font-size:0.7rem;margin-top:5px;display:block;">${l}</span>
+          </div>
+        `).join('');
+
+        timer = setTimeout(render, 1000);
+      }
+
+      // Limpar timer anterior se resultado for recarregado
+      if (window._countdownTimer) clearTimeout(window._countdownTimer);
+      render();
+      window._countdownTimer = timer;
     }
 
     // ── COMPARTILHAR ──────────────────────────────────────────────────────────

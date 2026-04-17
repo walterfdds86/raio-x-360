@@ -633,9 +633,6 @@
         </div>
 
         <div style="text-align: center; padding-bottom: 60px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
-          <button type="button" id="btn-share" class="btn-primary">
-            📲 Compartilhar resultado
-          </button>
           <a id="btn-whatsapp"
              href="#"
              target="_blank"
@@ -654,10 +651,6 @@
 
       document.getElementById('result-content').innerHTML = resultHTML;
       showScreen('screen-result');
-
-      // Attach share button handler (avoids inline onclick escaping issues)
-      const btnShare = document.getElementById('btn-share');
-      if (btnShare) btnShare.addEventListener('click', () => shareResult(total, faixa.title));
 
       // Montar link de convite para o WhatsApp
       const waMsg = encodeURIComponent(

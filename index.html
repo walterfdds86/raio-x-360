@@ -321,6 +321,10 @@
       }).join('');
 
       updateNextButton();
+
+      // Atualizar texto do botão conforme dimensão atual
+      const btnNext = document.getElementById('btn-next');
+      btnNext.textContent = currentDimIndex === DIMENSIONS.length - 1 ? 'Ver resultado →' : 'Próxima dimensão →';
     }
 
     function selectRating(key, value) {

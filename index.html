@@ -70,6 +70,12 @@
       cursor: not-allowed;
       transform: none;
     }
+    @keyframes btnPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(245,197,24,0.55); }
+      60%  { box-shadow: 0 0 0 10px rgba(245,197,24,0); }
+      100% { box-shadow: 0 0 0 0 rgba(245,197,24,0); }
+    }
+    .btn-pulse { animation: btnPulse 0.7s ease 2; }
     .btn-secondary {
       display: inline-block;
       background: transparent;
@@ -478,6 +484,7 @@
     let currentQuestionIndex = 0;
     let answers = {};
     let userName = '';
+    let _autoAdvanceTimer = null;
 
     // ── NAVEGAÇÃO ─────────────────────────────────────────────────────────────
     function showScreen(id) {
@@ -603,15 +610,29 @@
       updateNextButton();
 
       // Auto-avançar para próxima pergunta
-      // Notas baixas: aguarda mais para o usuário ler o micro-feedback
+      // Cancela timer anterior antes de criar novo (evita avanços duplos ao trocar resposta)
+      if (_autoAdvanceTimer) { clearTimeout(_autoAdvanceTimer); _autoAdvanceTimer = null; }
+
       const dim = DIMENSIONS[currentDimIndex];
       const nextQi = currentQuestionIndex + 1;
       if (nextQi < dim.questions.length) {
+        // Notas baixas: aguarda mais para o usuário ler o micro-feedback
         const delay = value <= 2 ? 2200 : 360;
-        setTimeout(() => {
+        _autoAdvanceTimer = setTimeout(() => {
+          _autoAdvanceTimer = null;
           currentQuestionIndex = nextQi;
           renderQuestion('right');
         }, delay);
+      } else {
+        // Última pergunta da dimensão: pulsar botão e rolar até ele
+        const btnNext = document.getElementById('btn-next');
+        if (btnNext && !btnNext.disabled) {
+          btnNext.classList.remove('btn-pulse');
+          void btnNext.offsetWidth; // reflow para reiniciar animação
+          btnNext.classList.add('btn-pulse');
+          btnNext.addEventListener('animationend', () => btnNext.classList.remove('btn-pulse'), { once: true });
+          setTimeout(() => btnNext.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
+        }
       }
     }
 

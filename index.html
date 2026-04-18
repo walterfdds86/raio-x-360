@@ -453,6 +453,17 @@
       ]
     };
 
+    function getPersonalizedClosing(name, faixa, lowest) {
+      const dim = lowest.title.replace(/^\d+\.\s*/, '');
+      const map = {
+        'var(--red)':    `${name}, seu diagnóstico mostra que o maior risco agora não é a concorrência — é a dependência de você. Um negócio que para quando você para não é um ativo, é um emprego. O desafio foi criado exatamente para esse momento: estruturar as bases que vão te libertar do operacional e colocar a empresa para crescer sem depender 100% de você.`,
+        'var(--accent)': `${name}, você já tem o negócio rodando — mas sente que está sempre apagando incêndio. A estrutura existe, mas ainda não sustenta crescimento consistente. No desafio, você vai sair com um plano concreto para organizar as 5 dimensões identificadas aqui e transformar esforço em resultado previsível.`,
+        'var(--green)':  `${name}, você está à frente de 80% dos empresários. Sua empresa tem base — o que falta é precisão. No seu estágio, os maiores ganhos vêm de ajustes cirúrgicos em <strong style="color:var(--text-white);">${dim}</strong>. O desafio vai te mostrar exatamente onde apertar os parafusos para escalar sem perder o controle.`,
+        'var(--blue)':   `${name}, você tem uma empresa bem estruturada — o que é raro. O desafio vai te ajudar a identificar as alavancas de crescimento que ainda não foram ativadas e a construir o próximo nível com consistência e velocidade.`
+      };
+      return map[faixa.color] || map['var(--accent)'];
+    }
+
     function getInsight(dimId, score) {
       const list = INSIGHTS[dimId] || [];
       return (list.find(i => score <= i.max) || list[list.length - 1])?.text || '';
@@ -821,6 +832,16 @@
             <p style="color: var(--green); font-weight: 700; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">💪 Seu Maior Ponto Forte</p>
             <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 8px;">${highest.title}</h3>
             <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6;">${getInsight(highest.id, highest.score)}</p>
+          </div>
+        </div>
+
+        <!-- FECHAMENTO PERSONALIZADO -->
+        <div class="result-section-divider">✉️ Uma palavra para você</div>
+        <div style="background: linear-gradient(135deg, #161b22, #1c2128); border: 1px solid var(--border); border-radius: 12px; padding: 28px 26px;">
+          <p style="font-size: 1.02rem; line-height: 1.8; color: var(--muted);">${getPersonalizedClosing(userName, faixa, lowest)}</p>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: var(--text-dark); flex-shrink: 0;">BC</div>
+            <span style="color: var(--text-white); font-weight: 700; font-size: 0.9rem;">Bruno Capanema</span>
           </div>
         </div>
 

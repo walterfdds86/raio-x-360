@@ -267,7 +267,7 @@
         Raio-X Empresarial <span class="accent">360</span>
       </h1>
       <p style="color: var(--muted); font-size: 1.05rem; max-width: 460px; margin: 0 auto 16px; line-height: 1.65;">
-        Revele com clareza onde o crescimento da sua empresa está travando e quais áreas precisam ser estruturadas para escalar.
+        Descubra com clareza onde o crescimento da sua empresa está travando — e quais áreas precisam ser estruturadas para você escalar.
       </p>
       <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 44px;">
         ⏱ 3 minutos &nbsp;·&nbsp; 25 perguntas &nbsp;·&nbsp; 5 dimensões
@@ -456,12 +456,57 @@
     function getPersonalizedClosing(name, faixa, lowest) {
       const dim = lowest.title.replace(/^\d+\.\s*/, '');
       const map = {
-        'var(--red)':    `${name}, seu diagnóstico mostra que o maior risco agora não é a concorrência — é a dependência de você. Um negócio que para quando você para não é um ativo, é um emprego. O desafio foi criado exatamente para esse momento: estruturar as bases que vão te libertar do operacional e colocar a empresa para crescer sem depender 100% de você.`,
-        'var(--accent)': `${name}, você já tem o negócio rodando — mas sente que está sempre apagando incêndio. A estrutura existe, mas ainda não sustenta crescimento consistente. No desafio, você vai sair com um plano concreto para organizar as 5 dimensões identificadas aqui e transformar esforço em resultado previsível.`,
-        'var(--green)':  `${name}, você está à frente de 80% dos empresários. Sua empresa tem base — o que falta é precisão. No seu estágio, os maiores ganhos vêm de ajustes cirúrgicos em <strong style="color:var(--text-white);">${dim}</strong>. O desafio vai te mostrar exatamente onde apertar os parafusos para escalar sem perder o controle.`,
-        'var(--blue)':   `${name}, você tem uma empresa bem estruturada — o que é raro. O desafio vai te ajudar a identificar as alavancas de crescimento que ainda não foram ativadas e a construir o próximo nível com consistência e velocidade.`
+        'var(--red)':    `${name}, o diagnóstico revelou o que mais trava empresas no seu estágio: o negócio gira em torno de você. Bruno Capanema construiu 5 empresas operando em mais de 60 países — e a primeira coisa que ele fez foi criar estrutura para o negócio funcionar sem depender diretamente dele. No Desafio, você vai aprender como montar essa estrutura: máquina comercial, delegação real de decisões e saída do operacional para o estratégico.`,
+        'var(--accent)': `${name}, você sente que trabalha muito e o resultado não acompanha o esforço. Esse é o sinal clássico de uma empresa em estruturação — tem base, mas ainda falta uma máquina que escale sozinha. Bruno Capanema dedicou anos a entender como transformar esse esforço em crescimento previsível. No Desafio, você vai aplicar o mesmo método que ele usou para construir um grupo com 5 empresas atuando em mais de 60 países.`,
+        'var(--green)':  `${name}, você está à frente — e o diagnóstico confirma. Empresas no seu estágio não travam por falta de esforço, travam por falta de precisão nas alavancas certas, especialmente em <strong style="color:var(--text-white);">${dim}</strong>. Bruno Capanema passou pelo mesmo ponto e foi o que ativou para levar o Grupo Dádiva de uma empresa para cinco, em mais de 60 países. No Desafio, ele vai te mostrar exatamente quais parafusos apertar.`,
+        'var(--blue)':   `${name}, você construiu algo que poucos empresários conseguem — e o diagnóstico confirma. O próximo movimento é ativar as alavancas de crescimento que ainda não foram exploradas e escalar com consistência. É exatamente o que Bruno Capanema fez ao estruturar o Grupo Dádiva para operar com 5 empresas em mais de 60 países. O Desafio é onde esse próximo nível começa.`
       };
       return map[faixa.color] || map['var(--accent)'];
+    }
+
+    function buildGapCallout(dimScores) {
+      const sorted = [...dimScores].sort((a, b) => (a.score / a.max) - (b.score / b.max));
+      const gaps = sorted.filter(d => (d.score / d.max) < 0.65);
+      const toShow = gaps.length > 0 ? gaps : sorted.slice(0, 2);
+
+      const items = toShow.map(d => {
+        const pct = Math.round((d.score / d.max) * 100);
+        const dimName = d.title.replace(/^\d+\.\s*/, '');
+        const isGap = (d.score / d.max) < 0.65;
+        const iconColor = isGap ? 'var(--red)' : 'var(--accent)';
+        const icon = isGap ? '⚠️' : '🔧';
+        const label = isGap ? 'Gap identificado' : 'Área de melhoria';
+        return `
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);">
+            <span style="font-size:1.1rem;margin-top:1px;">${icon}</span>
+            <div style="flex:1;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <span style="font-weight:700;font-size:0.93rem;">${dimName}</span>
+                <span style="color:${iconColor};font-size:0.75rem;font-weight:700;background:rgba(0,0,0,0.3);padding:2px 7px;border-radius:20px;border:1px solid ${iconColor};opacity:0.85;">${label}</span>
+              </div>
+              <div style="background:var(--border);border-radius:4px;height:3px;margin-top:6px;">
+                <div style="background:${iconColor};height:3px;border-radius:4px;width:${pct}%;"></div>
+              </div>
+              <p style="color:var(--muted);font-size:0.8rem;margin-top:7px;line-height:1.5;">${getInsight(d.id, d.score).split('.')[0]}.</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const n = toShow.length;
+      const label = gaps.length > 0
+        ? `O diagnóstico identificou <strong style="color:var(--text-white);">${n} gap${n > 1 ? 's prioritários' : ' prioritário'}</strong> no seu negócio:`
+        : `O diagnóstico identificou as <strong style="color:var(--text-white);">${n} principais áreas de melhoria</strong> do seu negócio:`;
+
+      return `
+        <p style="color:var(--muted);font-size:0.93rem;margin-bottom:4px;">${label}</p>
+        <div>${items}</div>
+        <div style="margin-top:18px;padding:14px 16px;background:rgba(245,197,24,0.06);border-radius:8px;border-left:3px solid var(--accent);">
+          <p style="color:var(--accent);font-weight:700;font-size:0.9rem;line-height:1.5;">
+            ✅ Todos esses pontos serão trabalhados no Desafio de 5 Dias — com um plano de ação específico para o seu estágio.
+          </p>
+        </div>
+      `;
     }
 
     function getInsight(dimId, score) {
@@ -845,15 +890,29 @@
           </div>
         </div>
 
+        <!-- GAPS IDENTIFICADOS -->
+        <div class="result-section-divider">⚠️ Gaps Prioritários Identificados</div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 22px; margin-bottom: 8px;">
+          ${buildGapCallout(dimScores)}
+        </div>
+
         <!-- PRÓXIMO PASSO -->
         <div class="result-section-divider">🚀 Próximo Passo</div>
-        <div style="background: linear-gradient(135deg, #0d1117, #1c2128); border: 2px solid var(--accent); border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 8px;">
+        <div style="background: linear-gradient(135deg, #0f1a0a, #111a10); border: 2px solid var(--accent); border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 8px;">
+          <p style="color: var(--accent); font-weight: 700; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;">DESAFIO DE 5 DIAS — BRUNO CAPANEMA</p>
           <h3 style="font-size: 1.2rem; font-weight: 800; line-height: 1.5; margin-bottom: 14px;">
-            Agora que você já identificou onde estão os maiores gaps da sua empresa, vamos ativar as <span style="color: var(--accent);">5 alavancas</span> que vão corrigir e que podem dobrar o faturamento da sua empresa
+            O diagnóstico te deu o mapa.<br>O Desafio te dá a execução.
           </h3>
           <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 22px;">
-            No desafio, você vai iniciar o processo de resolução de <strong style="color: var(--text-white);">todos os problemas e gaps</strong> identificados neste diagnóstico — com um plano de ação estruturado para cada dimensão do seu negócio.
+            Bruno Capanema construiu 5 empresas no Grupo Dádiva operando em mais de 60 países — resolvendo, um a um, os mesmos gaps que o seu diagnóstico revelou. Em 5 dias, <strong style="color: var(--text-white);">cada dimensão medida aqui</strong> vai ser trabalhada com método e plano de ação concreto:
           </p>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; text-align: left;">
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--accent);font-size:0.85rem;font-weight:700;min-width:20px;margin-top:2px;">D1</span><span style="font-size:0.88rem;color:var(--muted);"><strong style="color:var(--text-white);">Modelo de Negócio</strong> — clareza de oferta, posicionamento e previsibilidade de receita</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--accent);font-size:0.85rem;font-weight:700;min-width:20px;margin-top:2px;">D2</span><span style="font-size:0.88rem;color:var(--muted);"><strong style="color:var(--text-white);">Estrutura de Crescimento</strong> — processos, metas e alavancas de escala que funcionam sem você no centro</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--accent);font-size:0.85rem;font-weight:700;min-width:20px;margin-top:2px;">D3</span><span style="font-size:0.88rem;color:var(--muted);"><strong style="color:var(--text-white);">Comercial e Receita</strong> — máquina de vendas previsível, funil estruturado e receita estável</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--accent);font-size:0.85rem;font-weight:700;min-width:20px;margin-top:2px;">D4</span><span style="font-size:0.88rem;color:var(--muted);"><strong style="color:var(--text-white);">Liderança e Time</strong> — autonomia real do time, delegação e saída do gargalo do fundador</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;"><span style="color:var(--accent);font-size:0.85rem;font-weight:700;min-width:20px;margin-top:2px;">D5</span><span style="font-size:0.88rem;color:var(--muted);"><strong style="color:var(--text-white);">Cultura e Execução</strong> — alinhamento interno, consistência de entrega e ciclo de aprendizado</span></div>
+          </div>
           <p style="color: var(--muted); font-size: 0.83rem; margin-bottom: 16px;">O desafio começa em:</p>
           <div id="countdown" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; min-height: 70px;"></div>
           <p style="color: var(--muted); font-size: 0.76rem; letter-spacing: 1px;">4 a 8 de maio</p>
@@ -861,38 +920,20 @@
 
         <!-- AÇÕES -->
         <div style="text-align: center; padding: 32px 0 60px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
-          <a id="btn-whatsapp"
-             href="#"
+          <a href="https://brunocapanema.com/desafio-5-alavancas"
              target="_blank"
              rel="noopener noreferrer"
-             style="display:inline-flex;align-items:center;gap:10px;background:#25d366;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;padding:14px 28px;border-radius:8px;text-decoration:none;transition:background 0.2s,transform 0.1s;"
-             onmouseover="this.style.background='#1ebe5d'"
-             onmouseout="this.style.background='#25d366'"
-             onmousedown="this.style.transform='scale(0.97)'"
-             onmouseup="this.style.transform='scale(1)'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Convidar um amigo empresário
+             style="display:inline-block;background:linear-gradient(135deg,#f5c518 0%,#fdd835 55%,#e6a800 100%);color:#07090e;font-family:'Inter',sans-serif;font-weight:800;font-size:1.05rem;padding:16px 32px;border-radius:10px;text-decoration:none;transition:box-shadow 0.2s,transform 0.15s;box-shadow:0 4px 24px rgba(245,197,24,0.35);"
+             onmouseover="this.style.boxShadow='0 8px 36px rgba(245,197,24,0.5)';this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='0 4px 24px rgba(245,197,24,0.35)';this.style.transform='translateY(0)'"
+             onmousedown="this.style.transform='scale(0.98)'"
+             onmouseup="this.style.transform='translateY(-2px)'">
+            Quero participar do Desafio →
           </a>
-          <button type="button" class="btn-secondary" onclick="restartDiagnostic()" style="margin-top: 4px;">← Fazer de novo</button>
         </div>
       `;
 
       showScreen('screen-result');
-
-      // WhatsApp
-      const waMsg = encodeURIComponent(
-        'Oi, tudo bem?\n' +
-        'Preciso te contar uma coisa. Fiz um diagnóstico empresarial esses dias e finalmente consegui ver onde meu negócio tá travando.\n\n' +
-        'Aquela coisa que você sente que tem algo errado, mas não sabe o que é, e nem como corrigir? Caiu a ficha.\n\n' +
-        'E pensei em você na hora, porque sei que você também tá passando por uns desafios parecidos aí na sua empresa.\n\n' +
-        'Vou participar de um desafio de 5 dias em maio com o Bruno Capanema pra destravar isso de vez, e queria muito que você fosse comigo. A gente se apoia durante.\n\n' +
-        'Dá uma olhada e me conta o que achou\n\n' +
-        'https://brunocapanema.com/'
-      );
-      const btnWa = document.getElementById('btn-whatsapp');
-      if (btnWa) btnWa.href = `https://api.whatsapp.com/send?text=${waMsg}`;
 
       // Score count-up
       const scoreEl = document.getElementById('score-total');

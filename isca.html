@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raio-X Empresarial 360 — Diagnóstico Estratégico Gratuito</title>
+  <meta name="description" content="Descubra onde o crescimento da sua empresa está travando. Diagnóstico gratuito, resultado imediato, sem cadastro.">
+  <meta property="og:title" content="Raio-X Empresarial 360 — Diagnóstico Estratégico Gratuito">
+  <meta property="og:description" content="Descubra onde o crescimento da sua empresa está travando. Diagnóstico gratuito, resultado imediato, sem cadastro.">
+  <meta property="og:url" content="https://brunocapanema.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark:    #0a0a0b;
+      --bg-card:    #141416;
+      --bg-elevated:#1c1c20;
+      --text-white: #f5f5f5;
+      --text-dark:  #0a0a0b;
+      --accent:     #C9A84C;
+      --accent-dim: #a8863a;
+      --accent-light:#dfc070;
+      --muted:      #a8a8a8;
+      --muted-deep: #6b6b6b;
+      --border:     rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.14);
+      --green:      #34d399;
+      --red:        #f85149;
+      --blue:       #58a6ff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(ellipse 70% 30% at 10% 5%, rgba(201,168,76,0.05) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 92% 95%, rgba(201,168,76,0.02) 0%, transparent 55%),
+        linear-gradient(180deg, #0a0a0b 0%, #0a0a0b 100%);
+      color: var(--text-white);
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .accent { color: var(--accent); }
+
+    /* BOTÕES */
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-align: center;
+    }
+    .btn-primary:hover  { background: var(--accent-dim); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary:disabled {
+      background: var(--border);
+      color: var(--muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+    @keyframes btnPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.55); }
+      60%  { box-shadow: 0 0 0 10px rgba(201,168,76,0); }
+      100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+    }
+    .btn-pulse { animation: btnPulse 0.7s ease 2; }
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text-white); border-color: var(--muted); }
+
+    /* TRANSIÇÕES DE TELA */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .screen.active { animation: fadeSlideIn 0.3s ease forwards; }
+
+    /* SLIDE DE PERGUNTA */
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .slide-right { animation: slideInRight 0.22s ease forwards; }
+    .slide-left  { animation: slideInLeft  0.22s ease forwards; }
+
+    /* BOUNCE DO RATING */
+    @keyframes ratingPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.28); }
+      100% { transform: scale(1); }
+    }
+    .rating-pop { animation: ratingPop 0.22s ease forwards; }
+
+    /* INPUT DE NOME */
+    .name-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .name-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 13px 16px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0;
+      color: var(--text-white);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .name-input:focus { border-color: var(--accent); }
+    .name-input::placeholder { color: var(--muted-deep); }
+
+    /* RATING BUTTONS */
+    .rating-btn {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      font-family: 'Inter', sans-serif;
+      flex-shrink: 0;
+    }
+    .rating-btn:hover:not(.selected) {
+      border-color: var(--muted);
+      color: var(--text-white);
+    }
+    .rating-btn.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #f5f5f5;
+    }
+    @media (max-width: 400px) {
+      .rating-btn { width: 50px; height: 50px; font-size: 1.05rem; }
+      .container { padding: 20px 16px; }
+    }
+
+    /* DOTS DE PROGRESSO */
+    .q-dot {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+      background: var(--border);
+    }
+    .q-dot.answered { background: var(--accent); }
+    .q-dot.current  { background: var(--text-white); transform: scale(1.3); }
+    .q-dot:hover    { transform: scale(1.2); }
+
+    /* MICRO-FEEDBACK */
+    .micro-feedback {
+      display: none;
+      margin-top: 14px;
+      padding: 9px 13px;
+      background: rgba(245, 197, 24, 0.07);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 5px 5px 0;
+      font-size: 0.83rem;
+      color: var(--accent);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    /* TELA DE TRANSIÇÃO */
+    #screen-transition .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 55vh;
+      text-align: center;
+    }
+    .transition-checkmark {
+      width: 68px; height: 68px;
+      background: rgba(201,168,76,0.1);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      margin-bottom: 24px;
+    }
+    @keyframes popIn {
+      0%  { transform: scale(0.4); opacity: 0; }
+      65% { transform: scale(1.18); }
+      100%{ transform: scale(1); opacity: 1; }
+    }
+    .transition-checkmark { animation: popIn 0.38s ease forwards; }
+
+    /* RESULTADO — SEÇÃO */
+    .result-section-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 44px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* CARDS DO RESULTADO — hover */
+    .result-dim-card {
+      background: rgba(20,20,22,0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px 20px;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .result-dim-card:hover {
+      background: rgba(28,28,32,0.9);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-2px);
+    }
+
+    /* ── HERO CINEMATOGRÁFICO ──────────────────────────────────────── */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 52% 48%;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #0a0a0b;
+    }
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 48px 80px clamp(56px, 6vw, 100px);
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(to right, #0a0a0b 80%, rgba(10,10,11,0.75) 100%);
+    }
+    .hero-photo-col {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+    .hero-bg-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right,
+          rgba(10,10,11,0.45) 0%,
+          rgba(10,10,11,0.1)  22%,
+          rgba(10,10,11,0.0)  45%,
+          rgba(10,10,11,0.0)  72%,
+          rgba(10,10,11,0.55) 100%
+        ),
+        linear-gradient(to bottom,
+          rgba(10,10,11,0.35) 0%,
+          transparent 12%,
+          transparent 80%,
+          rgba(10,10,11,0.55) 100%
+        );
+    }
+    .hero-overlay-bottom { display: none; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--accent);
+      font-size: 0.69rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding: 5px 12px;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      background: rgba(201,168,76,0.07);
+      width: fit-content;
+      white-space: nowrap;
+    }
+    .hero-h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.6rem, 3.8vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .hero-h1 em {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      background: linear-gradient(135deg, #C9A84C 0%, #dfc070 55%, #a8863a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-proof-bar {
+      display: inline-flex;
+      align-items: stretch;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 0;
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .hero-proof-item { text-align: center; padding: 11px 22px; }
+    .hero-proof-item:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.06); }
+    .proof-num {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 1.18rem;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+    .proof-label { color: rgba(139,148,158,0.7); font-size: 0.63rem; display: block; margin-top: 1px; }
+    .hero-attribution {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 22px;
+    }
+    .hero-attribution-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.55;
+      flex-shrink: 0;
+    }
+    .hero-attribution-text {
+      color: rgba(139,148,158,0.6);
+      font-size: 0.74rem;
+      font-weight: 500;
+    }
+    .hero-qualifiers {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 28px;
+    }
+    .hero-qualifiers li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(139,148,158,0.9);
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+    .hero-qualifiers li::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 7px;
+      flex-shrink: 0;
+      box-shadow: 0 0 7px rgba(201,168,76,0.55);
+    }
+    .hero-cta {
+      display: block;
+      width: 100%;
+      max-width: 430px;
+      background: #a8863a;
+      color: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 17px 32px;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      letter-spacing: -0.2px;
+      box-shadow: 0 4px 28px rgba(201,168,76,0.32), 0 1px 0 rgba(255,255,255,0.12) inset;
+      transition: box-shadow 0.2s, transform 0.15s;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+    .hero-cta:hover {
+      background: #C9A84C;
+      box-shadow: 0 8px 42px rgba(201,168,76,0.4);
+      transform: translateY(-2px);
+    }
+    .hero-cta:active { transform: scale(0.98); }
+    .hero-microcopy {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      margin-top: 13px;
+    }
+    .hero-microcopy span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: rgba(139,148,158,0.6);
+      font-size: 0.74rem;
+    }
+    .hero-microcopy span::before {
+      content: '✓';
+      color: var(--green);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* TELA DE NOME */
+    .name-screen-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(201,168,76,0.05) 0%, transparent 70%);
+    }
+    .name-screen-card { width: 100%; max-width: 460px; text-align: center; }
+
+    /* ── MOBILE ─────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-section {
+        display: block;
+        position: relative;
+        min-height: 100dvh;
+      }
+      .hero-photo-col {
+        position: absolute;
+        inset: 0;
+        min-height: 0;
+      }
+      .hero-bg-photo {
+        object-position: 35% top;
+      }
+      .hero-overlay {
+        background: linear-gradient(
+          to bottom,
+          rgba(10,10,11,0.05) 0%,
+          rgba(10,10,11,0.1) 22%,
+          rgba(10,10,11,0.6) 50%,
+          rgba(10,10,11,0.92) 68%,
+          #0a0a0b 82%
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        background: none;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 22px 48px;
+      }
+      .hero-eyebrow { font-size: 0.64rem; letter-spacing: 1.4px; padding: 4px 10px; margin-bottom: 14px; }
+      .hero-h1 { font-size: 2rem; letter-spacing: -0.8px; margin-bottom: 14px; }
+      .hero-proof-bar {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .hero-proof-item { padding: 9px 10px; }
+      .proof-num { font-size: 1rem; }
+      .proof-label { font-size: 0.58rem; }
+      .hero-qualifiers { gap: 8px; margin-bottom: 22px; }
+      .hero-qualifiers li { font-size: 0.87rem; }
+      .hero-cta { max-width: 100%; font-size: 0.97rem; padding: 15px 20px; }
+      .hero-microcopy { gap: 4px 10px; }
+      .hero-microcopy span { font-size: 0.7rem; }
+    }
+
+    /* CTA DESAFIO */
+    .btn-desafio {
+      display: block;
+      width: 100%;
+      background: #a8863a;
+      color: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1.12rem;
+      padding: 18px 32px;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: box-shadow 0.2s, transform 0.15s;
+      letter-spacing: -0.2px;
+      line-height: 1.3;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.3);
+    }
+    .btn-desafio:hover  { box-shadow: 0 8px 36px rgba(201,168,76,0.45); transform: translateY(-2px); }
+    .btn-desafio:active { transform: scale(0.98); }
+    @keyframes ctaPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+      60%  { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+      100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+    }
+    .cta-pulse { animation: ctaPulse 1.1s ease 3; }
+
+    /* ── GRADIENTES AMBIENTE POR TELA ──────────────────────────────── */
+    #screen-dimension {
+      background:
+        radial-gradient(ellipse 65% 40% at 50% 22%, rgba(201,168,76,0.05) 0%, transparent 60%),
+        #0a0a0b;
+      min-height: 100vh;
+    }
+    #screen-transition {
+      background:
+        radial-gradient(ellipse 55% 55% at 50% 45%, rgba(201,168,76,0.09) 0%, transparent 60%),
+        #0a0a0b;
+      min-height: 100vh;
+    }
+    #screen-result {
+      background:
+        radial-gradient(ellipse 80% 28% at 50% 4%, rgba(201,168,76,0.055) 0%, transparent 60%),
+        radial-gradient(ellipse 120% 45% at 50% 100%, rgba(201,168,76,0.05) 0%, transparent 68%),
+        linear-gradient(180deg, #0a0a0b 0%, #0d0b07 100%);
+      min-height: 100vh;
+    }
+    .edu-callout {
+      background: rgba(201,168,76,0.04);
+      border: 1px solid rgba(201,168,76,0.14);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+    }
+    .chapter-break {
+      margin: 44px -20px 0;
+      padding: 36px 20px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .chapter-break::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent) 70%, transparent 100%);
+    }
+    .chapter-break::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 40px;
+      background: radial-gradient(ellipse 100% 100% at 50% 0%, rgba(201,168,76,0.18) 0%, transparent 100%);
+    }
+    .sales-section {
+      margin: 0 -20px;
+      padding: 0 20px 0;
+    }
+    #screen-result { overflow-x: hidden; }
+    /* Headers das telas — gradiente ao invés de cor chapada */
+    #screen-dimension > div:first-child,
+    #screen-result > div:first-child {
+      background: linear-gradient(180deg, #0a0a0b 0%, rgba(10,10,11,0.98) 100%) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom-color: rgba(255,255,255,0.08) !important;
+    }
+    /* Utilitários para cards inline do JS */
+    .card-gradient {
+      background: rgba(20,20,22,0.8) !important;
+      border-color: rgba(255,255,255,0.08) !important;
+      border-radius: 16px !important;
+    }
+    .testimonial-card {
+      background: rgba(28,28,32,0.7) !important;
+      border-color: rgba(255,255,255,0.08) !important;
+      border-radius: 16px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TELA 1: HERO CINEMATOGRÁFICO -->
+  <div id="screen-intro" class="screen active">
+    <section class="hero-section">
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">✦ DIAGNÓSTICO GRATUITO</div>
+
+        <h1 class="hero-h1">
+          O que está<br>
+          <em>travando</em> o<br>
+          crescimento da<br>
+          sua empresa?
+        </h1>
+
+        <div class="hero-proof-bar">
+          <div class="hero-proof-item">
+            <span class="proof-num">+R$200M</span>
+            <span class="proof-label">gerados</span>
+          </div>
+          <div class="hero-proof-item">
+            <span class="proof-num">5</span>
+            <span class="proof-label">empresas ativas</span>
+          </div>
+          <div class="hero-proof-item">
+            <span class="proof-num">+65</span>
+            <span class="proof-label">países</span>
+          </div>
+        </div>
+
+        <div class="hero-attribution">
+          <div class="hero-attribution-dot"></div>
+          <span class="hero-attribution-text">Bruno Capanema · CEO do Grupo Dádiva</span>
+        </div>
+
+        <ul class="hero-qualifiers">
+          <li>Seu faturamento está estagnado mesmo com muito esforço</li>
+          <li>A empresa gira em torno de você — e você sente o peso disso</li>
+          <li>Sabe que está deixando dinheiro na mesa, mas não sabe onde</li>
+        </ul>
+
+        <button class="hero-cta" onclick="goToNameScreen()">
+          Ver onde minha empresa está travando →
+        </button>
+        <div class="hero-microcopy">
+          <span>Gratuito</span>
+          <span>3 minutos</span>
+          <span>Resultado imediato</span>
+          <span>Sem cadastro</span>
+        </div>
+      </div>
+
+      <div class="hero-photo-col">
+        <img src="foto_bruno_horizontal.jpg.jpeg" alt="Bruno Capanema — CEO do Grupo Dádiva" class="hero-bg-photo">
+        <div class="hero-overlay"></div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- TELA 1B: CAPTURA DE NOME -->
+  <div id="screen-name" class="screen">
+    <div class="name-screen-wrap">
+      <div class="name-screen-card">
+        <div class="hero-eyebrow" style="margin: 0 auto 24px; display: inline-flex;">✦ ANTES DE COMEÇAR</div>
+        <h2 style="font-size: 2.1rem; font-weight: 800; letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 10px;">
+          Antes de começar
+        </h2>
+        <p style="color: var(--muted); font-size: 0.96rem; line-height: 1.65; margin-bottom: 32px;">
+          Preencha abaixo para personalizar seu diagnóstico e receber os resultados.
+        </p>
+        <input
+          id="input-name"
+          type="text"
+          class="name-input"
+          placeholder="Seu primeiro nome"
+          maxlength="40"
+          style="max-width: 100%; font-size: 1.1rem; padding: 15px 20px; margin-bottom: 12px;"
+          onkeydown="if(event.key==='Enter') document.getElementById('input-whatsapp').focus()"
+        >
+        <div style="position:relative; width:100%; margin-bottom:14px;">
+          <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;">📱</span>
+          <input
+            id="input-whatsapp"
+            type="tel"
+            class="name-input"
+            placeholder="WhatsApp (DDD + número)"
+            maxlength="15"
+            style="max-width:100%;width:100%;font-size:1.1rem;padding:15px 20px 15px 44px;margin-bottom:0;box-sizing:border-box;"
+            oninput="maskWhatsApp(this)"
+            onkeydown="if(event.key==='Enter') startDiagnostic()"
+          >
+        </div>
+        <button class="hero-cta" onclick="startDiagnostic()" style="max-width: 100%;">
+          Começar o Diagnóstico →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA 2: DIMENSÃO -->
+  <div id="screen-dimension" class="screen">
+    <!-- Header sticky -->
+    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 14px 20px; position: sticky; top: 0; z-index: 10;">
+      <div style="max-width: 640px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span id="dim-counter" style="color: var(--muted); font-size: 0.82rem; font-weight: 600;"></span>
+          <span id="dim-score-preview" style="color: var(--accent); font-size: 0.82rem; font-weight: 600;"></span>
+        </div>
+        <div style="background: var(--border); border-radius: 4px; height: 4px;">
+          <div id="progress-bar" style="background: var(--accent); height: 4px; border-radius: 4px; width: 0%; transition: width 0.4s ease;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <p id="dim-measures" style="color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px;"></p>
+      <h2 id="dim-title" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 6px;"></h2>
+      <p id="dim-description" style="color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.55;"></p>
+
+      <div id="question-dots" style="display: flex; gap: 8px; margin-bottom: 28px; align-items: center;"></div>
+
+      <div id="questions-container"></div>
+
+      <div style="margin-top: 32px;">
+        <button id="btn-next" class="btn-primary" type="button" onclick="nextDimension()" disabled></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA TRANSIÇÃO -->
+  <div id="screen-transition" class="screen">
+    <div class="container">
+      <div class="transition-checkmark">✓</div>
+      <div id="transition-msg" style="font-size: 1.4rem; font-weight: 800; line-height: 1.5; max-width: 360px;"></div>
+      <p style="color: var(--muted); font-size: 0.88rem; margin-top: 10px;">Carregando próxima dimensão…</p>
+    </div>
+  </div>
+
+  <!-- TELA 3: RESULTADO -->
+  <div id="screen-result" class="screen">
+    <div style="background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 14px 20px;">
+      <div style="max-width: 640px; margin: 0 auto;">
+        <div style="background: var(--border); border-radius: 4px; height: 4px;">
+          <div style="background: var(--accent); height: 4px; border-radius: 4px; width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div id="result-content"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── DADOS ──────────────────────────────────────────────────────────────────
+    const DIMENSIONS = [
+      {
+        id: 'modelo',
+        title: '1. Modelo de Negócio',
+        measures: 'Clareza de oferta · Escalabilidade · Sustentabilidade',
+        description: 'Avalie a clareza, posicionamento e sustentabilidade do seu modelo de negócio.',
+        questions: [
+          'Seu modelo de negócio é claramente definido e compreendido por toda a liderança?',
+          'Sua empresa possui uma oferta principal clara e bem posicionada?',
+          'Seu modelo permite crescimento sem aumento proporcional de esforço operacional?',
+          'Sua margem de lucro permite investimento em crescimento?',
+          'Existe previsibilidade de receita?'
+        ]
+      },
+      {
+        id: 'crescimento',
+        title: '2. Estrutura de Crescimento',
+        measures: 'Organização estrutural · Direção estratégica · Capacidade de escalar',
+        description: 'Avalie se a empresa tem estrutura, processos e direção para crescer de forma consistente.',
+        questions: [
+          'Sua empresa possui processos estruturados para crescimento?',
+          'Existem metas claras e acompanhadas regularmente?',
+          'O crescimento da empresa é planejado (e não acontece de forma reativa)?',
+          'Existe uma estrutura organizacional clara?',
+          'Você tem clareza sobre quais são as principais alavancas de crescimento do negócio?'
+        ]
+      },
+      {
+        id: 'comercial',
+        title: '3. Comercial e Receita',
+        measures: 'Previsibilidade comercial · Maturidade de vendas · Estabilidade de receita',
+        description: 'Avalie a maturidade do processo comercial e a estabilidade das suas fontes de receita.',
+        questions: [
+          'Existe um processo de vendas definido?',
+          'O fluxo de leads é previsível?',
+          'Sua equipe comercial possui metas e indicadores claros?',
+          'O processo de conversão é mensurado?',
+          'Seu faturamento não depende excessivamente de poucos clientes?'
+        ]
+      },
+      {
+        id: 'lideranca',
+        title: '4. Liderança e Time',
+        measures: 'Dependência do fundador · Maturidade da liderança · Delegação',
+        description: 'Avalie a autonomia da liderança e a independência operacional do negócio.',
+        questions: [
+          'As decisões estratégicas estão distribuídas (não concentradas apenas no fundador)?',
+          'Sua liderança possui autonomia real?',
+          'Os papéis dentro da empresa estão claramente definidos?',
+          'Existe um processo estruturado de reunião de liderança?',
+          'Sua empresa conseguiria funcionar bem por uma semana sem você?'
+        ]
+      },
+      {
+        id: 'cultura',
+        title: '5. Cultura e Execução',
+        measures: 'Cultura organizacional · Execução estratégica · Alinhamento interno',
+        description: 'Avalie o alinhamento cultural, a consistência de execução e a capacidade de aprendizado.',
+        questions: [
+          'Os valores da empresa são claros e vividos no dia a dia?',
+          'Existe alinhamento sobre prioridades estratégicas?',
+          'As decisões são executadas com consistência?',
+          'Existe cultura de responsabilidade e entrega?',
+          'A empresa aprende com erros e ajusta rapidamente?'
+        ]
+      }
+    ];
+
+    const FAIXAS = [
+      { min: 0,   max: 40,  emoji: '🔴', title: 'Negócio Dependente do Fundador', description: 'Seu negócio ainda gira em torno de você. Sem você, para. Esse modelo tem um teto — e você provavelmente já está sentindo.', priority: '🚨 Cada mês nesse estágio é faturamento que você está deixando na mesa. O Desafio de 5 Dias te mostra como sair do centro e construir a estrutura que cresce sem depender de você.', color: 'var(--red)' },
+      { min: 41,  max: 80,  emoji: '🟡', title: 'Negócio em Estruturação',         description: 'Você tem base, mas a estrutura ainda não sustenta escala. O crescimento é instável — às vezes acelera, às vezes trava — e você não sabe exatamente por quê.',  priority: '⚡ O Desafio de 5 Dias vai te dar clareza sobre quais alavancas ativar agora para transformar esforço em resultado consistente.',  color: 'var(--accent)' },
+      { min: 81,  max: 110, emoji: '🟢', title: 'Negócio em Expansão',             description: 'Você tem bases sólidas. Mas existe uma lacuna entre onde você está e onde poderia estar — e ela está te custando faturamento todo mês.', priority: '🎯 O Desafio de 5 Dias vai te mostrar os pontos cegos que impedem a sua empresa de escalar com consistência.',             color: 'var(--green)' },
+      { min: 111, max: 125, emoji: '🔵', title: 'Negócio Estruturado para Escala', description: 'Sua empresa tem estrutura forte. O próximo movimento é ativar as alavancas certas para crescer sem aumentar a complexidade operacional.', priority: '🔵 O Desafio de 5 Dias te posiciona para o próximo nível: expansão estratégica com o método que gerou +R$200M.',              color: 'var(--blue)' }
+    ];
+
+    const MAX_SCORE = DIMENSIONS.reduce((sum, d) => sum + d.questions.length * 5, 0);
+
+    const INSIGHTS = {
+      modelo: [
+        { max: 12, text: 'Seu modelo ainda não está claramente definido. O primeiro passo é documentar sua oferta principal e entender sua margem real de lucro.' },
+        { max: 19, text: 'Você tem a base do modelo, mas falta previsibilidade de receita e clareza sobre escalabilidade. Refine o posicionamento da oferta.' },
+        { max: 25, text: 'Modelo sólido e bem posicionado. Foque em aumentar a previsibilidade de receita e expandir canais de aquisição.' }
+      ],
+      crescimento: [
+        { max: 12, text: 'A empresa ainda cresce de forma reativa. Estruturar metas e processos é o primeiro passo para sair do modo "apagando incêndios".' },
+        { max: 19, text: 'Há estrutura, mas sem consistência. Defina um ritmo de reuniões de acompanhamento e métricas claras por área.' },
+        { max: 25, text: 'Boa estrutura de crescimento. O próximo nível é identificar e ativar sistematicamente suas principais alavancas de escala.' }
+      ],
+      comercial: [
+        { max: 12, text: 'Sem processo comercial definido, a receita depende do acaso. Documente o funil de vendas e defina KPIs básicos de conversão.' },
+        { max: 19, text: 'O processo existe mas não é previsível. Trabalhe na consistência do fluxo de leads e na mensuração da taxa de conversão.' },
+        { max: 25, text: 'Comercial bem estruturado. Invista em reduzir a dependência de poucos clientes e ampliar os canais de aquisição.' }
+      ],
+      lideranca: [
+        { max: 12, text: 'A empresa depende excessivamente de você. Comece delegando decisões operacionais para liberar seu tempo para o estratégico.' },
+        { max: 19, text: 'A liderança tem autonomia parcial. Defina papéis com mais clareza e implemente reuniões de liderança com pauta estruturada.' },
+        { max: 25, text: 'Time autônomo e bem estruturado. Invista no desenvolvimento da liderança de segundo nível para sustentar o crescimento.' }
+      ],
+      cultura: [
+        { max: 12, text: 'A cultura não está formalizada e a execução é inconsistente. Comece definindo valores reais e rituais simples de responsabilidade.' },
+        { max: 19, text: 'Há alinhamento parcial, mas a execução ainda falha. Crie rituais de acompanhamento e fortaleça a cultura de entrega.' },
+        { max: 25, text: 'Cultura sólida com boa execução. Mantenha os rituais e acelere o ciclo de aprendizado com revisões regulares.' }
+      ]
+    };
+
+    function getInsight(dimId, score) {
+      const list = INSIGHTS[dimId] || [];
+      return (list.find(i => score <= i.max) || list[list.length - 1])?.text || '';
+    }
+
+    function getPersonalizedClosing(name, faixa, lowest) {
+      const dim = lowest.title.replace(/^\d+\.\s*/, '');
+      const map = {
+        'var(--red)':    `${name}, o que o seu diagnóstico revelou é exatamente o que travava o meu negócio antes de eu montar a estrutura que uso hoje. Tudo girava em torno de mim. E isso tem um teto. A virada aconteceu quando parei de ser o centro de tudo: montei a máquina comercial, dei autonomia real à liderança e saí do operacional. Hoje tenho 5 empresas ativas em mais de 65 países. No Desafio, eu te mostro, em 5 dias, exatamente como montar essa estrutura no seu negócio.`,
+        'var(--accent)': `${name}, você sente que trabalha muito e o resultado não acompanha o esforço. Eu reconheço esse sinal, porque já estive exatamente aí. É o momento em que a empresa tem base, mas ainda falta a estrutura que escala sozinha. Foi o que me levou a desenvolver o Modelo de Crescimento por Alavancas, o mesmo que uso nas minhas 5 empresas, que hoje operam em mais de 65 países. No Desafio de 5 Dias, vou te mostrar como ativar esse modelo no seu negócio.`,
+        'var(--green)':  `${name}, o seu diagnóstico confirma: você está à frente. Empresas no seu estágio não travam por falta de esforço. Travam por falta de precisão nas alavancas certas, especialmente em <strong style="color:var(--text-white);">${dim}</strong>. Foi exatamente esse refinamento que me permitiu crescer de uma para cinco empresas operando em mais de 65 países. No Desafio, vou te mostrar quais parafusos apertar agora.`,
+        'var(--blue)':   `${name}, o diagnóstico confirma o que você já sente: seu negócio tem estrutura. O próximo movimento é ativar as alavancas de expansão que ainda não foram exploradas, escalando com consistência. É o que venho construindo há anos nas minhas empresas: 5 negócios, mais de 65 países, +R$200M em faturamento acumulado. No Desafio de 5 Dias, te mostro como o seu próximo nível começa.`
+      };
+      return map[faixa.color] || map['var(--accent)'];
+    }
+
+    function buildGapCallout(dimScores) {
+      const sorted = [...dimScores].sort((a, b) => (a.score / a.max) - (b.score / b.max));
+      const gaps = sorted.filter(d => (d.score / d.max) < 0.65);
+      const toShow = gaps.length > 0 ? gaps : sorted.slice(0, 2);
+
+      const items = toShow.map(d => {
+        const pct = Math.round((d.score / d.max) * 100);
+        const dimName = d.title.replace(/^\d+\.\s*/, '');
+        const isGap = (d.score / d.max) < 0.65;
+        const iconColor = isGap ? 'var(--red)' : 'var(--accent)';
+        const icon = isGap ? '⚠️' : '🔧';
+        const label = isGap ? 'Gap identificado' : 'Área de melhoria';
+        return `
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);">
+            <span style="font-size:1.1rem;margin-top:1px;">${icon}</span>
+            <div style="flex:1;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <span style="font-weight:700;font-size:0.93rem;">${dimName}</span>
+                <span style="color:${iconColor};font-size:0.75rem;font-weight:700;background:rgba(0,0,0,0.3);padding:2px 7px;border-radius:20px;border:1px solid ${iconColor};opacity:0.85;">${label}</span>
+              </div>
+              <div style="background:var(--border);border-radius:4px;height:3px;margin-top:6px;">
+                <div style="background:${iconColor};height:3px;border-radius:4px;width:${pct}%;"></div>
+              </div>
+              <p style="color:var(--muted);font-size:0.8rem;margin-top:7px;line-height:1.5;">${getInsight(d.id, d.score).split('.')[0]}.</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const n = toShow.length;
+      const label = gaps.length > 0
+        ? `O diagnóstico identificou <strong style="color:var(--text-white);">${n} gap${n > 1 ? 's prioritários' : ' prioritário'}</strong> no seu negócio:`
+        : `O diagnóstico identificou as <strong style="color:var(--text-white);">${n} principais áreas de melhoria</strong> do seu negócio:`;
+
+      return `
+        <p style="color:var(--muted);font-size:0.93rem;margin-bottom:4px;">${label}</p>
+        <div>${items}</div>
+        <div style="margin-top:18px;padding:14px 16px;background:rgba(248,81,73,0.07);border-radius:8px;border-left:3px solid var(--red);">
+          <p style="color:var(--text-white);font-weight:700;font-size:0.9rem;line-height:1.5;">
+            ⚠️ Cada mês que esses gaps permanecem sem solução é faturamento que fica na mesa. O Desafio de 5 Dias foi criado para resolver exatamente isso — com método, estrutura e plano de ação para o seu estágio.
+          </p>
+        </div>
+      `;
+    }
+
+    // ── MICRO-FEEDBACK ────────────────────────────────────────────────────────
+    const MICRO_FEEDBACKS = [
+      '💡 Esse é exatamente o tipo de gap que o Desafio de 5 Dias resolve.',
+      '🎯 Esse ponto é uma das principais alavancas que vamos trabalhar no desafio.',
+      '🔑 Identificar isso é o primeiro passo. No desafio você vai saber exatamente como corrigir.',
+      '⚡ Boa honestidade. Esse gap tem solução — e o desafio mostra o caminho.',
+      '🧩 Esse é um dos padrões mais comuns em empresas em estruturação. Vamos resolver isso juntos.'
+    ];
+    let _feedbackIdx = 0;
+    function nextFeedback() {
+      return MICRO_FEEDBACKS[_feedbackIdx++ % MICRO_FEEDBACKS.length];
+    }
+
+    // ── TRANSIÇÕES ────────────────────────────────────────────────────────────
+    const TRANSITIONS = [
+      'Primeira dimensão concluída! Agora: <span class="accent">Estrutura de Crescimento</span>.',
+      'Ótimo ritmo! Agora: <span class="accent">Comercial e Receita</span>.',
+      'Você está na metade! Agora: <span class="accent">Liderança e Time</span>.',
+      'Quase lá! Última dimensão: <span class="accent">Cultura e Execução</span>.'
+    ];
+
+    // ── ESTADO ────────────────────────────────────────────────────────────────
+    let currentDimIndex = 0;
+    let currentQuestionIndex = 0;
+    let answers = {};
+    let userName = '';
+    let userWhatsApp = '';
+    let _autoAdvanceTimer = null;
+
+    const PLANILHA_URL = 'https://script.google.com/macros/s/AKfycby0KnrfsJcJfK-ORnDrKpSCvZVUvaWfgopbdiS8vzd5CNeoywFDeIKdtPeihRhg-cN-Ag/exec';
+
+    function salvarLead(dados) {
+      if (!PLANILHA_URL || PLANILHA_URL.startsWith('COLE')) return;
+      const params = new URLSearchParams({
+        nome:      dados.nome      || '',
+        whatsapp:  dados.whatsapp  || '',
+        pontuacao: dados.pontuacao || '',
+        faixa:     dados.faixa     || '',
+        projetado: dados.projetado || '',
+        origem:    'Raio-X 360'
+      });
+      fetch(`${PLANILHA_URL}?${params}`, { mode: 'no-cors' }).catch(() => {});
+    }
+
+    function maskWhatsApp(el) {
+      let v = el.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d*)/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/^(\d{2})(\d*)/, '($1) $2');
+      else if (v.length > 0) v = v.replace(/^(\d*)/, '($1');
+      el.value = v;
+    }
+
+    // ── NAVEGAÇÃO ─────────────────────────────────────────────────────────────
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function goToNameScreen() {
+      showScreen('screen-name');
+      setTimeout(() => document.getElementById('input-name')?.focus(), 350);
+    }
+
+    function startDiagnostic() {
+      const inputName = document.getElementById('input-name');
+      const inputWA   = document.getElementById('input-whatsapp');
+      userName     = (inputName?.value || '').trim();
+      userWhatsApp = (inputWA?.value || '').trim();
+
+      if (!userName) {
+        inputName.focus();
+        inputName.style.borderColor = 'var(--red)';
+        setTimeout(() => { inputName.style.borderColor = 'var(--border)'; }, 1500);
+        return;
+      }
+      const digits = userWhatsApp.replace(/\D/g, '');
+      if (digits.length < 10) {
+        inputWA.focus();
+        inputWA.style.borderColor = 'var(--red)';
+        setTimeout(() => { inputWA.style.borderColor = 'var(--border)'; }, 1500);
+        return;
+      }
+      currentDimIndex = 0;
+      currentQuestionIndex = 0;
+      answers = {};
+      renderDimension();
+      showScreen('screen-dimension');
+    }
+
+    // ── RENDERIZAR DIMENSÃO ───────────────────────────────────────────────────
+    function renderDimension() {
+      const dim = DIMENSIONS[currentDimIndex];
+      currentQuestionIndex = 0;
+
+      document.getElementById('dim-counter').textContent = `Dimensão ${currentDimIndex + 1} de ${DIMENSIONS.length}`;
+      document.getElementById('dim-score-preview').textContent = '';
+      document.getElementById('progress-bar').style.width = `${((currentDimIndex + 1) / DIMENSIONS.length) * 100}%`;
+      document.getElementById('dim-measures').textContent = dim.measures;
+      document.getElementById('dim-title').textContent = dim.title;
+      document.getElementById('dim-description').textContent = dim.description;
+
+      const btnNext = document.getElementById('btn-next');
+      btnNext.textContent = currentDimIndex === DIMENSIONS.length - 1 ? 'Ver resultado →' : 'Próxima dimensão →';
+      btnNext.disabled = true;
+
+      renderQuestion('right');
+    }
+
+    // ── RENDERIZAR PERGUNTA ÚNICA ─────────────────────────────────────────────
+    function renderQuestion(direction) {
+      const dim = DIMENSIONS[currentDimIndex];
+      const qi = currentQuestionIndex;
+      const key = `${dim.id}-${qi}`;
+      const saved = answers[key];
+
+      const container = document.getElementById('questions-container');
+      container.innerHTML = `
+        <div class="${direction === 'right' ? 'slide-right' : 'slide-left'}">
+          <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 18px;">
+            <span style="font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1;">${qi + 1}</span>
+            <span style="color: var(--muted); font-size: 0.9rem; font-weight: 600;">/ ${dim.questions.length}</span>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px 22px;">
+            <p style="font-size: 1.05rem; font-weight: 600; margin-bottom: 26px; line-height: 1.65;">${dim.questions[qi]}</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 10px;">
+              ${[1,2,3,4,5].map(v => `
+                <button
+                  type="button"
+                  class="rating-btn${saved === v ? ' selected' : ''}"
+                  data-key="${key}"
+                  data-value="${v}"
+                  onclick="selectRating('${key}', ${v})"
+                >${v}</button>
+              `).join('')}
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0 4px;">
+              <span style="color: var(--muted); font-size: 0.7rem;">Discordo totalmente</span>
+              <span style="color: var(--muted); font-size: 0.7rem;">Concordo totalmente</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      updateDots();
+      updateNextButton();
+    }
+
+    function goToQuestion(qi) {
+      if (qi < 0 || qi >= DIMENSIONS[currentDimIndex].questions.length) return;
+      const direction = qi >= currentQuestionIndex ? 'right' : 'left';
+      currentQuestionIndex = qi;
+      renderQuestion(direction);
+    }
+
+    function selectRating(key, value) {
+      answers[key] = value;
+
+      document.querySelectorAll(`[data-key="${key}"]`).forEach(btn => {
+        const v = parseInt(btn.dataset.value);
+        btn.classList.toggle('selected', v === value);
+        if (v === value) {
+          btn.classList.remove('rating-pop');
+          void btn.offsetWidth;
+          btn.classList.add('rating-pop');
+          btn.addEventListener('animationend', () => btn.classList.remove('rating-pop'), { once: true });
+        }
+      });
+
+      updateDots();
+      updateNextButton();
+
+      if (_autoAdvanceTimer) { clearTimeout(_autoAdvanceTimer); _autoAdvanceTimer = null; }
+
+      const dim = DIMENSIONS[currentDimIndex];
+      const nextQi = currentQuestionIndex + 1;
+      if (nextQi < dim.questions.length) {
+        const delay = 360;
+        _autoAdvanceTimer = setTimeout(() => {
+          _autoAdvanceTimer = null;
+          currentQuestionIndex = nextQi;
+          renderQuestion('right');
+        }, delay);
+      } else {
+        const btnNext = document.getElementById('btn-next');
+        if (btnNext && !btnNext.disabled) {
+          btnNext.classList.remove('btn-pulse');
+          void btnNext.offsetWidth;
+          btnNext.classList.add('btn-pulse');
+          btnNext.addEventListener('animationend', () => btnNext.classList.remove('btn-pulse'), { once: true });
+          setTimeout(() => btnNext.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
+        }
+      }
+    }
+
+    function updateDots() {
+      const dim = DIMENSIONS[currentDimIndex];
+      const dotsEl = document.getElementById('question-dots');
+      if (!dotsEl) return;
+      dotsEl.innerHTML = dim.questions.map((_, qi) => {
+        const answered = answers[`${dim.id}-${qi}`] !== undefined;
+        const isCurrent = qi === currentQuestionIndex;
+        const cls = isCurrent ? 'q-dot current' : answered ? 'q-dot answered' : 'q-dot';
+        return `<button type="button" class="${cls}" onclick="goToQuestion(${qi})" title="Pergunta ${qi + 1}"></button>`;
+      }).join('');
+    }
+
+    function updateNextButton() {
+      const dim = DIMENSIONS[currentDimIndex];
+      const allAnswered = dim.questions.every((_, qi) => answers[`${dim.id}-${qi}`] !== undefined);
+      document.getElementById('btn-next').disabled = !allAnswered;
+      if (allAnswered) {
+        const s = getDimensionScore(dim.id, dim.questions.length);
+        document.getElementById('dim-score-preview').textContent = `${s}/${dim.questions.length * 5} pts`;
+      }
+    }
+
+    function getDimensionScore(dimId, n) {
+      let t = 0;
+      for (let i = 0; i < n; i++) t += answers[`${dimId}-${i}`] || 0;
+      return t;
+    }
+
+    function nextDimension() {
+      const nextIndex = currentDimIndex + 1;
+      if (nextIndex < DIMENSIONS.length) {
+        const transMsg = document.getElementById('transition-msg');
+        if (transMsg) transMsg.innerHTML = TRANSITIONS[currentDimIndex] || '';
+        showScreen('screen-transition');
+        setTimeout(() => {
+          currentDimIndex = nextIndex;
+          renderDimension();
+          showScreen('screen-dimension');
+        }, 1000);
+      } else {
+        currentDimIndex = nextIndex;
+        showResult();
+      }
+    }
+
+    // ── ANIMAÇÕES ─────────────────────────────────────────────────────────────
+    function animateCount(el, from, to, duration) {
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function drawRadarChart(canvasId, dimScores) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas || !canvas.getContext) return;
+      const ctx = canvas.getContext('2d');
+      const size = canvas.width, cx = size / 2, cy = size / 2;
+      const R = size * 0.33, labelR = size * 0.44;
+      const n = dimScores.length, step = (Math.PI * 2) / n, startAngle = -Math.PI / 2;
+      ctx.clearRect(0, 0, size, size);
+
+      [0.25, 0.5, 0.75, 1].forEach(scale => {
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+          const a = startAngle + i * step;
+          i === 0 ? ctx.moveTo(cx + Math.cos(a) * R * scale, cy + Math.sin(a) * R * scale)
+                  : ctx.lineTo(cx + Math.cos(a) * R * scale, cy + Math.sin(a) * R * scale);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(48,54,61,0.9)'; ctx.lineWidth = 1; ctx.stroke();
+      });
+
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * step;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+        ctx.strokeStyle = 'rgba(48,54,61,0.9)'; ctx.lineWidth = 1; ctx.stroke();
+      }
+
+      ctx.beginPath();
+      dimScores.forEach((d, i) => {
+        const pct = Math.min(d.score / d.max, 1), a = startAngle + i * step;
+        i === 0 ? ctx.moveTo(cx + Math.cos(a) * R * pct, cy + Math.sin(a) * R * pct)
+                : ctx.lineTo(cx + Math.cos(a) * R * pct, cy + Math.sin(a) * R * pct);
+      });
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(201,168,76,0.12)'; ctx.fill();
+      ctx.strokeStyle = '#C9A84C'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      dimScores.forEach((d, i) => {
+        const pct = Math.min(d.score / d.max, 1), a = startAngle + i * step;
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(a) * R * pct, cy + Math.sin(a) * R * pct, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#C9A84C'; ctx.fill();
+      });
+
+      const labels = dimScores.map(d => d.title.replace(/^\d+\.\s*/, '').split(' ')[0]);
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillStyle = '#8b949e'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      dimScores.forEach((_, i) => {
+        const a = startAngle + i * step;
+        ctx.fillText(labels[i], cx + Math.cos(a) * labelR, cy + Math.sin(a) * labelR);
+      });
+    }
+
+    // ── RESULTADO ─────────────────────────────────────────────────────────────
+    function showResult() {
+      const dimScores = DIMENSIONS.map(d => ({
+        id: d.id, title: d.title, measures: d.measures,
+        score: getDimensionScore(d.id, d.questions.length),
+        max: d.questions.length * 5
+      }));
+      const total = dimScores.reduce((s, d) => s + d.score, 0);
+      const faixa = FAIXAS.find(f => total >= f.min && total <= f.max) ?? FAIXAS[FAIXAS.length - 1];
+      const lowest  = dimScores.reduce((a, d) => d.score < a.score ? d : a, dimScores[0]);
+      const highest = dimScores.reduce((a, d) => d.score > a.score ? d : a, dimScores[0]);
+      const lowestLabel = userName ? `⚡ ${userName}, sua maior oportunidade` : '⚡ Sua Maior Oportunidade';
+
+      const projectedTotal = Math.min(dimScores.reduce((sum, d) => {
+        return sum + (d.score / d.max < 0.65 ? Math.round(d.max * 0.8) : d.score);
+      }, 0), MAX_SCORE);
+      const projectedFaixa = FAIXAS.find(f => projectedTotal >= f.min && projectedTotal <= f.max) ?? FAIXAS[FAIXAS.length - 1];
+      const projectedPct = Math.round((projectedTotal / MAX_SCORE) * 100);
+      const currentPct   = Math.round((total / MAX_SCORE) * 100);
+
+      document.getElementById('result-content').innerHTML = `
+
+        <!-- PONTUAÇÃO -->
+        <div style="text-align: center; padding: 56px 0 36px;">
+          <p style="color: var(--accent); font-weight: 700; font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;">SEU DIAGNÓSTICO</p>
+          ${userName ? `<p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">Aqui está o relatório da sua situação atual, <span style="color: var(--accent);">${userName}</span></p>` : ''}
+          <div id="score-total" style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 6px; letter-spacing: -2px;">0</div>
+          <div style="color: var(--muted); font-size: 0.95rem;">de ${MAX_SCORE} pontos possíveis</div>
+        </div>
+
+        <!-- PERFIL -->
+        <div class="result-section-divider">📊 Situação Atual do Negócio</div>
+        <div style="background: var(--bg-card); border: 2px solid ${faixa.color}; border-radius: 16px; padding: 28px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 10px;">${faixa.emoji}</div>
+          <h2 style="font-size: 1.45rem; font-weight: 800; color: ${faixa.color}; margin-bottom: 12px;">${faixa.title}</h2>
+          <p style="color: var(--muted); font-size: 0.93rem; line-height: 1.65; margin-bottom: 12px;">${faixa.description}</p>
+          <p style="color: var(--accent); font-size: 0.9rem; font-weight: 700; line-height: 1.55; margin-top: 4px; padding-top: 14px; border-top: 1px solid var(--border);">${faixa.priority}</p>
+        </div>
+
+        <!-- RADAR -->
+        <div class="result-section-divider">🕸 Visão por Dimensão</div>
+        <div style="display: flex; justify-content: center; margin-bottom: 12px;">
+          <canvas id="radar-chart" width="300" height="300" style="max-width: 100%;"></canvas>
+        </div>
+        <div class="edu-callout">
+          <p style="color:var(--accent);font-size:0.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;">O QUE ESTE RADAR REVELA</p>
+          <p style="color:var(--muted);font-size:0.85rem;line-height:1.65;">Um radar equilibrado e próximo das bordas representa um negócio que cresce com consistência. Cada eixo abaixo de 80% indica energia e faturamento sendo desperdiçados agora, sem que você perceba. O diagnóstico detalhado abaixo mostra exatamente onde estão esses vazamentos.</p>
+        </div>
+
+        <!-- DIMENSÕES DETALHADAS -->
+        <div class="result-section-divider">📋 Diagnóstico Detalhado</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px;">
+          ${dimScores.map(d => {
+            const pct = Math.round((d.score / d.max) * 100);
+            const barColor = pct >= 80 ? 'var(--green)' : pct >= 52 ? 'var(--accent)' : 'var(--red)';
+            return `
+              <div class="result-dim-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-weight: 600; font-size: 0.88rem;">${d.title}</span>
+                  <span style="color: var(--accent); font-weight: 700; font-size: 0.88rem;">${d.score}/${d.max}</span>
+                </div>
+                <div style="background: var(--border); border-radius: 4px; height: 5px; margin-bottom: 10px;">
+                  <div data-animate-bar="${pct}%" style="background: ${barColor}; height: 5px; border-radius: 4px; width: 0%; transition: width 0.65s ease;"></div>
+                </div>
+                <p style="color: var(--muted); font-size: 0.72rem; margin-bottom: 9px;">${d.measures}</p>
+                <div style="border-top: 1px solid var(--border); padding-top: 10px;">
+                  <p style="color:${barColor};font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">${pct >= 80 ? 'Ponto forte — mantenha' : pct >= 52 ? 'Atenção — pode melhorar' : 'Gap crítico — prioridade agora'}</p>
+                  <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6;">${getInsight(d.id, d.score)}</p>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <!-- DESTAQUES -->
+        <div class="result-section-divider">🎯 Destaques</div>
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px;">
+          <div style="background: rgba(20,20,22,0.8); border: 2px solid var(--accent); border-radius: 16px; padding: 22px;">
+            <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">${lowestLabel}</p>
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 8px;">${lowest.title}</h3>
+            <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6;">${getInsight(lowest.id, lowest.score)}</p>
+          </div>
+          <div style="background: rgba(20,20,22,0.8); border: 2px solid var(--green); border-radius: 16px; padding: 22px;">
+            <p style="color: var(--green); font-weight: 700; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">💪 Seu Maior Ponto Forte</p>
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 8px;">${highest.title}</h3>
+            <p style="color: var(--muted); font-size: 0.87rem; line-height: 1.6;">${getInsight(highest.id, highest.score)}</p>
+          </div>
+        </div>
+
+        <!-- FECHAMENTO PERSONALIZADO -->
+        <div class="result-section-divider">✉️ Uma palavra para você</div>
+        <div style="background: rgba(20,20,22,0.8); border: 1px solid var(--border); border-radius: 16px; padding: 28px 26px;">
+          <p style="font-size: 1.02rem; line-height: 1.8; color: var(--muted);">${getPersonalizedClosing(userName, faixa, lowest)}</p>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: #f5f5f5; flex-shrink: 0;">BC</div>
+            <div>
+              <span style="color: var(--text-white); font-weight: 700; font-size: 0.9rem; display: block;">Bruno Capanema</span>
+              <span style="color: var(--accent); font-weight: 600; font-size: 0.75rem; display: block; line-height: 1.5;">CEO do Grupo Dádiva · 5 empresas · +65 países · +R$200M</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAPS IDENTIFICADOS -->
+        <div class="result-section-divider">⚠️ Gaps Prioritários Identificados</div>
+        <div class="card-gradient" style="border: 1px solid var(--border); border-radius: 16px; padding: 24px 22px; margin-bottom: 8px;">
+          ${buildGapCallout(dimScores)}
+        </div>
+
+        <div class="sales-section">
+
+        <!-- CHAPTER BREAK -->
+        <div class="chapter-break">
+          <p style="color:var(--accent);font-size:0.68rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">O PRÓXIMO PASSO</p>
+          <p style="color:var(--text-white);font-size:1.1rem;font-weight:800;line-height:1.5;max-width:300px;margin:0 auto 0;">Você tem o diagnóstico.<br>Agora veja o que ele vale na prática.</p>
+        </div>
+
+        <!-- JORNADA DE CRESCIMENTO -->
+        <div class="result-section-divider">📍 Onde você está e onde pode chegar</div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px 18px 20px;margin-bottom:8px;">
+          <p style="color:var(--muted);font-size:0.88rem;line-height:1.6;text-align:center;margin-bottom:20px;">
+            Veja o impacto de resolver os gaps que o seu diagnóstico identificou:
+          </p>
+
+          <div style="display:grid;grid-template-columns:1fr 28px 1fr;gap:8px;align-items:center;margin-bottom:18px;">
+
+            <!-- HOJE -->
+            <div style="background:rgba(248,81,73,0.06);border:1px solid rgba(248,81,73,0.22);border-radius:12px;padding:16px 12px;text-align:center;">
+              <p style="color:var(--red);font-size:0.65rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">HOJE</p>
+              <div style="font-size:2.2rem;font-weight:800;color:var(--text-white);letter-spacing:-1px;line-height:1;margin-bottom:2px;">${total}</div>
+              <p style="color:var(--muted);font-size:0.68rem;margin-bottom:10px;">de ${MAX_SCORE} pts</p>
+              <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:5px;margin-bottom:8px;">
+                <div data-animate-bar="${currentPct}%" style="background:var(--red);height:5px;border-radius:4px;width:0%;transition:width 0.8s ease 0.15s;"></div>
+              </div>
+              <p style="color:var(--red);font-size:0.68rem;font-weight:700;margin-bottom:8px;">${currentPct}%</p>
+              <p style="color:var(--muted);font-size:0.72rem;line-height:1.4;">${faixa.title}</p>
+            </div>
+
+            <!-- SETA -->
+            <div style="text-align:center;">
+              <span style="font-size:1.2rem;color:var(--accent);">→</span>
+            </div>
+
+            <!-- APÓS O DESAFIO -->
+            <div style="background:rgba(201,168,76,0.07);border:2px solid rgba(201,168,76,0.35);border-radius:12px;padding:16px 12px;text-align:center;position:relative;">
+              <p style="color:var(--accent);font-size:0.65rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">APÓS O DESAFIO</p>
+              <div style="font-size:2.2rem;font-weight:800;color:var(--accent);letter-spacing:-1px;line-height:1;margin-bottom:2px;">${projectedTotal}</div>
+              <p style="color:var(--muted);font-size:0.68rem;margin-bottom:10px;">de ${MAX_SCORE} pts</p>
+              <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:5px;margin-bottom:8px;">
+                <div data-animate-bar="${projectedPct}%" style="background:var(--accent);height:5px;border-radius:4px;width:0%;transition:width 0.9s ease 0.4s;"></div>
+              </div>
+              <p style="color:var(--accent);font-size:0.68rem;font-weight:700;margin-bottom:8px;">${projectedPct}%</p>
+              <p style="color:var(--muted);font-size:0.72rem;line-height:1.4;">${projectedFaixa.title}</p>
+            </div>
+
+          </div>
+
+          <!-- Delta -->
+          <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px 16px;text-align:center;">
+            <p style="color:var(--accent);font-weight:800;font-size:1.05rem;margin-bottom:5px;">+${projectedTotal - total} pontos de potencial identificados</p>
+            <p style="color:var(--muted);font-size:0.82rem;line-height:1.55;">O Desafio de 5 Dias é o caminho estruturado para sair de onde você está e chegar onde quer estar.</p>
+          </div>
+        </div>
+
+        <!-- MINI SALES PAGE -->
+        <div class="result-section-divider">🚀 O próximo passo certo para o seu negócio</div>
+
+        <div style="text-align:center; padding: 4px 0 28px;">
+          <h3 style="font-size: 1.35rem; font-weight: 800; line-height: 1.45; margin-bottom: 14px;">
+            Diagnóstico feito.<br>
+            <span style="color: var(--accent);">Sem um plano de execução, ele não vale nada.</span>
+          </h3>
+          <p style="color: var(--muted); font-size: 0.93rem; line-height: 1.75; max-width: 460px; margin: 0 auto;">
+            A maioria dos empresários sabe que tem gaps — e continua trabalhando igual porque não tem o método para mudar. O <strong style="color: var(--text-white);">Desafio 5 Alavancas</strong> é o método: 5 dias com Bruno Capanema transformando o diagnóstico em plano de ação concreto para o <em>seu</em> negócio.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+          <div style="background: rgba(248,81,73,0.07); border: 1px solid rgba(248,81,73,0.25); border-radius: 10px; padding: 18px 16px;">
+            <p style="color: var(--red); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Sem participar do desafio</p>
+            <div style="display:flex;flex-direction:column;gap:9px;">
+              <span style="color:var(--muted);font-size:0.86rem;">📉 Fatura o mesmo, trabalha mais</span>
+              <span style="color:var(--muted);font-size:0.86rem;">🔒 Crescimento trava sem saber por quê</span>
+              <span style="color:var(--muted);font-size:0.86rem;">😓 Decisões emperradas em você</span>
+              <span style="color:var(--muted);font-size:0.86rem;">⚠️ Oportunidade passa, concorrente avança</span>
+            </div>
+          </div>
+          <div style="background: rgba(46,160,67,0.07); border: 1px solid rgba(46,160,67,0.25); border-radius: 10px; padding: 18px 16px;">
+            <p style="color: var(--green); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Participando do desafio</p>
+            <div style="display:flex;flex-direction:column;gap:9px;">
+              <span style="color:var(--muted);font-size:0.86rem;">📈 Faturamento cresce com previsibilidade</span>
+              <span style="color:var(--muted);font-size:0.86rem;">🚀 Negócio escala com menos dependência</span>
+              <span style="color:var(--muted);font-size:0.86rem;">⚙️ Time executa, você lidera</span>
+              <span style="color:var(--muted);font-size:0.86rem;">🎯 Plano claro, resultados consistentes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-gradient" style="border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; margin-bottom: 20px;">
+          <p style="color: var(--muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;">AO FINAL DO DESAFIO VOCÊ SAI COM:</p>
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">✅</span><span style="color:var(--muted);font-size:0.9rem;line-height:1.55;">Clareza de <strong style="color:var(--text-white);">exatamente onde você está perdendo dinheiro hoje</strong></span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">✅</span><span style="color:var(--muted);font-size:0.9rem;line-height:1.55;"><strong style="color:var(--text-white);">Diagnóstico aprofundado</strong> de cada alavanca do seu negócio</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">✅</span><span style="color:var(--muted);font-size:0.9rem;line-height:1.55;"><strong style="color:var(--text-white);">Plano de execução estruturado</strong> para o seu estágio</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">✅</span><span style="color:var(--muted);font-size:0.9rem;line-height:1.55;">As <strong style="color:var(--text-white);">oportunidades escondidas</strong> que você ainda não está enxergando</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">✅</span><span style="color:var(--muted);font-size:0.9rem;line-height:1.55;">O método que gerou <strong style="color:var(--text-white);">+R$200M em 5 empresas</strong>, adaptado para o seu negócio</span></div>
+          </div>
+        </div>
+
+        <!-- DEPOIMENTOS EM VÍDEO -->
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:12px;">
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:0;border:1px solid rgba(255,255,255,0.08);">
+            <iframe
+              src="https://www.youtube.com/embed/EhyFd0PDYfM"
+              title="Depoimento — cliente Bruno Capanema"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:0;border:1px solid rgba(255,255,255,0.08);">
+            <iframe
+              src="https://www.youtube.com/embed/ijgr2YyvecQ"
+              title="Depoimento — cliente Bruno Capanema"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- DEPOIMENTOS EM IMAGEM -->
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
+          <img
+            src="depoimento-victor-reis.jpg.webp"
+            alt="Depoimento Victor Reis — CEO Bequest Digital"
+            style="width:100%;border-radius:0;border:1px solid rgba(255,255,255,0.08);display:block;">
+          <img
+            src="depoimento-diego-martins.jpg.png"
+            alt="Depoimento Diego Martins — Explorers"
+            style="width:100%;border-radius:0;border:1px solid rgba(255,255,255,0.08);display:block;">
+        </div>
+
+        <!-- SOCIAL PROOF ANCHOR -->
+        <div style="text-align:center;padding:8px 0 24px;">
+          <p style="color:var(--muted);font-size:0.82rem;margin-bottom:10px;">Veja o que quem já esteve no seu lugar fala sobre o Desafio:</p>
+          <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;">
+            <span style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 14px;color:var(--accent);font-size:0.78rem;font-weight:700;">✓ Clareza em 5 dias</span>
+            <span style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 14px;color:var(--accent);font-size:0.78rem;font-weight:700;">✓ Resultado no mês seguinte</span>
+            <span style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 14px;color:var(--accent);font-size:0.78rem;font-weight:700;">✓ Vale cada real investido</span>
+          </div>
+        </div>
+
+        <!-- URGENCY BAR -->
+        <div style="background:rgba(248,81,73,0.10);border:1px solid rgba(248,81,73,0.35);border-radius:0;padding:13px 20px;text-align:center;">
+          <p style="color:var(--red);font-weight:800;font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;margin:0;">⚡ DESAFIO COMEÇA EM:</p>
+        </div>
+
+        <!-- COUNTDOWN -->
+        <div id="countdown" style="display:flex;justify-content:center;gap:12px;background:var(--bg-card);border-left:2px solid rgba(248,81,73,0.5);border-right:2px solid rgba(248,81,73,0.5);padding:20px;margin-bottom:0;"></div>
+
+        <!-- PRICING BLOCK -->
+        <div style="background:rgba(20,20,22,0.95);border:2px solid var(--accent);border-top:none;border-radius:0;padding:28px 22px 36px;margin-bottom:60px;">
+          <p style="color:var(--accent);font-weight:700;font-size:0.76rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;text-align:center;">DESAFIO 5 ALAVANCAS · 25 A 29 DE MAIO</p>
+
+          <div style="display:flex;flex-direction:column;gap:16px;">
+
+            <!-- SILVER -->
+            <div style="background:var(--bg-card);border:1px solid var(--border-strong);border-radius:12px;padding:24px 22px;position:relative;">
+              <p style="color:var(--muted);font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Plano</p>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-size:1.4rem;">🥈</span>
+                <span style="font-size:1.2rem;font-weight:800;color:var(--text-white);letter-spacing:1px;">SILVER</span>
+              </div>
+              <div style="margin:14px 0 6px;">
+                <span style="color:var(--muted);font-size:0.8rem;">R$</span>
+                <span style="font-size:3rem;font-weight:800;color:var(--text-white);letter-spacing:-1px;line-height:1;">77</span>
+              </div>
+              <p style="color:var(--muted);font-size:0.82rem;margin-bottom:16px;">Para quem quer entender e começar</p>
+              <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px;">
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Acesso ao desafio completo (5 dias)</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Conteúdo prático</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Bônus de aplicação</span></div>
+              </div>
+              <a href="https://pay.hotmart.com/Y105432721F?checkoutMode=10"
+                 target="_blank" rel="noopener noreferrer"
+                 style="display:block;width:100%;background:var(--bg-elevated);border:1px solid var(--border-strong);color:var(--text-white);font-weight:700;font-size:0.9rem;padding:14px 0;text-align:center;text-decoration:none;border-radius:0;letter-spacing:0.3px;">
+                Quero o Silver — R$77
+              </a>
+            </div>
+
+            <!-- VIP -->
+            <div style="background:var(--bg-card);border:2px solid var(--accent);border-radius:12px;padding:24px 22px;position:relative;">
+              <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:0.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap;">RECOMENDADO</div>
+              <p style="color:var(--muted);font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Plano</p>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-size:1.4rem;">👑</span>
+                <span style="font-size:1.2rem;font-weight:800;color:var(--accent);letter-spacing:1px;">VIP</span>
+              </div>
+              <div style="margin:14px 0 6px;">
+                <span style="color:var(--muted);font-size:0.8rem;">R$</span>
+                <span style="font-size:3rem;font-weight:800;color:var(--accent);letter-spacing:-1px;line-height:1;">147</span>
+              </div>
+              <p style="color:var(--muted);font-size:0.82rem;margin-bottom:10px;">Para quem quer aplicar e estruturar de verdade</p>
+              <p style="color:var(--muted);font-size:0.78rem;font-style:italic;margin-bottom:16px;line-height:1.5;">Se você fosse contratar isso de forma individual, pagaria centenas ou milhares de reais.</p>
+              <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px;">
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Tudo do Silver</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Grupo exclusivo</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Sessão diária de tira-dúvidas</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Estrutura de escala</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:0.88rem;">✅</span><span style="color:var(--muted);font-size:0.87rem;">Biblioteca de frameworks de escala empresarial</span></div>
+                <div style="padding:10px 14px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;margin-top:4px;">
+                  <p style="color:var(--accent);font-size:0.73rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Dentro da biblioteca:</p>
+                  <div style="display:flex;flex-direction:column;gap:7px;">
+                    <span style="color:var(--muted);font-size:0.84rem;">📋 Modelo de reunião de liderança</span>
+                    <span style="color:var(--muted);font-size:0.84rem;">🏹 Estrutura de time comercial</span>
+                    <span style="color:var(--muted);font-size:0.84rem;">🧭 Framework de cultura</span>
+                  </div>
+                </div>
+              </div>
+              <a id="btn-desafio"
+                 href="https://pay.hotmart.com/B105433877N?checkoutMode=10"
+                 target="_blank" rel="noopener noreferrer"
+                 class="btn-desafio cta-pulse"
+                 style="display:block;width:100%;text-align:center;text-decoration:none;box-sizing:border-box;">
+                👑 Quero o VIP — R$147
+              </a>
+            </div>
+
+          </div>
+
+          <p style="color:var(--muted);font-size:0.76rem;margin-top:22px;text-align:center;">🛡️ Garantia incondicional: se não tiver clareza total até o final, devolvemos 100% — sem burocracia.</p>
+        </div>
+
+        </div><!-- /sales-section -->
+      `;
+
+      showScreen('screen-result');
+
+      // Score count-up
+      const scoreEl = document.getElementById('score-total');
+      if (scoreEl) animateCount(scoreEl, 0, total, 1200);
+
+      // Barras + radar
+      setTimeout(() => {
+        document.querySelectorAll('[data-animate-bar]').forEach(bar => {
+          bar.style.width = bar.dataset.animateBar;
+        });
+        drawRadarChart('radar-chart', dimScores);
+      }, 120);
+
+      // Countdown
+      initCountdown();
+
+      // CTA pulse after scroll delay
+      setTimeout(() => {
+        const btnD = document.getElementById('btn-desafio');
+        if (btnD) {
+          btnD.classList.remove('cta-pulse');
+          void btnD.offsetWidth;
+          btnD.classList.add('cta-pulse');
+        }
+      }, 3500);
+
+      salvarLead({
+        nome:      userName,
+        whatsapp:  userWhatsApp,
+        pontuacao: total,
+        faixa:     faixa.title,
+        projetado: projectedTotal
+      });
+
+      try {
+        localStorage.setItem('raio-x-360-isca', JSON.stringify({ answers, total, userName, userWhatsApp, timestamp: Date.now() }));
+      } catch(_) {}
+    }
+
+    function restartDiagnostic() {
+      currentDimIndex = 0;
+      currentQuestionIndex = 0;
+      answers = {};
+      userName = '';
+      userWhatsApp = '';
+      document.getElementById('result-content').innerHTML = '';
+      try { localStorage.removeItem('raio-x-360-isca'); } catch(_) {}
+      showScreen('screen-intro');
+    }
+
+    // ── COUNTDOWN ─────────────────────────────────────────────────────────────
+    function startCountdown() {
+      const el = document.getElementById('countdown');
+      if (!el) return;
+      const target = new Date('2026-05-25T00:00:00');
+      function render() {
+        const diff = target - new Date();
+        if (diff <= 0) {
+          el.innerHTML = '<p style="color:var(--accent);font-weight:800;font-size:1.1rem;">🎯 O desafio começa hoje!</p>';
+          return;
+        }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins  = Math.floor((diff % 3600000) / 60000);
+        const secs  = Math.floor((diff % 60000) / 1000);
+        el.innerHTML = [{ v: days, l: 'dias' }, { v: hours, l: 'horas' }, { v: mins, l: 'min' }, { v: secs, l: 'seg' }]
+          .map(({ v, l }) => `
+            <div style="text-align:center;">
+              <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:0;padding:10px 14px;min-width:56px;">
+                <span style="font-size:1.65rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;">${String(v).padStart(2,'0')}</span>
+              </div>
+              <span style="color:var(--muted);font-size:0.68rem;margin-top:4px;display:block;">${l}</span>
+            </div>`).join('');
+        if (window._countdownTimer) clearTimeout(window._countdownTimer);
+        window._countdownTimer = setTimeout(render, 1000);
+      }
+      render();
+    }
+
+    function initCountdown() {
+      const el = document.getElementById('countdown');
+      if (!el) return;
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) { startCountdown(); obs.disconnect(); }
+        }, { threshold: 0.4 });
+        obs.observe(el);
+      } else {
+        setTimeout(startCountdown, 2500);
+      }
+    }
+
+    // ── ATALHOS DE TECLADO ────────────────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+      const v = parseInt(e.key);
+      if (v >= 1 && v <= 5 && document.getElementById('screen-dimension').classList.contains('active')) {
+        const dim = DIMENSIONS[currentDimIndex];
+        const key = `${dim.id}-${currentQuestionIndex}`;
+        if (answers[key] === undefined) selectRating(key, v);
+      }
+    });
+
+    // ── RESTAURAR RESULTADO SALVO ─────────────────────────────────────────────
+    function restoreSavedResult() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('raio-x-360-isca'));
+        if (!saved?.answers) return;
+        answers = saved.answers;
+        userName     = saved.userName     || '';
+        userWhatsApp = saved.userWhatsApp || '';
+        currentDimIndex = DIMENSIONS.length;
+        showResult();
+      } catch(_) {}
+    }
+
+    (function checkSavedResult() {})();
+  </script>
+</body>
+</html>

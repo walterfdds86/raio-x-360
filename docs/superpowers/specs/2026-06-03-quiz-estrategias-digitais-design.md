@@ -104,16 +104,18 @@ Quiz de diagnóstico híbrido (marketing + IA) da Estratégias Digitais para ser
 
 **Referência:** propostapaloma.lovable.app (identidade da Estratégias Digitais)
 
-**Paleta (extraída do site de referência):**
+**Paleta (extraída do logo oficial + site de referência):**
 - Fundo principal: `#FFFFFF` (branco limpo)
-- Azul primário: `#2563EB` (botões, títulos destacados, ícones, bordas ativas)
-- Azul hover: `#1D4ED8`
-- Seções alternadas: `#EFF6FF` (azul-50, fundo suave)
-- Banner/CTA destaque: gradiente `#2563EB → #1E40AF`
-- Texto escuro: `#1E293B`
+- Azul cyan primário: `#00AEEF` (cor exata do ícone da logo — botões, títulos, ícones, bordas ativas)
+- Azul hover: `#0099D4`
+- Seções alternadas: `#F0FAFF` (cyan-50, fundo suave)
+- Banner/CTA destaque: gradiente `#00AEEF → #0077B6`
+- Texto escuro: `#3D4C6B` (mesma cor do texto da logo)
 - Texto secundário: `#64748B`
 - Bordas/cards: `#E2E8F0` com sombra suave
 - Branco no botão CTA: texto `#FFFFFF`
+
+**Logo:** `diagnostico-estrategiasdigitais/logo-ed.png` (arquivo salvo no projeto)
 
 **Fonte:** Inter (Google Fonts) — pesos 400, 600, 700, 800
 

@@ -1,7 +1,7 @@
 # Quiz Estratégias Digitais — Diagnóstico Digital
 
 **Data:** 2026-06-03  
-**Arquivo de saída:** `quiz-ed.html`  
+**Arquivo de saída:** `diagnostico-estrategiasdigitais/index.html`  
 **Base:** `isca.html` adaptada (opção C — layout repensado para evento)
 
 ---
@@ -102,20 +102,27 @@ Quiz de diagnóstico híbrido (marketing + IA) da Estratégias Digitais para ser
 
 ## Visual e Branding
 
-**Paleta:**
-- Fundo: `#0A0F1E` (azul-noite)
-- Acento principal: `#00D4FF` (azul-elétrico / IA)
-- Acento secundário: `#7B2FBE` (roxo / marketing)
-- Gradiente CTAs: `#00D4FF → #7B2FBE`
-- Cards/bordas: `#111827`
-- Texto muted: `#8B9DB5`
+**Referência:** propostapaloma.lovable.app (identidade da Estratégias Digitais)
 
-**Fonte:** Inter (Google Fonts)
+**Paleta (extraída do site de referência):**
+- Fundo principal: `#FFFFFF` (branco limpo)
+- Azul primário: `#2563EB` (botões, títulos destacados, ícones, bordas ativas)
+- Azul hover: `#1D4ED8`
+- Seções alternadas: `#EFF6FF` (azul-50, fundo suave)
+- Banner/CTA destaque: gradiente `#2563EB → #1E40AF`
+- Texto escuro: `#1E293B`
+- Texto secundário: `#64748B`
+- Bordas/cards: `#E2E8F0` com sombra suave
+- Branco no botão CTA: texto `#FFFFFF`
+
+**Fonte:** Inter (Google Fonts) — pesos 400, 600, 700, 800
 
 **Adaptações para evento:**
+- Fundo branco (legível em ambientes iluminados de evento)
 - Headline grande na intro — legível ao escanear QR code
 - Gráfico de barras das 4 dimensões no resultado (visual, rápido de ler)
 - Menos texto corrido, mais números e ícones
+- Cards com borda azul e sombra sutil
 - Sem menu de navegação
 - Sem referência ao Bruno Capanema em nenhum ponto
 
@@ -129,9 +136,9 @@ Quiz de diagnóstico híbrido (marketing + IA) da Estratégias Digitais para ser
 ## Arquitetura Técnica
 
 - HTML/CSS/JS puro (sem frameworks)
-- Baseado na estrutura da `isca.html` com adaptações visuais
-- `quiz-ed.html` — novo arquivo no mesmo repositório
-- Deploy automático via Vercel (mesmo projeto `raio-x-360`)
-- URL final: `raio-x-360.vercel.app/quiz-ed.html`
+- Baseado na estrutura da `isca.html` com visual completamente diferente (tema claro)
+- **Pasta:** `diagnostico-estrategiasdigitais/index.html` — projeto separado dentro do repo
+- **Deploy:** novo projeto Vercel apontando para o subdiretório `diagnostico-estrategiasdigitais/`
+- **URL final:** `diagnostico-ed.vercel.app` (ou nome escolhido ao criar o projeto Vercel)
 - Integração Sheets via Apps Script (novo endpoint para nova planilha)
 - localStorage para evitar reenvio duplicado

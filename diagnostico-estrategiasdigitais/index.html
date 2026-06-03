@@ -522,7 +522,8 @@
 
     @media (max-width: 360px) {
       .intro-headline { font-size: 22px; }
-      .scale-btn { font-size: 15px; padding: 12px 0; }
+      .scale-buttons { gap: 6px; }
+      .scale-btn { font-size: 15px; padding: 16px 0; min-height: 48px; }
       .stats-row { gap: 12px; }
     }
   </style>
@@ -693,6 +694,11 @@
 </div>
 
 <script>
+  /* ─── XSS ESCAPE ─── */
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
   /* ─── CONFIG ─── */
   const PLANILHA_URL = 'COLE_A_URL_DO_APPS_SCRIPT_AQUI';
 
@@ -922,25 +928,23 @@
     const weakestName = weakest.name;
     let closingText = '';
     if (faixa.cor === '#EF4444') {
-      closingText = `${userName}, o diagnóstico da <strong>${userEmpresa}</strong> é claro: o digital ainda não trabalha por você. Cada mês sem estratégia estruturada é receita que fica na mesa. Vamos mapear juntos onde está o maior gargalo e o que priorizar agora.`;
+      closingText = `${esc(userName)}, o diagnóstico da <strong>${esc(userEmpresa)}</strong> é claro: o digital ainda não trabalha por você. Cada mês sem estratégia estruturada é receita que fica na mesa. Vamos mapear juntos onde está o maior gargalo e o que priorizar agora.`;
     } else if (faixa.cor === '#F59E0B') {
-      closingText = `${userName}, a <strong>${userEmpresa}</strong> já deu os primeiros passos no digital — mas o esforço ainda não gera resultado proporcional. O maior gap está em <strong>${weakestName}</strong>. Com os ajustes certos, isso muda rápido.`;
+      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> já deu os primeiros passos no digital — mas o esforço ainda não gera resultado proporcional. O maior gap está em <strong>${esc(weakestName)}</strong>. Com os ajustes certos, isso muda rápido.`;
     } else if (faixa.cor === '#10B981') {
-      closingText = `${userName}, a <strong>${userEmpresa}</strong> tem uma base digital sólida. O que impede o próximo nível são pontos cegos em <strong>${weakestName}</strong>. Precisão nessa área pode desbloquear um crescimento significativo.`;
+      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> tem uma base digital sólida. O que impede o próximo nível são pontos cegos em <strong>${esc(weakestName)}</strong>. Precisão nessa área pode desbloquear um crescimento significativo.`;
     } else {
-      closingText = `${userName}, a <strong>${userEmpresa}</strong> está entre as empresas mais preparadas digitalmente. O próximo movimento é ativar IA e automação nos processos certos para crescer sem aumentar custo operacional.`;
+      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> está entre as empresas mais preparadas digitalmente. O próximo movimento é ativar IA e automação nos processos certos para crescer sem aumentar custo operacional.`;
     }
     document.getElementById('closing-box').innerHTML = closingText;
 
     // Mostrar tela
     showScreen('screen-result');
 
-    // Animar círculo após render
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        fillEl.style.strokeDashoffset = offset;
-      }, 100);
-    });
+    // Animar círculo após render (rAF duplo para Safari/iOS)
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (fillEl) fillEl.style.strokeDashoffset = offset;
+    }));
 
     // Animar barras
     setTimeout(() => {
@@ -961,23 +965,23 @@
   }
 
   function abrirWhatsApp() {
-    const wppRaw = document.getElementById('inp-wpp').value.replace(/\D/g, '');
-    if (wppRaw.length < 10) {
+    const wppEl = document.getElementById('inp-wpp');
+    const wpp   = wppEl ? wppEl.value.replace(/\D/g, '') : '';
+    if (wpp.length < 10) {
       alert('Por favor, informe seu WhatsApp com DDD para continuar.');
       return;
     }
 
-    const { displayScore, faixa } = calcScores();
+    const { displayScore, faixa, weakest } = calcScores();
 
-    // salvar lead com WhatsApp
     salvarLead({
-      nome: userName,
-      empresa: userEmpresa,
-      whatsapp: wppRaw,
-      pontuacao: displayScore,
-      faixa: faixa.label,
-      dimensao_fraca: calcScores().weakest.name,
-      respostas: respostas
+      nome:           userName,
+      empresa:        userEmpresa,
+      whatsapp:       wpp,
+      pontuacao:      displayScore,
+      faixa:          faixa.label,
+      dimensao_fraca: weakest.name,
+      respostas:      respostas
     });
 
     const msg = encodeURIComponent(

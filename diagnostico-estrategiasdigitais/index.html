@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagnóstico Digital — Estratégias Digitais</title>
-  <meta property="og:title" content="Diagnóstico Digital — Estratégias Digitais">
-  <meta property="og:description" content="Descubra o nível de maturidade digital da sua empresa em 3 minutos.">
+  <title>Diagnóstico de Crescimento — Estratégias Digitais</title>
+  <meta property="og:title" content="Diagnóstico de Crescimento — Estratégias Digitais">
+  <meta property="og:description" content="Descubra quanto faturamento sua empresa está perdendo por não usar marketing e IA do jeito certo.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#00AEEF">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -542,10 +542,10 @@
     </div>
 
     <h1 class="intro-headline">
-      Qual é o <span>nível digital</span><br>da sua empresa?
+      Descubra quanto faturamento sua empresa está <span>perdendo</span> por não usar marketing e IA do jeito certo
     </h1>
     <p class="intro-sub">
-      Responda 8 perguntas rápidas e descubra onde sua empresa está e o que priorizar para crescer no digital.
+      8 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.
     </p>
 
     <div class="stats-row">
@@ -560,13 +560,13 @@
         <span class="stat-lbl">Duração</span>
       </div>
       <div class="stat-item">
-        <span class="stat-icon">🎁</span>
+        <span class="stat-icon">🎯</span>
         <span class="stat-val">100%</span>
         <span class="stat-lbl">Gratuito</span>
       </div>
     </div>
 
-    <button class="btn-primary" onclick="goToCapture()">Iniciar Diagnóstico →</button>
+    <button class="btn-primary" onclick="goToCapture()">Revelar meus gargalos →</button>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -578,9 +578,9 @@
            onerror="this.style.display='none'">
     </div>
 
-    <h2 class="capture-title">Antes de começar…</h2>
+    <h2 class="capture-title">Para quem é esse diagnóstico?</h2>
     <p class="capture-sub">
-      Preencha os dados abaixo para personalizar seu diagnóstico.
+      Informe seus dados para receber um resultado personalizado para o seu negócio.
     </p>
 
     <div class="field-group">
@@ -594,7 +594,7 @@
       </div>
     </div>
 
-    <button class="btn-primary" onclick="startQuiz()">Começar →</button>
+    <button class="btn-primary" onclick="startQuiz()">Quero descobrir meus gargalos →</button>
     <button class="btn-secondary" onclick="showScreen('screen-intro')">← Voltar</button>
   </div>
 
@@ -635,8 +635,8 @@
     <div class="spinner-wrap">
       <div class="spinner"></div>
     </div>
-    <p class="processing-title">Analisando seu diagnóstico…</p>
-    <p class="processing-sub">Calculando o nível de maturidade digital da sua empresa.</p>
+    <p class="processing-title">Mapeando seus gargalos…</p>
+    <p class="processing-sub">Calculando onde está o faturamento que sua empresa ainda não está capturando.</p>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -663,7 +663,7 @@
 
     <!-- Dimensões -->
     <div class="dims-section">
-      <div class="dims-title">Suas dimensões</div>
+      <div class="dims-title">Onde está seu potencial de crescimento</div>
       <div id="dims-list"></div>
     </div>
 
@@ -674,7 +674,7 @@
 
     <!-- WhatsApp -->
     <div class="wpp-section">
-      <p class="wpp-label">📲 Receba um plano de ação personalizado</p>
+      <p class="wpp-label">📲 Quero um plano para faturar mais</p>
       <div class="wpp-row">
         <input type="tel" class="wpp-input" id="inp-wpp" placeholder="(61) 99999-9999"
                oninput="maskWpp(this)">
@@ -928,13 +928,13 @@
     const weakestName = weakest.name;
     let closingText = '';
     if (faixa.cor === '#EF4444') {
-      closingText = `${esc(userName)}, o diagnóstico da <strong>${esc(userEmpresa)}</strong> é claro: o digital ainda não trabalha por você. Cada mês sem estratégia estruturada é receita que fica na mesa. Vamos mapear juntos onde está o maior gargalo e o que priorizar agora.`;
+      closingText = `${esc(userName)}, o diagnóstico da <strong>${esc(userEmpresa)}</strong> revelou o que está travando seu faturamento: sua empresa ainda não tem uma máquina de crescimento funcionando. Cada mês sem isso é dinheiro que vai direto para o concorrente. A boa notícia? Os gargalos estão mapeados — e têm solução prática.`;
     } else if (faixa.cor === '#F59E0B') {
-      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> já deu os primeiros passos no digital — mas o esforço ainda não gera resultado proporcional. O maior gap está em <strong>${esc(weakestName)}</strong>. Com os ajustes certos, isso muda rápido.`;
+      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> já está no caminho — mas o esforço que você coloca ainda não se converte em faturamento proporcional. O principal gargalo está em <strong>${esc(weakestName)}</strong>. Resolver esse ponto pode destravar um crescimento significativo sem precisar investir mais em tráfego.`;
     } else if (faixa.cor === '#10B981') {
-      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> tem uma base digital sólida. O que impede o próximo nível são pontos cegos em <strong>${esc(weakestName)}</strong>. Precisão nessa área pode desbloquear um crescimento significativo.`;
+      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> tem uma base sólida — e é exatamente por isso que o próximo salto de faturamento está mais perto do que parece. O que está segurando é a falta de precisão em <strong>${esc(weakestName)}</strong>. Esse é o ponto que, quando resolvido, alavanca tudo o que você já construiu.`;
     } else {
-      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> está entre as empresas mais preparadas digitalmente. O próximo movimento é ativar IA e automação nos processos certos para crescer sem aumentar custo operacional.`;
+      closingText = `${esc(userName)}, a <strong>${esc(userEmpresa)}</strong> está entre as empresas mais bem posicionadas para crescer. Sua estrutura já permite escalar — o próximo passo é usar IA e automação para multiplicar o faturamento sem aumentar proporcionalmente o custo. Isso é crescimento inteligente.`;
     }
     document.getElementById('closing-box').innerHTML = closingText;
 
@@ -985,7 +985,7 @@
     });
 
     const msg = encodeURIComponent(
-      `Olá Walter, acabei de fazer o diagnóstico digital da ${userEmpresa} e quero conversar sobre os resultados.`
+      `Olá Walter, acabei de fazer o diagnóstico de crescimento da ${userEmpresa} e quero entender como posso faturar mais.`
     );
     window.open(`https://wa.me/5561999354363?text=${msg}`, '_blank');
   }

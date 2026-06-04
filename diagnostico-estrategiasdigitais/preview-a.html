@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview A — Consultoria Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0D1B2A;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .card {
+      max-width: 520px;
+      width: 100%;
+      background: #152232;
+      border: 1px solid #1E3347;
+      border-radius: 16px;
+      padding: 48px 40px;
+    }
+
+    .logo-area {
+      margin-bottom: 40px;
+    }
+
+    .logo-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #00AEEF;
+    }
+
+    .badge {
+      display: inline-block;
+      border: 1px solid #1E3347;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748B;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    h1 span {
+      color: #00AEEF;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #64748B;
+      margin-bottom: 36px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid #1E3347;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748B;
+      margin-bottom: 4px;
+    }
+
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      background: #00AEEF;
+      color: #0D1B2A;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .label {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00AEEF;
+      color: #0D1B2A;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+    }
+
+    /* QUIZ PREVIEW */
+    .quiz-card {
+      max-width: 520px;
+      width: 100%;
+      background: #152232;
+      border: 1px solid #1E3347;
+      border-radius: 16px;
+      padding: 32px 40px;
+      margin-top: 24px;
+    }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .prog-label { font-size: 0.72rem; color: #64748B; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+    .prog-pct { font-size: 0.72rem; color: #00AEEF; font-weight: 600; }
+
+    .prog-bar { height: 2px; background: #1E3347; border-radius: 99px; margin-bottom: 32px; }
+    .prog-fill { height: 100%; width: 25%; background: #00AEEF; border-radius: 99px; }
+
+    .dim-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #00AEEF;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    .scale {
+      display: flex;
+      gap: 10px;
+    }
+
+    .scale-btn {
+      flex: 1;
+      aspect-ratio: 1;
+      background: #0D1B2A;
+      border: 1px solid #1E3347;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #64748B;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scale-btn.active {
+      background: #00AEEF;
+      border-color: #00AEEF;
+      color: #0D1B2A;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: #64748B;
+      letter-spacing: 0.04em;
+    }
+
+    /* RESULT PREVIEW */
+    .result-card {
+      max-width: 520px;
+      width: 100%;
+      background: #152232;
+      border: 1px solid #1E3347;
+      border-radius: 16px;
+      padding: 32px 40px;
+      margin-top: 24px;
+    }
+
+    .result-header { text-align: center; margin-bottom: 32px; }
+    .result-company { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; color: #64748B; font-weight: 600; margin-bottom: 20px; }
+    .score-big { font-size: 4rem; font-weight: 800; color: #00AEEF; line-height: 1; }
+    .score-sub { font-size: 0.75rem; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+    .faixa-label { display: inline-block; font-size: 0.8rem; font-weight: 700; color: #10B981; border: 1px solid #10B981; border-radius: 4px; padding: 4px 12px; margin-top: 16px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    .dim-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .dim-name { font-size: 0.78rem; color: #94A3B8; font-weight: 500; width: 140px; flex-shrink: 0; }
+    .bar-bg { flex: 1; height: 3px; background: #1E3347; border-radius: 99px; }
+    .bar-fill { height: 100%; border-radius: 99px; background: #00AEEF; }
+    .bar-pct { font-size: 0.72rem; color: #64748B; width: 36px; text-align: right; font-weight: 600; }
+
+    .wpp-section { margin-top: 28px; padding-top: 28px; border-top: 1px solid #1E3347; }
+    .wpp-title { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .wpp-input {
+      width: 100%;
+      background: #0D1B2A;
+      border: 1px solid #1E3347;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 10px;
+      outline: none;
+    }
+    .btn-wpp {
+      width: 100%;
+      background: #00AEEF;
+      color: #0D1B2A;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="label">Opção A — Consultoria Premium</div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:520px;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <div class="logo-area">
+        <div class="logo-text">Estratégias Digitais</div>
+      </div>
+      <div class="badge">Diagnóstico de Crescimento</div>
+      <h1>Descubra quanto faturamento sua empresa está <span>perdendo</span> por não usar marketing e IA do jeito certo</h1>
+      <p>8 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.</p>
+      <div class="stats">
+        <div>
+          <div class="stat-label">Perguntas</div>
+          <div class="stat-val">8</div>
+        </div>
+        <div>
+          <div class="stat-label">Duração</div>
+          <div class="stat-val">3 min</div>
+        </div>
+        <div>
+          <div class="stat-label">Custo</div>
+          <div class="stat-val">Gratuito</div>
+        </div>
+      </div>
+      <button class="btn">Revelar meus gargalos →</button>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-card">
+      <div class="progress-row">
+        <span class="prog-label">Pergunta 2 de 8</span>
+        <span class="prog-pct">25%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill"></div></div>
+      <div class="dim-tag">Atração de Clientes</div>
+      <p class="question">Você tem uma estratégia clara e ativa de tráfego pago ou orgânico?</p>
+      <div class="scale">
+        <div class="scale-btn">1</div>
+        <div class="scale-btn">2</div>
+        <div class="scale-btn active">3</div>
+        <div class="scale-btn">4</div>
+        <div class="scale-btn">5</div>
+      </div>
+      <div class="scale-labels"><span>Quase nunca</span><span>Sempre</span></div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-company">Diagnóstico — Empresa XYZ</div>
+        <div class="score-big">68</div>
+        <div class="score-sub">de 100 pontos</div>
+        <div class="faixa-label">Tração Digital</div>
+      </div>
+      <div>
+        <div class="dim-row">
+          <span class="dim-name">Presença Digital</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
+          <span class="bar-pct">80%</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">Atração de Clientes</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:60%"></div></div>
+          <span class="bar-pct">60%</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">Conversão e Vendas</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:70%"></div></div>
+          <span class="bar-pct">70%</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">Inteligência Artificial</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:40%"></div></div>
+          <span class="bar-pct">40%</span>
+        </div>
+      </div>
+      <div class="wpp-section">
+        <div class="wpp-title">Quero um plano para faturar mais</div>
+        <input class="wpp-input" type="tel" placeholder="(61) 99999-9999">
+        <button class="btn-wpp">Falar com consultor →</button>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

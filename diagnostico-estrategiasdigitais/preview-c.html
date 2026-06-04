@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview C — Dark com Toque Dourado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0A0A0A;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .label {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #D4A017;
+      color: #0A0A0A;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+    }
+
+    .wrap {
+      max-width: 520px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* INTRO */
+    .intro {
+      background: #111111;
+      padding: 52px 44px;
+      border: 1px solid #1F1F1F;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 44px;
+    }
+
+    .logo-line {
+      width: 28px;
+      height: 2px;
+      background: #00AEEF;
+    }
+
+    .logo-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #D4A017;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    h1 span {
+      color: #D4A017;
+    }
+
+    .sub {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #555;
+      margin-bottom: 44px;
+    }
+
+    .line { height: 1px; background: #1F1F1F; margin-bottom: 36px; }
+
+    .stats { display: flex; gap: 40px; margin-bottom: 40px; }
+    .stat-label { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3D3D3D; margin-bottom: 6px; }
+    .stat-val { font-size: 1.3rem; font-weight: 700; color: #888; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      background: #D4A017;
+      color: #0A0A0A;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      padding: 18px 24px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* QUIZ */
+    .quiz {
+      background: #111111;
+      padding: 40px 44px;
+      border: 1px solid #1F1F1F;
+    }
+
+    .prog-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .prog-lbl { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #3D3D3D; }
+    .prog-pct { font-size: 0.65rem; font-weight: 700; color: #D4A017; }
+
+    .prog-track { height: 1px; background: #1F1F1F; margin-bottom: 36px; overflow: hidden; }
+    .prog-fill { height: 100%; width: 25%; background: #D4A017; }
+
+    .dim-tag {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #3D3D3D;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #E0E0E0;
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+
+    .scale { display: flex; gap: 8px; }
+
+    .scale-btn {
+      flex: 1;
+      aspect-ratio: 1;
+      background: #0A0A0A;
+      border: 1px solid #1F1F1F;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #3D3D3D;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scale-btn.active {
+      background: #D4A017;
+      border-color: #D4A017;
+      color: #0A0A0A;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.63rem;
+      color: #3D3D3D;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+
+    /* RESULTADO */
+    .result {
+      background: #111111;
+      padding: 40px 44px;
+      border: 1px solid #1F1F1F;
+    }
+
+    .result-company { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: #3D3D3D; margin-bottom: 28px; }
+
+    .score-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+    .score-big { font-size: 5rem; font-weight: 800; color: #D4A017; line-height: 1; letter-spacing: -0.05em; }
+    .score-sub { font-size: 1.2rem; color: #3D3D3D; }
+
+    .faixa-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #555;
+      border: 1px solid #1F1F1F;
+      padding: 4px 12px;
+      margin-bottom: 36px;
+    }
+
+    .dim-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .dim-name { font-size: 0.75rem; font-weight: 500; color: #555; width: 150px; flex-shrink: 0; }
+    .bar-bg { flex: 1; height: 1px; background: #1F1F1F; }
+    .bar-fill { height: 100%; background: #D4A017; }
+    .bar-pct { font-size: 0.72rem; font-weight: 700; color: #888; width: 36px; text-align: right; }
+
+    .section-line { height: 1px; background: #1F1F1F; margin: 32px 0; }
+
+    .wpp-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin-bottom: 14px; }
+
+    .wpp-input {
+      width: 100%;
+      background: #0A0A0A;
+      border: 1px solid #1F1F1F;
+      padding: 13px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    .btn-wpp {
+      width: 100%;
+      background: #D4A017;
+      color: #0A0A0A;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 15px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="label">Opção C — Dark com Toque Dourado</div>
+
+  <div class="wrap">
+
+    <!-- INTRO -->
+    <div class="intro">
+      <div class="logo-row">
+        <div class="logo-line"></div>
+        <div class="logo-name">Estratégias Digitais</div>
+      </div>
+      <div class="tag">Diagnóstico de Crescimento</div>
+      <h1>Descubra quanto faturamento sua empresa está <span>perdendo</span> por não usar marketing e IA do jeito certo</h1>
+      <p class="sub">8 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.</p>
+      <div class="line"></div>
+      <div class="stats">
+        <div>
+          <div class="stat-label">Perguntas</div>
+          <div class="stat-val">8</div>
+        </div>
+        <div>
+          <div class="stat-label">Duração</div>
+          <div class="stat-val">3 min</div>
+        </div>
+        <div>
+          <div class="stat-label">Custo</div>
+          <div class="stat-val">Grátis</div>
+        </div>
+      </div>
+      <button class="btn">Revelar meus gargalos →</button>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+      <div class="prog-header">
+        <span class="prog-lbl">Pergunta 2 de 8</span>
+        <span class="prog-pct">25%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill"></div></div>
+      <div class="dim-tag">Atração de Clientes</div>
+      <p class="question">Você tem uma estratégia clara e ativa de tráfego pago ou orgânico?</p>
+      <div class="scale">
+        <div class="scale-btn">1</div>
+        <div class="scale-btn">2</div>
+        <div class="scale-btn active">3</div>
+        <div class="scale-btn">4</div>
+        <div class="scale-btn">5</div>
+      </div>
+      <div class="scale-labels"><span>Quase nunca</span><span>Sempre</span></div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="result">
+      <div class="result-company">Diagnóstico — Empresa XYZ</div>
+      <div class="score-row">
+        <div class="score-big">68</div>
+        <div class="score-sub">/ 100</div>
+      </div>
+      <div class="faixa-badge">Tração Digital</div>
+      <div>
+        <div class="dim-row">
+          <span class="dim-name">Presença Digital</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
+          <span class="bar-pct">80%</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">Atração de Clientes</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:60%"></div></div>
+          <span class="bar-pct">60%</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">Conversão e Vendas</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:70%"></div></div>
+          <span class="bar-pct">70%</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">Inteligência Artificial</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:40%"></div></div>
+          <span class="bar-pct">40%</span>
+        </div>
+      </div>
+      <div class="section-line"></div>
+      <div class="wpp-title">Quero um plano para faturar mais</div>
+      <input class="wpp-input" type="tel" placeholder="(61) 99999-9999">
+      <button class="btn-wpp">Falar com consultor →</button>
+    </div>
+
+  </div>
+</body>
+</html>

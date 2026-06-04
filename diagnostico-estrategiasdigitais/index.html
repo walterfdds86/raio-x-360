@@ -752,6 +752,128 @@
       letter-spacing: 0.06em;
     }
     .profile-summary .sep { color: var(--border); }
+
+    /* ── MELHORIA 1 — TELA DE TRANSIÇÃO ── */
+    .trans-eyebrow {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--navy); margin-bottom: 20px;
+    }
+    .trans-title {
+      font-size: 22px; font-weight: 800; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 12px;
+    }
+    .trans-title span { color: var(--navy); }
+    .trans-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
+    .trans-bar-wrap { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .trans-bar-fill {
+      height: 100%; width: 0; background: var(--navy);
+      border-radius: 99px; transition: width 2.2s linear;
+    }
+
+    /* ── MELHORIA 2 — RECEITA PERDIDA ── */
+    .revenue-block {
+      background: #FEF2F2;
+      border: 1.5px solid #DC2626;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+    .rev-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: #DC2626; margin-bottom: 10px;
+    }
+    .rev-range {
+      font-size: 28px; font-weight: 800; color: var(--text);
+      letter-spacing: -0.03em; line-height: 1;
+    }
+    .rev-period { font-size: 16px; font-weight: 600; color: var(--muted); }
+    .rev-sub { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+    /* ── MELHORIA 3 — RELATÓRIO ── */
+    .report-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 24px 28px;
+      margin-bottom: 0;
+    }
+    .report-meta {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 10px;
+    }
+    .report-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: rgba(255,255,255,0.6);
+    }
+    .btn-print {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 2px; cursor: pointer;
+    }
+    .report-empresa {
+      font-size: 22px; font-weight: 800; color: #fff;
+      letter-spacing: -0.02em; margin-bottom: 4px;
+    }
+    .report-date { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+    /* ── MELHORIA 4 — FRASE ESPELHO ── */
+    .mirror-box {
+      border-left: 3px solid var(--navy);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      background: var(--bg);
+    }
+    .mirror-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--navy); margin-bottom: 10px;
+    }
+    .mirror-box p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .mirror-box strong { color: var(--text); font-weight: 700; }
+
+    /* ── MELHORIA 5 — CTA COM CALENDLY + WHATSAPP ── */
+    .cta-block { background: var(--surface); border: 1.5px solid var(--border); padding: 32px 28px; margin-top: 4px; }
+    .cta-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--navy); margin-bottom: 14px; }
+    .cta-block .cta-title { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.3; }
+    .cta-block .cta-sub { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 24px; }
+    .cta-block .cta-sub strong { color: var(--text); font-weight: 700; }
+    .btn-calendly { margin-bottom: 10px; }
+    .cta-micro { font-size: 11px; color: var(--light); text-align: center; margin-bottom: 24px; }
+    .or-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .or-divider span { font-size: 12px; color: var(--light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .wpp-section { display: flex; flex-direction: column; gap: 10px; }
+    @media (max-width: 480px) {
+      .cta-block { padding: 24px 20px; }
+    }
+
+    /* ── MELHORIA 6 — TELA DE CONFIRMAÇÃO ── */
+    .conf-check {
+      width: 56px; height: 56px; background: var(--navy); color: #fff;
+      border-radius: 50%; font-size: 24px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .conf-title { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .conf-name { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+    .conf-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    .conf-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+    .conf-steps-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text); margin-bottom: 14px; }
+    .conf-steps { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .conf-steps li { font-size: 14px; color: var(--muted); padding-left: 20px; position: relative; line-height: 1.5; }
+    .conf-steps li::before { content: '→'; position: absolute; left: 0; color: var(--navy); font-weight: 700; }
+
+    /* ── IMPRESSÃO ── */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff; }
+      .screen { display: flex !important; }
+      .screen:not(#screen-result) { display: none !important; }
+      .report-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
   </style>
 </head>
 <body>
@@ -834,6 +956,31 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
+       TELA 2b — TRANSIÇÃO PERFIL → DIAGNÓSTICO
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-transition-diag">
+    <div class="page-header">
+      <div class="logo-mark">
+        <img src="logo-ed.png" alt="Estratégias Digitais"
+             style="height:32px"
+             onerror="this.style.display='none'; document.getElementById('logo-fallback-trans').style.display='flex'">
+        <div id="logo-fallback-trans" style="display:none; align-items:center; gap:6px;">
+          <span class="logo-dot">&#9679;</span>
+          <span class="logo-text">Estratégias Digitais</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align:center; padding: 60px 44px;">
+      <div class="trans-eyebrow">Perfil capturado</div>
+      <h2 class="trans-title">Iniciando análise profunda<br>da <span id="trans-empresa-name"></span></h2>
+      <p class="trans-sub">Agora vamos medir as 6 dimensões críticas<br>do crescimento do seu negócio.</p>
+      <div class="trans-bar-wrap">
+        <div class="trans-bar-fill" id="trans-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
        TELA 3 — QUIZ
   ═══════════════════════════════════════════ -->
   <div class="screen" id="screen-quiz">
@@ -874,7 +1021,18 @@
        TELA 5 — RESULTADO
   ═══════════════════════════════════════════ -->
   <div class="screen" id="screen-result">
-    <div class="page-header">
+    <!-- Cabeçalho do relatório (Melhoria 3) -->
+    <div class="report-header" id="report-header-block">
+      <div class="report-meta">
+        <span class="report-tag">RELATÓRIO DE CRESCIMENTO</span>
+        <button class="btn-print no-print" onclick="window.print()">&#8595; Salvar relatório</button>
+      </div>
+      <div class="report-empresa" id="report-empresa"></div>
+      <div class="report-date" id="report-date"></div>
+    </div>
+
+    <!-- Logo (apenas visível na impressão via page-header oculto normalmente) -->
+    <div class="page-header no-print" style="display:none;" id="res-logo-header">
       <div class="logo-mark">
         <img src="logo-ed.png" alt="Estratégias Digitais"
              style="height:32px"
@@ -894,6 +1052,8 @@
       </div>
       <div class="faixa-badge" id="faixa-badge">—</div>
       <div class="result-company" id="result-company"></div>
+      <!-- Melhoria 2 — Receita perdida -->
+      <div id="revenue-block-wrap"></div>
       <div class="authority-line">Análise gerada com base em 6 dimensões de crescimento — Metodologia Estratégias Digitais</div>
     </div>
 
@@ -908,6 +1068,8 @@
       <div class="result-section-title">Pontos Críticos Identificados</div>
       <div class="profile-summary" id="profile-summary"></div>
       <div id="pontos-criticos-list"></div>
+      <!-- Melhoria 4 — Frase espelho -->
+      <div id="mirror-block-wrap" style="margin-top:20px;"></div>
     </div>
 
     <!-- Seção 4 — Checklist IA -->
@@ -921,17 +1083,41 @@
       <p class="fechamento-text" id="fechamento-text"></p>
     </div>
 
-    <!-- Seção 6 — CTA -->
-    <div class="cta-card">
-      <h3 class="cta-title">Pronto para o próximo nível?</h3>
-      <p class="cta-sub" id="cta-sub">Em uma call estratégica gratuita de 30 minutos com um especialista em crescimento e IA, você sai com um plano de ação específico para a sua empresa — sem achismos, sem soluções genéricas.</p>
-      <p class="cta-wpp-label">Seu WhatsApp</p>
-      <input type="tel" class="cta-wpp-input" id="inp-wpp" placeholder="(61) 99999-9999" oninput="maskWpp(this)">
-      <button class="btn-cta-wpp" onclick="abrirWhatsApp()">AGENDAR MINHA CALL ESTRATÉGICA &rarr;</button>
-      <p class="cta-micro">Gratuito. Sem compromisso. Com plano de ação ao final.</p>
-    </div>
+    <!-- Seção 6 — CTA (Melhoria 5) -->
+    <div class="cta-block" id="cta-block-wrap" style="margin: 16px 20px 0;"></div>
 
-    <button class="btn-restart" onclick="resetQuiz()">&#8617; Refazer diagnóstico</button>
+    <button class="btn-restart no-print" onclick="resetQuiz()" style="margin: 16px 20px 0;">&#8617; Refazer diagnóstico</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TELA 6 — CONFIRMAÇÃO (Melhoria 6)
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-confirmation">
+    <div class="page-header">
+      <div class="logo-mark">
+        <img src="logo-ed.png" alt="Estratégias Digitais"
+             style="height:32px"
+             onerror="this.style.display='none'; document.getElementById('logo-fallback-conf').style.display='flex'">
+        <div id="logo-fallback-conf" style="display:none; align-items:center; gap:6px;">
+          <span class="logo-dot">&#9679;</span>
+          <span class="logo-text">Estratégias Digitais</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div class="conf-check">&#10003;</div>
+      <h2 class="conf-title" id="conf-title">Excelente decisão.</h2>
+      <p class="conf-name" id="conf-name"></p>
+      <p class="conf-sub" id="conf-sub"></p>
+      <div class="conf-divider"></div>
+      <div class="conf-steps-title">Enquanto isso, prepare-se:</div>
+      <ul class="conf-steps">
+        <li>Separe as 3 principais dúvidas sobre o crescimento da empresa</li>
+        <li>Tenha em mente os resultados que quer alcançar nos próximos 90 dias</li>
+        <li>Pense em qual processo da empresa mais consome seu tempo hoje</li>
+      </ul>
+      <button class="btn-ghost" onclick="resetQuiz()">Fazer novo diagnóstico</button>
+    </div>
   </div>
 
 </div>
@@ -947,8 +1133,9 @@
   }
 
   /* ─── CONFIG ─── */
-  const PLANILHA_URL = 'https://script.google.com/macros/s/AKfycbxh-ZY0DxF5P7o9VRGBxMQEMoGmVxBfHtje8T-H1cj58mxiVrla7FqYVAcAuIByGvNG/exec';
-  const WPP_NUMBER   = '5561999354363';
+  const PLANILHA_URL  = 'https://script.google.com/macros/s/AKfycbxh-ZY0DxF5P7o9VRGBxMQEMoGmVxBfHtje8T-H1cj58mxiVrla7FqYVAcAuIByGvNG/exec';
+  const WPP_NUMBER    = '5561999354363';
+  const CALENDLY_URL  = 'COLE_SEU_LINK_CALENDLY_AQUI';
 
   /* ─── PERGUNTAS ─── */
   const PERGUNTAS = [
@@ -1206,7 +1393,29 @@
     if (qId === 'equipe')       userEquipe       = val;
 
     if (autoAdvTimer) clearTimeout(autoAdvTimer);
-    autoAdvTimer = setTimeout(() => { autoAdvTimer = null; nextQuestion(); }, 300);
+
+    // Melhoria 1: se for a última pergunta de perfil (equipe), mostra tela de transição
+    if (qId === 'equipe') {
+      autoAdvTimer = setTimeout(() => { autoAdvTimer = null; showTransitionDiag(); }, 300);
+    } else {
+      autoAdvTimer = setTimeout(() => { autoAdvTimer = null; nextQuestion(); }, 300);
+    }
+  }
+
+  /* ── MELHORIA 1 — TELA DE TRANSIÇÃO ── */
+  function showTransitionDiag() {
+    document.getElementById('trans-empresa-name').textContent = userEmpresa;
+    showScreen('screen-transition-diag');
+    // animar barra
+    setTimeout(() => {
+      document.getElementById('trans-bar-fill').style.width = '100%';
+    }, 50);
+    // avançar para primeiro quiz após 2.5s
+    setTimeout(() => {
+      currentQ++; // avança da pergunta equipe para a primeira escala
+      renderQuestion();
+      showScreen('screen-quiz');
+    }, 2500);
   }
 
   function renderScaleQuestion(container, q) {
@@ -1492,6 +1701,62 @@
     return `${esc(uName)}, a <strong>${esc(nomeEmpresa)}</strong> está bem posicionada${setorMencao}. O foco agora é integrar IA nos processos estratégicos que ainda dependem de pessoas ou ferramentas desconectadas — e multiplicar o faturamento sem aumentar proporcionalmente os custos.`;
   }
 
+  /* ── MELHORIA 2 — CÁLCULO DE RECEITA PERDIDA ── */
+  function getFatMedio(fat) {
+    if (!fat) return 65000;
+    if (fat.includes('Até'))          return 20000;
+    if (fat.includes('30.000 a'))     return 65000;
+    if (fat.includes('100.000 a'))    return 200000;
+    if (fat.includes('300.000 a'))    return 650000;
+    if (fat.includes('Acima'))        return 1200000;
+    return 65000;
+  }
+
+  function calcRevenueLoss(dimScores, faturamento) {
+    const base = getFatMedio(faturamento);
+    // Gap de cada dimensão (quanto está abaixo de 70%)
+    const gaps = dimScores.map(d => Math.max(0, 70 - d.pct) / 100);
+    // Pesos: conversão e retenção têm maior impacto em receita
+    const weights = [0.15, 0.20, 0.25, 0.10, 0.15, 0.15];
+    const factor = gaps.reduce((sum, g, i) => sum + g * weights[i], 0);
+    const low  = Math.ceil((base * Math.max(0.10, factor * 0.7))  / 1000) * 1000;
+    const high = Math.ceil((base * Math.max(0.18, factor * 1.15)) / 1000) * 1000;
+    const fmt = v => 'R$ ' + v.toLocaleString('pt-BR');
+    return { low: fmt(low), high: fmt(high) };
+  }
+
+  /* ── MELHORIA 4 — FRASE ESPELHO ── */
+  function gerarFraseMirror(setor, equipe, weakest) {
+    const s = setor && !setor.includes('Outro') ? setor.toLowerCase() : 'serviços';
+    const isPequena = equipe && (equipe.includes('solo') || equipe.includes('2 a 5'));
+    const isMed = equipe && (equipe.includes('6 a 15') || equipe.includes('16 a 50'));
+
+    let base = '';
+    if (isPequena) {
+      base = `Empresas de ${s} com equipes enxutas tendem a concentrar o crescimento em uma ou duas pessoas — o que cria um gargalo invisível: quando o fundador para, tudo para.`;
+    } else if (isMed) {
+      base = `Empresas de ${s} nessa fase de equipe frequentemente enfrentam o mesmo desafio: os processos não acompanham o crescimento, e a equipe começa a trabalhar mais sem gerar resultado proporcional.`;
+    } else {
+      base = `Empresas de ${s} com equipes maiores frequentemente perdem eficiência por falta de integração entre times e processos — o crescimento desacelera mesmo com mais pessoas.`;
+    }
+
+    const dim = weakest.name;
+    return `${base} No caso da sua empresa, o principal indicador disso está em <strong>${esc(dim)}</strong>.`;
+  }
+
+  /* ── MELHORIA 6 — CONFIRMAÇÃO PÓS-AGENDAMENTO ── */
+  function confirmarAgendamento(via) {
+    document.getElementById('conf-name').textContent = userName + ', sua solicitação foi registrada.';
+    if (via === 'calendly') {
+      document.getElementById('conf-sub').textContent =
+        'Escolha seu horário no próximo passo. Nossa equipe especializada em crescimento e IA estará pronta para a sua call.';
+    } else {
+      document.getElementById('conf-sub').textContent =
+        'Recebemos sua mensagem. Nossa equipe especializada em crescimento e IA entrará em contato em breve para confirmar sua call estratégica.';
+    }
+    setTimeout(() => showScreen('screen-confirmation'), via === 'whatsapp' ? 800 : 300);
+  }
+
   /* ─── RESULTADO ─── */
   function showResult() {
     const { total, displayScore, dimScores, weakest, faixa } = calcScores();
@@ -1507,6 +1772,11 @@
       respostas: answers
     });
 
+    // Melhoria 3 — Cabeçalho do relatório
+    const hoje = new Date().toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+    document.getElementById('report-empresa').textContent = userEmpresa;
+    document.getElementById('report-date').textContent = 'Gerado em ' + hoje + ' · Estratégias Digitais';
+
     // Score
     document.getElementById('score-number').textContent = displayScore;
 
@@ -1518,6 +1788,16 @@
 
     // Empresa
     document.getElementById('result-company').textContent = 'Diagnóstico da ' + userEmpresa;
+
+    // Melhoria 2 — Receita perdida
+    const { low, high } = calcRevenueLoss(dimScores, userFaturamento);
+    document.getElementById('revenue-block-wrap').innerHTML = `
+      <div class="revenue-block" style="margin-top:20px;">
+        <div class="rev-label">RECEITA ESTIMADA DEIXADA NA MESA</div>
+        <div class="rev-range">${esc(low)} — ${esc(high)}<span class="rev-period"> / mês</span></div>
+        <div class="rev-sub">Calculado com base no seu faturamento e nos gaps identificados nas 6 dimensões</div>
+      </div>
+    `;
 
     // Dimensões
     const dimsList = document.getElementById('dims-list');
@@ -1551,6 +1831,14 @@
       </div>
     `).join('');
 
+    // Melhoria 4 — Frase espelho
+    document.getElementById('mirror-block-wrap').innerHTML = `
+      <div class="mirror-box">
+        <div class="mirror-label">PADRÃO IDENTIFICADO</div>
+        <p>${gerarFraseMirror(userSetor, userEquipe, weakest)}</p>
+      </div>
+    `;
+
     // Checklist
     const checklist = gerarChecklist(dimScores, userCanal, userInvestimento);
     document.getElementById('checklist-list').innerHTML = checklist.map(item => `
@@ -1567,9 +1855,26 @@
     document.getElementById('fechamento-text').innerHTML =
       gerarFechamento(faixa, userCanal, userInvestimento, userEmpresa, userName);
 
-    // CTA sub personalizado
-    document.getElementById('cta-sub').textContent =
-      'Em uma call estratégica gratuita de 30 minutos com um especialista em crescimento e IA, você sai com um plano de ação específico para a ' + userEmpresa + ' — sem achismos, sem soluções genéricas.';
+    // Melhoria 5 — CTA com Calendly + WhatsApp
+    document.getElementById('cta-block-wrap').innerHTML = `
+      <div class="cta-eyebrow">PRÓXIMO PASSO</div>
+      <h3 class="cta-title">Pronto para transformar esse diagnóstico em resultado real?</h3>
+      <p class="cta-sub">Em uma call estratégica gratuita de 30 minutos com um especialista em crescimento e IA, você sai com um plano de ação específico para a <strong>${esc(userEmpresa)}</strong> — sem achismos, sem soluções genéricas.</p>
+      <a href="${esc(CALENDLY_URL)}" target="_blank" class="btn-primary btn-calendly" onclick="confirmarAgendamento('calendly')">
+        AGENDAR MINHA CALL ESTRATÉGICA &rarr;
+      </a>
+      <p class="cta-micro">Escolha o dia e horário que funciona para você · Gratuito · Com plano de ação ao final</p>
+      <div class="or-divider"><span>ou prefere o WhatsApp?</span></div>
+      <div class="wpp-section">
+        <label class="field-label">Seu WhatsApp com DDD</label>
+        <input type="tel" id="inp-wpp" placeholder="(61) 99999-9999"
+               oninput="maskWpp(this)"
+               onkeydown="if(event.key==='Enter') abrirWhatsApp()">
+        <button class="btn-primary btn-wpp" onclick="abrirWhatsApp()">
+          Enviar mensagem pelo WhatsApp &rarr;
+        </button>
+      </div>
+    `;
 
     // Mostrar tela
     showScreen('screen-result');
@@ -1617,6 +1922,9 @@
       'Olá Walter, fiz o diagnóstico de crescimento da ' + userEmpresa + setorTexto + ' e quero agendar minha call estratégica gratuita.'
     );
     window.open('https://wa.me/' + WPP_NUMBER + '?text=' + msg, '_blank');
+
+    // Melhoria 6 — mostrar tela de confirmação após abrir WhatsApp
+    confirmarAgendamento('whatsapp');
   }
 
   /* ─── GOOGLE SHEETS ─── */
@@ -1668,7 +1976,8 @@
     userEquipe       = '';
     document.getElementById('inp-nome').value    = '';
     document.getElementById('inp-empresa').value = '';
-    document.getElementById('inp-wpp').value     = '';
+    const wppResetEl = document.getElementById('inp-wpp');
+    if (wppResetEl) wppResetEl.value = '';
     if (autoAdvTimer) { clearTimeout(autoAdvTimer); autoAdvTimer = null; }
     showScreen('screen-intro');
   }

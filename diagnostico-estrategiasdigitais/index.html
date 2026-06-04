@@ -697,6 +697,61 @@
       .score-number { font-size: 3.5rem; }
       .scale-btn { font-size: 15px; padding: 14px 0; }
     }
+
+    /* ── PROCESSING STEPS ── */
+    .proc-steps {
+      margin-top: 24px;
+      text-align: left;
+      width: 100%;
+      max-width: 320px;
+    }
+    .proc-step {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .proc-step.visible {
+      opacity: 1;
+      transform: translateY(0);
+      color: var(--navy);
+    }
+    .proc-step.done {
+      opacity: 0.4;
+      color: var(--muted);
+    }
+
+    /* ── AUTHORITY LINE ── */
+    .authority-line {
+      font-size: 11px;
+      color: var(--light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    /* ── PROFILE SUMMARY ── */
+    .profile-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .profile-summary .sep { color: var(--border); }
   </style>
 </head>
 <body>
@@ -721,11 +776,11 @@
     <div class="card">
       <p class="intro-eyebrow">Diagnóstico Gratuito</p>
       <h1 class="intro-headline">Descubra quanto faturamento sua empresa está perdendo por não usar marketing e IA do jeito certo</h1>
-      <p class="intro-sub">8 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.</p>
+      <p class="intro-sub">12 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.</p>
 
       <div class="stats-row">
         <div class="stat-item">
-          <span class="stat-val">8</span>
+          <span class="stat-val">12</span>
           <span class="stat-lbl">Perguntas</span>
         </div>
         <div class="stat-item">
@@ -785,7 +840,7 @@
     <div class="quiz-header">
       <div class="quiz-header-top">
         <span class="quiz-dim-label" id="quiz-dim-label">Perfil do Negócio</span>
-        <span class="quiz-counter" id="quiz-counter">Pergunta 1 de 12</span>
+        <span class="quiz-counter" id="quiz-counter">Pergunta 1 de 19</span>
       </div>
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
@@ -805,7 +860,13 @@
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; padding:40px 24px; text-align:center;">
       <div class="spinner"></div>
       <p class="processing-title">Gerando sua análise de crescimento...</p>
-      <p class="processing-sub">Mapeando gargalos e priorizando implementações para o seu negócio.</p>
+      <div class="proc-steps">
+        <div class="proc-step" id="ps1">Mapeando o perfil do negócio...</div>
+        <div class="proc-step" id="ps2">Cruzando dados com benchmarks do setor...</div>
+        <div class="proc-step" id="ps3">Identificando padrões de crescimento...</div>
+        <div class="proc-step" id="ps4">Calculando potencial de faturamento...</div>
+        <div class="proc-step" id="ps5">Gerando seu diagnóstico personalizado...</div>
+      </div>
     </div>
   </div>
 
@@ -833,6 +894,7 @@
       </div>
       <div class="faixa-badge" id="faixa-badge">—</div>
       <div class="result-company" id="result-company"></div>
+      <div class="authority-line">Análise gerada com base em 6 dimensões de crescimento — Metodologia Estratégias Digitais</div>
     </div>
 
     <!-- Seção 2 — Desempenho por dimensão -->
@@ -844,6 +906,7 @@
     <!-- Seção 3 — Pontos Críticos -->
     <div class="result-section">
       <div class="result-section-title">Pontos Críticos Identificados</div>
+      <div class="profile-summary" id="profile-summary"></div>
       <div id="pontos-criticos-list"></div>
     </div>
 
@@ -860,12 +923,12 @@
 
     <!-- Seção 6 — CTA -->
     <div class="cta-card">
-      <h3 class="cta-title">Quer transformar esse diagnóstico em resultados reais?</h3>
-      <p class="cta-sub" id="cta-sub">Em uma call gratuita de 30 minutos, analiso o diagnóstico da sua empresa e entrego um plano de implementação específico para o seu negócio.</p>
+      <h3 class="cta-title">Pronto para o próximo nível?</h3>
+      <p class="cta-sub" id="cta-sub">Em uma call estratégica gratuita de 30 minutos com um especialista em crescimento e IA, você sai com um plano de ação específico para a sua empresa — sem achismos, sem soluções genéricas.</p>
       <p class="cta-wpp-label">Seu WhatsApp</p>
       <input type="tel" class="cta-wpp-input" id="inp-wpp" placeholder="(61) 99999-9999" oninput="maskWpp(this)">
-      <button class="btn-cta-wpp" onclick="abrirWhatsApp()">Agendar minha consultoria gratuita &rarr;</button>
-      <p class="cta-micro">Sem compromisso. Apenas para empresas com faturamento acima de R$30k/mês.</p>
+      <button class="btn-cta-wpp" onclick="abrirWhatsApp()">AGENDAR MINHA CALL ESTRATÉGICA &rarr;</button>
+      <p class="cta-micro">Gratuito. Sem compromisso. Com plano de ação ao final.</p>
     </div>
 
     <button class="btn-restart" onclick="resetQuiz()">&#8617; Refazer diagnóstico</button>
@@ -922,45 +985,95 @@
         'Acima de R$ 15.000 / mês'
       ]
     },
-    // 4-5 — Presença Digital
+    // 4 — select setor
+    { type: 'select', id: 'setor', dim: 'Perfil do Negócio',
+      label: 'Qual é o setor da sua empresa?',
+      options: [
+        'Saúde e bem-estar',
+        'Educação e treinamentos',
+        'Varejo e e-commerce',
+        'Serviços profissionais',
+        'Alimentação e gastronomia',
+        'Tecnologia e software',
+        'Imobiliário e construção',
+        'Beleza e estética',
+        'Outro'
+      ]
+    },
+    // 5 — select faturamento
+    { type: 'select', id: 'faturamento', dim: 'Perfil do Negócio',
+      label: 'Qual é o faturamento médio mensal da sua empresa?',
+      options: [
+        'Até R$ 30.000 / mês',
+        'R$ 30.000 a R$ 100.000 / mês',
+        'R$ 100.000 a R$ 300.000 / mês',
+        'R$ 300.000 a R$ 1.000.000 / mês',
+        'Acima de R$ 1.000.000 / mês'
+      ]
+    },
+    // 6 — select equipe
+    { type: 'select', id: 'equipe', dim: 'Perfil do Negócio',
+      label: 'Quantas pessoas trabalham na sua empresa?',
+      options: [
+        'Só eu (solo / MEI)',
+        '2 a 5 pessoas',
+        '6 a 15 pessoas',
+        '16 a 50 pessoas',
+        'Mais de 50 pessoas'
+      ]
+    },
+    // 7-8 — Presença Digital
     { type: 'scale', dim: 'Presença Digital',
       label: 'Como você avalia a presença online da sua empresa? (site, redes sociais, Google)' },
     { type: 'scale', dim: 'Presença Digital',
       label: 'Seu conteúdo digital atrai e engaja potenciais clientes de forma consistente?' },
-    // 6-7 — Atração de Clientes
+    // 9-10 — Atração de Clientes
     { type: 'scale', dim: 'Atração de Clientes',
       label: 'Você tem uma estratégia clara e ativa para gerar novos leads todo mês?' },
     { type: 'scale', dim: 'Atração de Clientes',
       label: 'Seu funil de captação converte visitantes em contatos de forma previsível?' },
-    // 8-9 — Conversão e Vendas
+    // 11-12 — Conversão e Vendas
     { type: 'scale', dim: 'Conversão e Vendas',
       label: 'Seu processo de vendas está estruturado e é seguido pela equipe?' },
     { type: 'scale', dim: 'Conversão e Vendas',
       label: 'Seu follow-up com leads e clientes é feito de forma sistemática e sem perdas?' },
-    // 10-11 — Inteligência Artificial
+    // 13-14 — Inteligência Artificial
     { type: 'scale', dim: 'Inteligência Artificial',
       label: 'Você usa ferramentas de IA ou automação no atendimento ou processos da empresa?' },
     { type: 'scale', dim: 'Inteligência Artificial',
-      label: 'Seus processos internos (relatórios, follow-up, respostas) são automatizados?' }
+      label: 'Seus processos internos (relatórios, follow-up, respostas) são automatizados?' },
+    // 15-16 — Gestão e Métricas
+    { type: 'scale', dim: 'Gestão e Métricas',
+      label: 'Você acompanha indicadores financeiros e de performance do negócio com regularidade?' },
+    { type: 'scale', dim: 'Gestão e Métricas',
+      label: 'Você tem clareza sobre quanto custa adquirir cada cliente e o retorno que ele gera?' },
+    // 17-18 — Retenção e Pós-Venda
+    { type: 'scale', dim: 'Retenção e Pós-Venda',
+      label: 'Você tem uma estratégia ativa de retenção e pós-venda para seus clientes?' },
+    { type: 'scale', dim: 'Retenção e Pós-Venda',
+      label: 'Clientes que compraram de você uma vez tendem a comprar novamente?' }
   ];
 
-  const TOTAL_Q = PERGUNTAS.length; // 12
+  const TOTAL_Q = PERGUNTAS.length; // 19
 
-  /* ─── FAIXAS (baseadas no total de answers[], max 40) ─── */
+  /* ─── FAIXAS (baseadas no total de answers[], max 60) ─── */
   const FAIXAS = [
-    { min: 0,  max: 16, label: 'NEGÓCIO ANALÓGICO', cor: '#DC2626', bg: '#FEF2F2' },
-    { min: 17, max: 26, label: 'EM DIGITALIZAÇÃO',   cor: '#D97706', bg: '#FFFBEB' },
-    { min: 27, max: 34, label: 'TRAÇÃO DIGITAL',     cor: '#059669', bg: '#ECFDF5' },
-    { min: 35, max: 40, label: 'MÁQUINA DIGITAL',    cor: '#1E3A5F', bg: '#EFF6FF' }
+    { min: 0,  max: 24, label: 'NEGÓCIO ANALÓGICO', cor: '#DC2626', bg: '#FEF2F2' },
+    { min: 25, max: 38, label: 'EM DIGITALIZAÇÃO',   cor: '#D97706', bg: '#FFFBEB' },
+    { min: 39, max: 50, label: 'TRAÇÃO DIGITAL',     cor: '#059669', bg: '#ECFDF5' },
+    { min: 51, max: 60, label: 'MÁQUINA DIGITAL',    cor: '#1E3A5F', bg: '#EFF6FF' }
   ];
 
   /* ─── STATE ─── */
   let currentQ       = 0;
-  let answers        = []; // 8 respostas de escala (índices 0-7)
+  let answers        = []; // 12 respostas de escala (índices 0-11)
   let userInstagram  = '';
   let userSite       = '';
   let userCanal      = '';
   let userInvestimento = '';
+  let userSetor      = '';
+  let userFaturamento = '';
+  let userEquipe     = '';
   let userName       = '';
   let userEmpresa    = '';
   let autoAdvTimer   = null;
@@ -989,6 +1102,9 @@
     userSite      = '';
     userCanal     = '';
     userInvestimento = '';
+    userSetor      = '';
+    userFaturamento = '';
+    userEquipe     = '';
     renderQuestion();
     showScreen('screen-quiz');
   }
@@ -1083,16 +1199,19 @@
     el.classList.add('selected');
 
     // salvar
-    if (qId === 'canal')      userCanal      = val;
+    if (qId === 'canal')        userCanal        = val;
     if (qId === 'investimento') userInvestimento = val;
+    if (qId === 'setor')        userSetor        = val;
+    if (qId === 'faturamento')  userFaturamento  = val;
+    if (qId === 'equipe')       userEquipe       = val;
 
     if (autoAdvTimer) clearTimeout(autoAdvTimer);
     autoAdvTimer = setTimeout(() => { autoAdvTimer = null; nextQuestion(); }, 300);
   }
 
   function renderScaleQuestion(container, q) {
-    // índice no array answers = currentQ - 4 (perguntas 4 a 11 mapeiam para answers[0..7])
-    const ansIdx = currentQ - 4;
+    // índice no array answers = currentQ - 7 (perguntas 7 a 18 mapeiam para answers[0..11])
+    const ansIdx = currentQ - 7;
     const prev   = answers[ansIdx] || null;
 
     const btns = [1,2,3,4,5].map(v => {
@@ -1113,7 +1232,7 @@
       b.classList.toggle('selected', (i+1) === val);
     });
 
-    const ansIdx = currentQ - 4;
+    const ansIdx = currentQ - 7;
     answers[ansIdx] = val;
 
     if (autoAdvTimer) clearTimeout(autoAdvTimer);
@@ -1134,17 +1253,37 @@
 
   function finishQuiz() {
     showScreen('screen-processing');
-    setTimeout(showResult, 1800);
+    animateProcessing(showResult);
   }
+
+  function animateProcessing(callback) {
+    const steps = ['ps1','ps2','ps3','ps4','ps5'];
+    let i = 0;
+    function next() {
+      if (i > 0) document.getElementById(steps[i-1]).className = 'proc-step done';
+      if (i < steps.length) {
+        document.getElementById(steps[i]).className = 'proc-step visible';
+        i++;
+        setTimeout(next, 700);
+      } else {
+        setTimeout(callback, 400);
+      }
+    }
+    next();
+  }
+
+  const MAX_SCORE = 60; // 12 questões × 5
 
   /* ─── CÁLCULO ─── */
   function calcScores() {
-    // 4 dimensões, 2 perguntas cada — answers[0..7]
+    // 6 dimensões, 2 perguntas cada — answers[0..11]
     const dims = [
-      { name: 'Presença Digital',       qIdxs: [0, 1] },
-      { name: 'Atração de Clientes',    qIdxs: [2, 3] },
-      { name: 'Conversão e Vendas',     qIdxs: [4, 5] },
-      { name: 'Inteligência Artificial', qIdxs: [6, 7] }
+      { name: 'Presença Digital',        qIdxs: [0, 1]   },
+      { name: 'Atração de Clientes',     qIdxs: [2, 3]   },
+      { name: 'Conversão e Vendas',      qIdxs: [4, 5]   },
+      { name: 'Inteligência Artificial', qIdxs: [6, 7]   },
+      { name: 'Gestão e Métricas',       qIdxs: [8, 9]   },
+      { name: 'Retenção e Pós-Venda',    qIdxs: [10, 11] }
     ];
 
     let total = 0;
@@ -1155,7 +1294,7 @@
       return { name: d.name, score: sum, pct };
     });
 
-    const displayScore = Math.round((total / 40) * 100);
+    const displayScore = Math.round((total / MAX_SCORE) * 100);
     const weakest = dimScores.reduce((a, b) => b.score < a.score ? b : a);
     const faixa   = FAIXAS.find(f => total >= f.min && total <= f.max) || FAIXAS[FAIXAS.length - 1];
 
@@ -1169,6 +1308,8 @@
     const atracao   = dimScores[1].pct;
     const conversao = dimScores[2].pct;
     const ia        = dimScores[3].pct;
+    const gestao    = dimScores[4] ? dimScores[4].pct : 50;
+    const retencao  = dimScores[5] ? dimScores[5].pct : 50;
 
     const investeEmAds = canal.includes('Ads');
     const naoInveste   = investimento.includes('Não invisto');
@@ -1215,6 +1356,31 @@
       });
     }
 
+    // Sem métricas = voando no escuro
+    if (gestao < 55) {
+      pontos.push({
+        titulo: 'Gestão sem indicadores — decisões no escuro',
+        descricao: `Sua empresa não acompanha métricas de performance com regularidade. Isso significa que você toma decisões sobre investimento, equipe e estratégia sem dados confiáveis — o que aumenta o risco de gastar em áreas que não trazem retorno.`
+      });
+    }
+
+    // Retenção fraca = receita escondida
+    if (retencao < 55) {
+      pontos.push({
+        titulo: 'Retenção de clientes fraca — receita desperdiçada',
+        descricao: `Seu pós-venda e retenção de clientes pontuam baixo. Conquistar um novo cliente custa de 5 a 7 vezes mais do que vender para um cliente atual. Sem estratégia de retenção, você está deixando uma receita significativa na mesa todos os meses.`
+      });
+    }
+
+    // Equipe grande + processos manuais = gargalo
+    const equipeGrande = userEquipe && !userEquipe.includes('solo') && !userEquipe.includes('2 a 5');
+    if (ia < 50 && equipeGrande) {
+      pontos.push({
+        titulo: 'Equipe executando o que IA poderia fazer',
+        descricao: `Com a equipe que você tem, processos manuais repetitivos (atendimento, follow-up, relatórios) estão consumindo horas que poderiam ser usadas em atividades estratégicas. Automatizar esses processos com IA libera a equipe para crescer o negócio.`
+      });
+    }
+
     if (pontos.length < 2) {
       const pior = dimScores.reduce((a, b) => a.pct < b.pct ? a : b);
       pontos.push({
@@ -1233,6 +1399,8 @@
     const atracao   = dimScores[1].pct;
     const conversao = dimScores[2].pct;
     const ia        = dimScores[3].pct;
+    const gestao    = dimScores[4] ? dimScores[4].pct : 50;
+    const retencao  = dimScores[5] ? dimScores[5].pct : 50;
     const investeEmAds = canal.includes('Ads');
     const naoInveste   = investimento.includes('Não invisto');
 
@@ -1279,6 +1447,23 @@
       texto: 'Integrar as ferramentas que você já usa (WhatsApp, Instagram, e-mail, planilhas) em uma única plataforma com IA — elimina o retrabalho de inserir dados manualmente em sistemas separados'
     });
 
+    // Gestão fraca → dashboard automático
+    if (gestao < 65) {
+      itens.push({ prioridade: 'ALTA',
+        texto: 'Implementar dashboard de indicadores automatizado com IA — receba diariamente um relatório completo de faturamento, leads e conversão sem montar planilha manualmente'
+      });
+    }
+
+    // Retenção fraca → pós-venda automático
+    if (retencao < 65) {
+      itens.push({ prioridade: 'ALTA',
+        texto: 'Criar sequência de pós-venda automatizada com IA — reativa clientes inativos e gera recompra sem esforço manual da equipe, aumentando o LTV de cada cliente'
+      });
+      itens.push({ prioridade: 'MÉDIA',
+        texto: 'Implementar NPS automático com IA — identifica clientes insatisfeitos antes que eles saiam e gera oportunidades de upsell com quem está satisfeito'
+      });
+    }
+
     return itens.slice(0, 7);
   }
 
@@ -1286,20 +1471,25 @@
   function gerarFechamento(faixa, canal, investimento, nomeEmpresa, uName) {
     const investeEmAds = canal.includes('Ads');
     const gastaMuito   = investimento.includes('5.000') || investimento.includes('15.000');
+    const setorMencao  = userSetor && !userSetor.includes('Outro') ? ` no setor de ${userSetor.toLowerCase()}` : '';
+    const faturaMuito  = userFaturamento && (userFaturamento.includes('300.000') || userFaturamento.includes('1.000.000'));
 
     if (faixa.cor === '#DC2626') {
-      return `${esc(uName)}, o diagnóstico da <strong>${esc(nomeEmpresa)}</strong> mostra que há um caminho claro para crescer — e ele passa por parar de depender de processos manuais que custam caro e travam o crescimento. As implementações do checklist acima podem ser feitas com ferramentas de IA específicas para o seu negócio, sem precisar contratar mais pessoas ou assinar mais plataformas.`;
+      return `${esc(uName)}, o diagnóstico da <strong>${esc(nomeEmpresa)}</strong> mostra que há um caminho claro para crescer${setorMencao} — e ele passa por parar de depender de processos manuais que custam caro e travam o crescimento. As implementações do checklist acima podem ser feitas com ferramentas de IA específicas para o seu negócio, sem precisar contratar mais pessoas ou assinar mais plataformas.`;
     }
     if (faixa.cor === '#D97706') {
-      const trecho = gastaMuito
+      let trecho = gastaMuito
         ? 'Você já investe em tráfego — o problema é que sem a estrutura certa, parte desse dinheiro está sendo desperdiçado.'
         : 'Você está no caminho, mas ainda sem uma estrutura que converta esforço em faturamento previsível.';
+      if (faturaMuito) {
+        trecho += ` Com o volume de faturamento da ${esc(nomeEmpresa)}, cada processo ineficiente tem um custo mais alto do que parece.`;
+      }
       return `${esc(uName)}, ${trecho} A boa notícia é que as correções identificadas no checklist não exigem grandes investimentos — exigem as ferramentas certas, configuradas do jeito certo para a <strong>${esc(nomeEmpresa)}</strong>.`;
     }
     if (faixa.cor === '#059669') {
-      return `${esc(uName)}, a <strong>${esc(nomeEmpresa)}</strong> já tem uma base sólida. O próximo passo é usar IA para automatizar o que sua equipe ainda faz manualmente — liberando tempo, reduzindo custos operacionais e escalando sem aumentar o headcount. As implementações do checklist foram priorizadas exatamente para isso.`;
+      return `${esc(uName)}, a <strong>${esc(nomeEmpresa)}</strong> já tem uma base sólida${setorMencao}. O próximo passo é usar IA para automatizar o que sua equipe ainda faz manualmente — liberando tempo, reduzindo custos operacionais e escalando sem aumentar o headcount. As implementações do checklist foram priorizadas exatamente para isso.`;
     }
-    return `${esc(uName)}, a <strong>${esc(nomeEmpresa)}</strong> está bem posicionada. O foco agora é integrar IA nos processos estratégicos que ainda dependem de pessoas ou ferramentas desconectadas — e multiplicar o faturamento sem aumentar proporcionalmente os custos.`;
+    return `${esc(uName)}, a <strong>${esc(nomeEmpresa)}</strong> está bem posicionada${setorMencao}. O foco agora é integrar IA nos processos estratégicos que ainda dependem de pessoas ou ferramentas desconectadas — e multiplicar o faturamento sem aumentar proporcionalmente os custos.`;
   }
 
   /* ─── RESULTADO ─── */
@@ -1308,11 +1498,13 @@
 
     // salvar lead sem WhatsApp
     salvarLead({
-      nome: userName, empresa: userEmpresa, whatsapp: '',
+      nome: userName, empresa: userEmpresa,
       instagram: userInstagram, site: userSite,
       canal: userCanal, investimento: userInvestimento,
-      pontuacao: displayScore, faixa: faixa.label,
-      dimensao_fraca: weakest.name
+      setor: userSetor, faturamento: userFaturamento, equipe: userEquipe,
+      whatsapp: '', pontuacao: displayScore,
+      faixa: faixa.label, dimensao_fraca: weakest.name,
+      respostas: answers
     });
 
     // Score
@@ -1341,6 +1533,15 @@
       </div>
     `).join('');
 
+    // Perfil resumido
+    const profSummary = document.getElementById('profile-summary');
+    if (profSummary) {
+      const parts = [userSetor, userFaturamento, userEquipe].filter(v => v && v.trim());
+      profSummary.innerHTML = parts.map((p, i) =>
+        (i > 0 ? '<span class="sep">·</span>' : '') + esc(p)
+      ).join('');
+    }
+
     // Pontos críticos
     const pontos = gerarPontosCriticos(dimScores, userCanal, userInvestimento);
     document.getElementById('pontos-criticos-list').innerHTML = pontos.map(p => `
@@ -1368,7 +1569,7 @@
 
     // CTA sub personalizado
     document.getElementById('cta-sub').textContent =
-      'Em uma call gratuita de 30 minutos, analiso o diagnóstico da ' + userEmpresa + ' e entrego um plano de implementação específico para o seu negócio.';
+      'Em uma call estratégica gratuita de 30 minutos com um especialista em crescimento e IA, você sai com um plano de ação específico para a ' + userEmpresa + ' — sem achismos, sem soluções genéricas.';
 
     // Mostrar tela
     showScreen('screen-result');
@@ -1402,15 +1603,18 @@
     const { displayScore, faixa, weakest } = calcScores();
 
     salvarLead({
-      nome: userName, empresa: userEmpresa, whatsapp: wpp,
+      nome: userName, empresa: userEmpresa,
       instagram: userInstagram, site: userSite,
       canal: userCanal, investimento: userInvestimento,
-      pontuacao: displayScore, faixa: faixa.label,
-      dimensao_fraca: weakest.name
+      setor: userSetor, faturamento: userFaturamento, equipe: userEquipe,
+      whatsapp: wpp, pontuacao: displayScore,
+      faixa: faixa.label, dimensao_fraca: weakest.name,
+      respostas: answers
     });
 
+    const setorTexto = userSetor && !userSetor.includes('Outro') ? ` (${userSetor})` : '';
     const msg = encodeURIComponent(
-      'Olá Walter, fiz o diagnóstico de crescimento da ' + userEmpresa + ' e quero agendar minha consultoria gratuita.'
+      'Olá Walter, fiz o diagnóstico de crescimento da ' + userEmpresa + setorTexto + ' e quero agendar minha call estratégica gratuita.'
     );
     window.open('https://wa.me/' + WPP_NUMBER + '?text=' + msg, '_blank');
   }
@@ -1418,25 +1622,33 @@
   /* ─── GOOGLE SHEETS ─── */
   function salvarLead(d) {
     if (!PLANILHA_URL || PLANILHA_URL.startsWith('COLE')) return;
+    const r = d.respostas || [];
     const params = new URLSearchParams({
       nome:           d.nome           || '',
       empresa:        d.empresa        || '',
-      whatsapp:       d.whatsapp       || '',
       instagram:      d.instagram      || '',
       site:           d.site           || '',
       canal:          d.canal          || '',
       investimento:   d.investimento   || '',
+      setor:          d.setor          || '',
+      faturamento:    d.faturamento    || '',
+      equipe:         d.equipe         || '',
+      whatsapp:       d.whatsapp       || '',
       pontuacao:      d.pontuacao      || '',
       faixa:          d.faixa          || '',
       dimensao_fraca: d.dimensao_fraca || '',
-      p1:             answers[0]       || '',
-      p2:             answers[1]       || '',
-      p3:             answers[2]       || '',
-      p4:             answers[3]       || '',
-      p5:             answers[4]       || '',
-      p6:             answers[5]       || '',
-      p7:             answers[6]       || '',
-      p8:             answers[7]       || ''
+      p1:             r[0]             || '',
+      p2:             r[1]             || '',
+      p3:             r[2]             || '',
+      p4:             r[3]             || '',
+      p5:             r[4]             || '',
+      p6:             r[5]             || '',
+      p7:             r[6]             || '',
+      p8:             r[7]             || '',
+      p9:             r[8]             || '',
+      p10:            r[9]             || '',
+      p11:            r[10]            || '',
+      p12:            r[11]            || ''
     });
     fetch(PLANILHA_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
   }
@@ -1451,6 +1663,9 @@
     userSite         = '';
     userCanal        = '';
     userInvestimento = '';
+    userSetor        = '';
+    userFaturamento  = '';
+    userEquipe       = '';
     document.getElementById('inp-nome').value    = '';
     document.getElementById('inp-empresa').value = '';
     document.getElementById('inp-wpp').value     = '';

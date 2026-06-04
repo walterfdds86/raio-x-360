@@ -948,6 +948,12 @@
           <label class="field-label" for="inp-empresa">Nome da empresa</label>
           <input type="text" id="inp-empresa" placeholder="Ex: Clínica Bem Estar" autocomplete="organization">
         </div>
+        <div>
+          <label class="field-label" for="inp-wpp-capture">WhatsApp (DDD + número)</label>
+          <input type="tel" id="inp-wpp-capture" placeholder="(61) 99999-9999" maxlength="15"
+                 oninput="maskWpp(this)"
+                 onkeydown="if(event.key==='Enter') startQuiz()">
+        </div>
       </div>
 
       <button class="btn-primary" onclick="startQuiz()">Quero descobrir meus gargalos &rarr;</button>
@@ -1262,6 +1268,7 @@
   let userFaturamento = '';
   let userEquipe     = '';
   let userName       = '';
+  let userWpp        = '';
   let userEmpresa    = '';
   let autoAdvTimer   = null;
 
@@ -1277,12 +1284,15 @@
   function startQuiz() {
     const nome    = document.getElementById('inp-nome').value.trim();
     const empresa = document.getElementById('inp-empresa').value.trim();
-    if (!nome || !empresa) {
-      alert('Por favor, preencha seu nome e o nome da empresa.');
-      return;
+    const wpp     = document.getElementById('inp-wpp-capture').value.trim();
+    if (!nome)    { document.getElementById('inp-nome').focus(); return; }
+    if (!empresa) { document.getElementById('inp-empresa').focus(); return; }
+    if (!wpp || wpp.replace(/\D/g,'').length < 10) {
+      document.getElementById('inp-wpp-capture').focus(); return;
     }
     userName    = nome;
     userEmpresa = empresa;
+    userWpp     = wpp;
     currentQ    = 0;
     answers     = [];
     userInstagram = '';
@@ -1879,6 +1889,10 @@
     // Mostrar tela
     showScreen('screen-result');
 
+    // Pré-preencher WhatsApp se já capturado
+    const wppResultEl = document.getElementById('inp-wpp');
+    if (wppResultEl && userWpp) wppResultEl.value = userWpp;
+
     // Animar barras
     setTimeout(() => {
       document.querySelectorAll('.dim-bar-fill').forEach(bar => {
@@ -1978,6 +1992,9 @@
     document.getElementById('inp-empresa').value = '';
     const wppResetEl = document.getElementById('inp-wpp');
     if (wppResetEl) wppResetEl.value = '';
+    const wppCapEl = document.getElementById('inp-wpp-capture');
+    if (wppCapEl) wppCapEl.value = '';
+    userWpp = '';
     if (autoAdvTimer) { clearTimeout(autoAdvTimer); autoAdvTimer = null; }
     showScreen('screen-intro');
   }

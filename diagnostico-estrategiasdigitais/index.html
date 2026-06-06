@@ -897,11 +897,11 @@
     <div class="card">
       <p class="intro-eyebrow">Diagnóstico Gratuito</p>
       <h1 class="intro-headline">Descubra quanto faturamento sua empresa está perdendo por não usar marketing e IA do jeito certo</h1>
-      <p class="intro-sub">12 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.</p>
+      <p class="intro-sub">15 perguntas que revelam os gargalos invisíveis que travam o crescimento do seu negócio — com resultado imediato e personalizado.</p>
 
       <div class="stats-row">
         <div class="stat-item">
-          <span class="stat-val">12</span>
+          <span class="stat-val">15</span>
           <span class="stat-lbl">Perguntas</span>
         </div>
         <div class="stat-item">
@@ -992,7 +992,7 @@
     <div class="quiz-header">
       <div class="quiz-header-top">
         <span class="quiz-dim-label" id="quiz-dim-label">Perfil do Negócio</span>
-        <span class="quiz-counter" id="quiz-counter">Pergunta 1 de 19</span>
+        <span class="quiz-counter" id="quiz-counter">Pergunta 1 de 15</span>
       </div>
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
@@ -1144,16 +1144,7 @@
 
   /* ─── PERGUNTAS ─── */
   const PERGUNTAS = [
-    // 0 — texto
-    { type: 'text', id: 'instagram', dim: 'Perfil do Negócio',
-      label: 'Qual é o Instagram da sua empresa?',
-      placeholder: 'suaempresa', prefix: '@', optional: false },
-    // 1 — texto
-    { type: 'text', id: 'site', dim: 'Perfil do Negócio',
-      label: 'Qual é o site da sua empresa?',
-      placeholder: 'www.suaempresa.com.br', optional: true,
-      skipLabel: 'Ainda não tenho site' },
-    // 2 — select
+    // ── PERFIL DO NEGÓCIO (5 perguntas — select, auto-avança) ──
     { type: 'select', id: 'canal', dim: 'Perfil do Negócio',
       label: 'Qual é o seu principal canal de aquisição de clientes hoje?',
       options: [
@@ -1166,7 +1157,6 @@
         'Não tenho canal definido'
       ]
     },
-    // 3 — select
     { type: 'select', id: 'investimento', dim: 'Perfil do Negócio',
       label: 'Quanto você investe em tráfego pago por mês?',
       options: [
@@ -1177,7 +1167,6 @@
         'Acima de R$ 15.000 / mês'
       ]
     },
-    // 4 — select setor
     { type: 'select', id: 'setor', dim: 'Perfil do Negócio',
       label: 'Qual é o setor da sua empresa?',
       options: [
@@ -1192,7 +1181,6 @@
         'Outro'
       ]
     },
-    // 5 — select faturamento
     { type: 'select', id: 'faturamento', dim: 'Perfil do Negócio',
       label: 'Qual é o faturamento médio mensal da sua empresa?',
       options: [
@@ -1203,7 +1191,6 @@
         'Acima de R$ 1.000.000 / mês'
       ]
     },
-    // 6 — select equipe
     { type: 'select', id: 'equipe', dim: 'Perfil do Negócio',
       label: 'Quantas pessoas trabalham na sua empresa?',
       options: [
@@ -1214,53 +1201,67 @@
         'Mais de 50 pessoas'
       ]
     },
-    // 7-8 — Presença Digital
+
+    // ── DIAGNÓSTICO (10 perguntas — scale 1-5) ──
+
+    // Presença Digital — 1 pergunta
     { type: 'scale', dim: 'Presença Digital',
-      label: 'Como você avalia a presença online da sua empresa? (site, redes sociais, Google)' },
-    { type: 'scale', dim: 'Presença Digital',
-      label: 'Seu conteúdo digital atrai e engaja potenciais clientes de forma consistente?' },
-    // 9-10 — Atração de Clientes
+      label: 'Sua empresa tem presença digital ativa que atrai potenciais clientes de forma consistente? (site, redes sociais, Google)' },
+
+    // Atração de Clientes — 2 perguntas
     { type: 'scale', dim: 'Atração de Clientes',
       label: 'Você tem uma estratégia clara e ativa para gerar novos leads todo mês?' },
     { type: 'scale', dim: 'Atração de Clientes',
       label: 'Seu funil de captação converte visitantes em contatos de forma previsível?' },
-    // 11-12 — Conversão e Vendas
+
+    // Conversão e Vendas — 2 perguntas
     { type: 'scale', dim: 'Conversão e Vendas',
       label: 'Seu processo de vendas está estruturado e é seguido pela equipe?' },
     { type: 'scale', dim: 'Conversão e Vendas',
-      label: 'Seu follow-up com leads e clientes é feito de forma sistemática e sem perdas?' },
-    // 13-14 — Inteligência Artificial
+      label: 'Seu follow-up com leads e clientes é feito de forma sistemática, sem perdas?' },
+
+    // Inteligência Artificial — 2 perguntas
     { type: 'scale', dim: 'Inteligência Artificial',
       label: 'Você usa ferramentas de IA ou automação no atendimento ou processos da empresa?' },
     { type: 'scale', dim: 'Inteligência Artificial',
       label: 'Seus processos internos (relatórios, follow-up, respostas) são automatizados?' },
-    // 15-16 — Gestão e Métricas
+
+    // Gestão e Métricas — 1 pergunta
     { type: 'scale', dim: 'Gestão e Métricas',
       label: 'Você acompanha indicadores financeiros e de performance do negócio com regularidade?' },
-    { type: 'scale', dim: 'Gestão e Métricas',
-      label: 'Você tem clareza sobre quanto custa adquirir cada cliente e o retorno que ele gera?' },
-    // 17-18 — Retenção e Pós-Venda
+
+    // Retenção e Pós-Venda — 2 perguntas
     { type: 'scale', dim: 'Retenção e Pós-Venda',
       label: 'Você tem uma estratégia ativa de retenção e pós-venda para seus clientes?' },
     { type: 'scale', dim: 'Retenção e Pós-Venda',
       label: 'Clientes que compraram de você uma vez tendem a comprar novamente?' }
   ];
 
-  const TOTAL_Q = PERGUNTAS.length; // 19
+  const TOTAL_Q = PERGUNTAS.length; // deve ser 15 automaticamente
 
-  /* ─── FAIXAS (baseadas no total de answers[], max 60) ─── */
+  /* ─── DIM_META ─── */
+  const DIM_META = [
+    { name: 'Presença Digital',        max: 5,  qIdxs: [0]    },
+    { name: 'Atração de Clientes',     max: 10, qIdxs: [1, 2] },
+    { name: 'Conversão e Vendas',      max: 10, qIdxs: [3, 4] },
+    { name: 'Inteligência Artificial', max: 10, qIdxs: [5, 6] },
+    { name: 'Gestão e Métricas',       max: 5,  qIdxs: [7]    },
+    { name: 'Retenção e Pós-Venda',    max: 10, qIdxs: [8, 9] }
+  ];
+
+  /* ─── FAIXAS (baseadas no total de answers[], max 50) ─── */
   const FAIXAS = [
-    { min: 0,  max: 24, label: 'NEGÓCIO ANALÓGICO', cor: '#DC2626', bg: '#FEF2F2' },
-    { min: 25, max: 38, label: 'EM DIGITALIZAÇÃO',   cor: '#D97706', bg: '#FFFBEB' },
-    { min: 39, max: 50, label: 'TRAÇÃO DIGITAL',     cor: '#059669', bg: '#ECFDF5' },
-    { min: 51, max: 60, label: 'MÁQUINA DIGITAL',    cor: '#1E3A5F', bg: '#EFF6FF' }
+    { min: 0,  max: 20, label: 'NEGÓCIO ANALÓGICO', cor: '#DC2626', bg: '#FEF2F2' },
+    { min: 21, max: 32, label: 'EM DIGITALIZAÇÃO',  cor: '#D97706', bg: '#FFFBEB' },
+    { min: 33, max: 42, label: 'TRAÇÃO DIGITAL',    cor: '#059669', bg: '#ECFDF5' },
+    { min: 43, max: 50, label: 'MÁQUINA DIGITAL',   cor: '#1E3A5F', bg: '#EFF6FF' }
   ];
 
   /* ─── STATE ─── */
   let currentQ       = 0;
-  let answers        = []; // 12 respostas de escala (índices 0-11)
-  let userInstagram  = '';
-  let userSite       = '';
+  let answers        = []; // 10 respostas de escala (índices 0-9)
+  let userInstagram  = ''; // não mais coletado no quiz
+  let userSite       = ''; // não mais coletado no quiz
   let userCanal      = '';
   let userInvestimento = '';
   let userSetor      = '';
@@ -1428,8 +1429,8 @@
   }
 
   function renderScaleQuestion(container, q) {
-    // índice no array answers = currentQ - 7 (perguntas 7 a 18 mapeiam para answers[0..11])
-    const ansIdx = currentQ - 7;
+    // índice no array answers = currentQ - 5 (perguntas 5 a 14 mapeiam para answers[0..9])
+    const ansIdx = currentQ - 5;
     const prev   = answers[ansIdx] || null;
 
     const btns = [1,2,3,4,5].map(v => {
@@ -1450,7 +1451,7 @@
       b.classList.toggle('selected', (i+1) === val);
     });
 
-    const ansIdx = currentQ - 7;
+    const ansIdx = currentQ - 5;
     answers[ansIdx] = val;
 
     if (autoAdvTimer) clearTimeout(autoAdvTimer);
@@ -1490,26 +1491,16 @@
     next();
   }
 
-  const MAX_SCORE = 60; // 12 questões × 5
+  const MAX_SCORE = 50; // 10 questões de escala × 5
 
   /* ─── CÁLCULO ─── */
   function calcScores() {
-    // 6 dimensões, 2 perguntas cada — answers[0..11]
-    const dims = [
-      { name: 'Presença Digital',        qIdxs: [0, 1]   },
-      { name: 'Atração de Clientes',     qIdxs: [2, 3]   },
-      { name: 'Conversão e Vendas',      qIdxs: [4, 5]   },
-      { name: 'Inteligência Artificial', qIdxs: [6, 7]   },
-      { name: 'Gestão e Métricas',       qIdxs: [8, 9]   },
-      { name: 'Retenção e Pós-Venda',    qIdxs: [10, 11] }
-    ];
-
     let total = 0;
-    const dimScores = dims.map(d => {
-      const sum = d.qIdxs.reduce((acc, idx) => acc + (answers[idx] || 0), 0);
-      total += sum;
-      const pct = Math.round((sum / 10) * 100);
-      return { name: d.name, score: sum, pct };
+    const dimScores = DIM_META.map(d => {
+      const score = d.qIdxs.reduce((sum, i) => sum + (answers[i] || 0), 0);
+      total += score;
+      const pct = Math.round((score / d.max) * 100);
+      return { name: d.name, score, pct, max: d.max };
     });
 
     const displayScore = Math.round((total / MAX_SCORE) * 100);
@@ -1969,8 +1960,8 @@
       p8:             r[7]             || '',
       p9:             r[8]             || '',
       p10:            r[9]             || '',
-      p11:            r[10]            || '',
-      p12:            r[11]            || ''
+      p11:            '',
+      p12:            ''
     });
     fetch(PLANILHA_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
   }

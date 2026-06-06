@@ -840,7 +840,6 @@
     .cta-block .cta-title { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.3; }
     .cta-block .cta-sub { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 24px; }
     .cta-block .cta-sub strong { color: var(--text); font-weight: 700; }
-    .btn-calendly { margin-bottom: 10px; }
     .cta-micro { font-size: 11px; color: var(--light); text-align: center; margin-bottom: 24px; }
     .or-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -1141,7 +1140,7 @@
   /* ─── CONFIG ─── */
   const PLANILHA_URL  = 'https://script.google.com/macros/s/AKfycbxh-ZY0DxF5P7o9VRGBxMQEMoGmVxBfHtje8T-H1cj58mxiVrla7FqYVAcAuIByGvNG/exec';
   const WPP_NUMBER    = '5561999354363';
-  const CALENDLY_URL  = 'COLE_SEU_LINK_CALENDLY_AQUI';
+  const HOTMART_URL = 'COLE_SEU_LINK_HOTMART_AQUI';
 
   /* ─── PERGUNTAS ─── */
   const PERGUNTAS = [
@@ -1755,16 +1754,18 @@
   }
 
   /* ── MELHORIA 6 — CONFIRMAÇÃO PÓS-AGENDAMENTO ── */
+  function confirmarCompra() {
+    document.getElementById('conf-name').textContent = userName + ', sua consultoria está sendo processada.';
+    document.getElementById('conf-sub').textContent =
+      'Após a confirmação da compra, nossa equipe especializada em crescimento e IA entrará em contato para agendar sua sessão estratégica.';
+    setTimeout(() => showScreen('screen-confirmation'), 300);
+  }
+
   function confirmarAgendamento(via) {
-    document.getElementById('conf-name').textContent = userName + ', sua solicitação foi registrada.';
-    if (via === 'calendly') {
-      document.getElementById('conf-sub').textContent =
-        'Escolha seu horário no próximo passo. Nossa equipe especializada em crescimento e IA estará pronta para a sua call.';
-    } else {
-      document.getElementById('conf-sub').textContent =
-        'Recebemos sua mensagem. Nossa equipe especializada em crescimento e IA entrará em contato em breve para confirmar sua call estratégica.';
-    }
-    setTimeout(() => showScreen('screen-confirmation'), via === 'whatsapp' ? 800 : 300);
+    document.getElementById('conf-name').textContent = userName + ', mensagem enviada com sucesso.';
+    document.getElementById('conf-sub').textContent =
+      'Nossa equipe vai responder em breve pelo WhatsApp para tirar suas dúvidas sobre a Consultoria Estratégica.';
+    setTimeout(() => showScreen('screen-confirmation'), 800);
   }
 
   /* ─── RESULTADO ─── */
@@ -1865,23 +1866,22 @@
     document.getElementById('fechamento-text').innerHTML =
       gerarFechamento(faixa, userCanal, userInvestimento, userEmpresa, userName);
 
-    // Melhoria 5 — CTA com Calendly + WhatsApp
+    // CTA — Consultoria Estratégica Hotmart + WhatsApp secundário
     document.getElementById('cta-block-wrap').innerHTML = `
       <div class="cta-eyebrow">PRÓXIMO PASSO</div>
-      <h3 class="cta-title">Pronto para transformar esse diagnóstico em resultado real?</h3>
-      <p class="cta-sub">Em uma call estratégica gratuita de 30 minutos com um especialista em crescimento e IA, você sai com um plano de ação específico para a <strong>${esc(userEmpresa)}</strong> — sem achismos, sem soluções genéricas.</p>
-      <a href="${esc(CALENDLY_URL)}" target="_blank" class="btn-primary btn-calendly" onclick="confirmarAgendamento('calendly')">
-        AGENDAR MINHA CALL ESTRATÉGICA &rarr;
+      <h3 class="cta-title">Transforme esse diagnóstico em resultado agora</h3>
+      <p class="cta-sub">Garanta sua <strong>Consultoria Estratégica</strong> e saia com um plano de ação personalizado para crescer o faturamento da <strong>${esc(userEmpresa)}</strong> — implementado por um especialista em crescimento e IA.</p>
+      <a href="${HOTMART_URL}" target="_blank" class="btn-primary" style="margin-bottom:10px;" onclick="confirmarCompra()">
+        GARANTIR MINHA CONSULTORIA ESTRATÉGICA &rarr;
       </a>
-      <p class="cta-micro">Escolha o dia e horário que funciona para você · Gratuito · Com plano de ação ao final</p>
-      <div class="or-divider"><span>ou prefere o WhatsApp?</span></div>
+      <p class="cta-micro">Acesso confirmado após a compra · Plano de ação personalizado incluído</p>
+      <div class="or-divider"><span>dúvidas? fale pelo WhatsApp</span></div>
       <div class="wpp-section">
-        <label class="field-label">Seu WhatsApp com DDD</label>
         <input type="tel" id="inp-wpp" placeholder="(61) 99999-9999"
                oninput="maskWpp(this)"
                onkeydown="if(event.key==='Enter') abrirWhatsApp()">
-        <button class="btn-primary btn-wpp" onclick="abrirWhatsApp()">
-          Enviar mensagem pelo WhatsApp &rarr;
+        <button class="btn-primary btn-wpp" onclick="abrirWhatsApp()" style="background:#25D366;">
+          Tirar dúvidas no WhatsApp &rarr;
         </button>
       </div>
     `;
